@@ -14,6 +14,8 @@
 		F3099C1A20175CBB000AE01A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3099C1820175CBB000AE01A /* LaunchScreen.storyboard */; };
 		F3099C2520175CBB000AE01A /* wftilesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3099C2420175CBB000AE01A /* wftilesTests.swift */; };
 		F3099C3020175CBB000AE01A /* wftilesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3099C2F20175CBB000AE01A /* wftilesUITests.swift */; };
+		F3099C3E201781F7000AE01A /* HttpCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3099C3D201781F7000AE01A /* HttpCommunicator.swift */; };
+		F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05B20190DCE00745422 /* RestClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		F3099C2B20175CBB000AE01A /* wftilesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wftilesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3099C2F20175CBB000AE01A /* wftilesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wftilesUITests.swift; sourceTree = "<group>"; };
 		F3099C3120175CBB000AE01A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3099C3D201781F7000AE01A /* HttpCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpCommunicator.swift; sourceTree = "<group>"; };
+		F3F6A05B20190DCE00745422 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,8 @@
 				F3099C1620175CBB000AE01A /* Assets.xcassets */,
 				F3099C1820175CBB000AE01A /* LaunchScreen.storyboard */,
 				F3099C1B20175CBB000AE01A /* Info.plist */,
+				F3099C3D201781F7000AE01A /* HttpCommunicator.swift */,
+				F3F6A05B20190DCE00745422 /* RestClient.swift */,
 			);
 			path = wftiles;
 			sourceTree = "<group>";
@@ -259,6 +265,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */,
+				F3099C3E201781F7000AE01A /* HttpCommunicator.swift in Sources */,
 				F3099C1220175CBA000AE01A /* ViewController.swift in Sources */,
 				F3099C1020175CBA000AE01A /* AppDelegate.swift in Sources */,
 			);
@@ -427,6 +435,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RH3SAY22R4;
 				INFOPLIST_FILE = wftiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftiles;
@@ -441,6 +450,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = RH3SAY22R4;
 				INFOPLIST_FILE = wftiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftiles;
