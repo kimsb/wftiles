@@ -25,11 +25,32 @@ class ViewController: UIViewController {
     
     //MARK: Actions
     @IBAction func connectAction(_ sender: UIButton) {
-        outputLabel.text = "Output: \"output\""
         let http = RestClient()
         http.login()
         sleep(2)
-        outputLabel.text = http.getGames()
+        http.getGameIds()
+        sleep(2)
+        
+        let game = http.getGame(id: 2180169928, completionHandler: { (game, error) in
+            if let error = error {
+                // got an error in getting the data, need to handle it
+                print("error calling POST")
+                print(error)
+                return
+            }
+            guard let game = game else {
+                print("error getting game: result is nil")
+                return
+            }
+            // success :)
+            debugPrint(game)
+            DispatchQueue.main.async(execute: {
+                //perform all UI stuff here
+                self.outputLabel.text = "\(game.usedLetters)"
+            })
+
+        })
+        
     }	
     
 }
