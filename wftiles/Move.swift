@@ -9,7 +9,7 @@
 import Foundation
 
 struct Move: Decodable {
-    let points: Int
+    let points: Int?
     let move_type: String
     let user_id: UInt64
     let main_word: String?

@@ -1,5 +1,5 @@
 //
-//  GameOverview.swift
+//  LoginUser.swift
 //  wftiles
 //
 //  Created by Kim Stephen Bovim on 25/01/2018.
@@ -8,6 +8,8 @@
 
 import Foundation
 
-class GameOverview {
-    
+struct LoginUser: Codable {
+    let username: String
+    let id: UInt64
+    let avatar_root: String
 }

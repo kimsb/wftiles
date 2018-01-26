@@ -10,9 +10,9 @@ import Foundation
 
 struct Game {
     let id: UInt64
-    let usedLetters: [String]
+    let usedLetters: [String]?
     let isRunning: Bool
-    let bagCount: Int
+    let bagCount: Int?
     let opponent: Player
     let player: Player
     let lastMove: Move

@@ -25,32 +25,68 @@ class ViewController: UIViewController {
     
     //MARK: Actions
     @IBAction func connectAction(_ sender: UIButton) {
+        outputLabel.text = "Logging in..."
         let http = RestClient()
-        http.login()
-        sleep(2)
-        http.getGameIds()
-        sleep(2)
         
-        let game = http.getGame(id: 2180169928, completionHandler: { (game, error) in
+        let user = http.login(completionHandler: { (user, error) in
             if let error = error {
                 // got an error in getting the data, need to handle it
-                print("error calling POST")
+                print("error calling POST for Login")
                 print(error)
                 return
             }
-            guard let game = game else {
-                print("error getting game: result is nil")
+            guard let user = user else {
+                print("error getting user: result is nil")
                 return
             }
             // success :)
-            debugPrint(game)
+            debugPrint(user)
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
-                self.outputLabel.text = "\(game.usedLetters)"
+                self.outputLabel.text = "Welcome, \(user.username)!"
+                
+                let games = http.getGames(completionHandler: { (games, error) in
+                    if let error = error {
+                        // got an error in getting the data, need to handle it
+                        print("error calling POST for Games")
+                        print(error)
+                        return
+                    }
+                    guard let games = games else {
+                        print("error getting games: result is nil")
+                        return
+                    }
+                    // success :)
+                    debugPrint(games)
+                    DispatchQueue.main.async(execute: {
+                        //perform all UI stuff here
+                        self.outputLabel.text = "\(games[0].id)"
+                    })
+                })
+                
+                //må trekkes ut
+                /*let game = http.getGame(id: 2180169928, completionHandler: { (game, error) in
+                    if let error = error {
+                        // got an error in getting the data, need to handle it
+                        print("error calling POST for Game")
+                        print(error)
+                        return
+                    }
+                    guard let game = game else {
+                        print("error getting game: result is nil")
+                        return
+                    }
+                    // success :)
+                    debugPrint(game)
+                    DispatchQueue.main.async(execute: {
+                        //perform all UI stuff here
+                        self.outputLabel.text = "\(game.usedLetters)"
+                    })
+                })*/
+                //må trekkes ut
             })
-
         })
-        
+
     }	
     
 }

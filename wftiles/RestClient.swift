@@ -12,27 +12,16 @@ class RestClient {
     
     struct LoginResponse: Codable {
         let status: String
-        let content: LoginContent
+        let content: LoginUser
     }
     
-    struct LoginContent: Codable {
-        let username: String
-        let id: UInt64
-        let avatar_root: String
-    }
-    
-    struct GamesResponse: Codable {
+    struct GamesResponse: Decodable {
         let status: String
         let content: GamesContent
     }
     
-    struct GamesContent: Codable {
-        let games: [GamesGame]
-    }
-    
-    struct GamesGame: Codable {
-        let id: UInt64
-        let is_running: Bool
+    struct GamesContent: Decodable {
+        let games: [GameDecoder]
     }
     
     struct GameResponse: Decodable {
@@ -45,9 +34,9 @@ class RestClient {
     }
     
     struct GameDecoder: Decodable {
-        let tiles: [[TileEnum]]
+        let tiles: [[TileEnum]]?
         let is_running: Bool
-        let bag_count: Int
+        let bag_count: Int?
         let id: UInt64
         let last_move: Move
         let players: [Player]
@@ -82,11 +71,29 @@ class RestClient {
         return "?"
     }
     
+    func gameDecoderToGame(gameDecoder: GameDecoder) -> Game {
+        let userId = 8443993
+        let opponent, loggedInPlayer: Player
+        var letters: [String]? = nil
+        
+        if gameDecoder.players[0].id == userId {
+            loggedInPlayer = gameDecoder.players[0]
+            opponent = gameDecoder.players[1]
+        } else {
+            loggedInPlayer = gameDecoder.players[1]
+            opponent = gameDecoder.players[0]
+        }
+        
+        if let tiles = gameDecoder.tiles {
+            letters = tiles.map(self.enumToLetter)
+        }
+        
+        return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move)
+    }
+    
     func getGame(id: UInt64, completionHandler: @escaping (Game?, Error?) -> Void) {
         
         print("Entering game-func...")
-        
-        var game: Game?
         
         let headers = [
             "Content-Type": "application/json",
@@ -122,25 +129,8 @@ class RestClient {
                 print(gameResponse.status)
                 
                 let gameDecoder = gameResponse.content.game
-                let letters = gameDecoder.tiles.map(self.enumToLetter)
+                let game = self.gameDecoderToGame(gameDecoder: gameDecoder)
                 
-                //Denne må trekkes ut etterhvert
-                let loggedInUserId = 8443993
-                let opponent, loggedInPlayer: Player
-                
-                if gameDecoder.players[0].id == loggedInUserId {
-                    loggedInPlayer = gameDecoder.players[0]
-                    opponent = gameDecoder.players[1]
-                } else {
-                    loggedInPlayer = gameDecoder.players[1]
-                    opponent = gameDecoder.players[0]
-                }
-                
-                game = Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move)
-                
-                print("debugprinter game:")
-                debugPrint(game)
-                print("debugprint ferdig")
                 completionHandler(game, nil)
                 
             } catch {
@@ -153,7 +143,7 @@ class RestClient {
         dataTask.resume()
     }
     
-    func getGameIds() -> String {
+    func getGames(completionHandler: @escaping ([Game]?, Error?) -> Void) {
         
         let headers = [
             "Content-Type": "application/json",
@@ -169,12 +159,14 @@ class RestClient {
         
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-
+            
             guard let responseData = data else {
                 print("Error: did not receive data")
+                completionHandler(nil, error)
                 return
             }
             guard error == nil else {
+                completionHandler(nil, error)
                 return
             }
             
@@ -185,24 +177,20 @@ class RestClient {
                 print(gamesResponse.status)
                 print(gamesResponse.content.games.count)
                 
-                let gameIds = gamesResponse.content.games.map({ (gamesGame: GamesGame) -> UInt64 in
-                    gamesGame.id
-                })
-                for id in gameIds {
-                    print("Id: \(id)")
-                }
+                completionHandler(gamesResponse.content.games.map(self.gameDecoderToGame), nil)
+                
             } catch {
                 print("error trying to convert data to JSON")
                 print(error)
+                completionHandler(nil, error)
             }
             
         })
         
         dataTask.resume()
-        return "hei"
     }
     
-    func login() -> Void {
+    func login(completionHandler: @escaping (LoginUser?, Error?) -> Void)  {
         
         let headers = [
             "Content-Type": "application/json",
@@ -229,9 +217,11 @@ class RestClient {
                 
                 guard let responseData = data else {
                     print("Error: did not receive data")
+                    completionHandler(nil, error)
                     return
                 }
                 guard error == nil else {
+                    completionHandler(nil, error)
                     return
                 }
                 
@@ -242,9 +232,11 @@ class RestClient {
                     print(loginResponse.status)
                     print(loginResponse.content.username)
                     print(loginResponse.content.id)
+                    completionHandler(loginResponse.content, nil)
                 } catch {
                     print("error trying to convert data to JSON")
                     print(error)
+                    completionHandler(nil, error)
                 }
             })
             
@@ -252,6 +244,7 @@ class RestClient {
             dataTask.resume()
         } catch {
             print("Noe galt skjedde...")
+            completionHandler(nil, error)
         }
     }
 }
