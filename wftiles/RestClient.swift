@@ -247,4 +247,42 @@ class RestClient {
             completionHandler(nil, error)
         }
     }
+    
+    func getAvatar(avatar_url: String, completionHandler: @escaping (Data?, Error?) -> Void) {
+        
+        print("Entering getAvatar...")
+        //må bare hente bilde hvis det ikke allerede er cachet, eller avatar_updated er ny
+        
+        let headers = [
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Cache-Control": "no-cache",
+            ]
+        
+        let request = NSMutableURLRequest(url: NSURL(string: avatar_url)! as URL,
+                                          cachePolicy: .useProtocolCachePolicy,
+                                          timeoutInterval: 10.0)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                completionHandler(nil, error)
+                return
+            }
+            guard error == nil else {
+                completionHandler(nil, error)
+                return
+            }
+            
+            print("har lastet ned image")
+            
+            completionHandler(responseData, nil)
+            
+        })
+        dataTask.resume()
+    }
 }

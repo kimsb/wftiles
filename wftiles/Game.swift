@@ -13,7 +13,7 @@ struct Game {
     let usedLetters: [String]?
     let isRunning: Bool
     let bagCount: Int?
-    let opponent: Player
+    var opponent: Player
     let player: Player
     let lastMove: Move
     

@@ -44,46 +44,8 @@ class ViewController: UIViewController {
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
                 self.outputLabel.text = "Welcome, \(user.username)!"
-                
-                let games = http.getGames(completionHandler: { (games, error) in
-                    if let error = error {
-                        // got an error in getting the data, need to handle it
-                        print("error calling POST for Games")
-                        print(error)
-                        return
-                    }
-                    guard let games = games else {
-                        print("error getting games: result is nil")
-                        return
-                    }
-                    // success :)
-                    debugPrint(games)
-                    DispatchQueue.main.async(execute: {
-                        //perform all UI stuff here
-                        self.outputLabel.text = "\(games[0].id)"
-                    })
-                })
-                
-                //må trekkes ut
-                /*let game = http.getGame(id: 2180169928, completionHandler: { (game, error) in
-                    if let error = error {
-                        // got an error in getting the data, need to handle it
-                        print("error calling POST for Game")
-                        print(error)
-                        return
-                    }
-                    guard let game = game else {
-                        print("error getting game: result is nil")
-                        return
-                    }
-                    // success :)
-                    debugPrint(game)
-                    DispatchQueue.main.async(execute: {
-                        //perform all UI stuff here
-                        self.outputLabel.text = "\(game.usedLetters)"
-                    })
-                })*/
-                //må trekkes ut
+                self.performSegue(withIdentifier: "loginToTableSegue", sender: nil)
+
             })
         })
 
