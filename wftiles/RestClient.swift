@@ -38,7 +38,7 @@ class RestClient {
         let is_running: Bool
         let bag_count: Int?
         let id: UInt64
-        let last_move: Move
+        let last_move: Move?
         let players: [Player]
     }
     

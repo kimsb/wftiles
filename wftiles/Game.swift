@@ -15,7 +15,7 @@ struct Game {
     let bagCount: Int?
     var opponent: Player
     let player: Player
-    let lastMove: Move
+    let lastMove: Move?
     
     /*init(id: UInt64, usedLetters: [String], isRunning: Bool, bagCount: Int, opponent: Player, player: Player, lastMove: Move) {
         self.id = id

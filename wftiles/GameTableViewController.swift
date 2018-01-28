@@ -13,13 +13,8 @@ class GameTableViewController: UITableViewController {
     var games = [Game]()
     var avatars = [UInt64: Data]()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // load games
-        //TEST
-        
-
+    @objc func loadGames() {
+        print("loading games")
         //burde ikke lage ny, men sende fra login via prepare
         let http = RestClient()
         
@@ -47,40 +42,39 @@ class GameTableViewController: UITableViewController {
             //henter bilder
             for opponentId in opponentIds {
                 if self.avatars[opponentId] == nil {
-                 
-                print("DOWNLOADING AVATAR FOR: \(opponentId)")
-            let avatar_data = http.getAvatar(avatar_url: "https://avatars-wordfeud-com.s3.amazonaws.com/60/\(opponentId)", completionHandler: { (avatar_data, error) in
-                if let error = error {
-                    // got an error in getting the data, need to handle it
-                    print("error calling GET for avatar")
-                    print(error)
-                    return
-                }
-                guard let avatar_data = avatar_data else {
-                    print("error getting avatar: result is nil")
-                    return
-                }
-                // success :)
-                self.avatars[opponentId] = avatar_data
-                print("FINISHED DOWNLOADING AVATAR FOR: \(opponentId)")
-                for (index, game) in games.enumerated() {
-                    if game.opponent.id == opponentId {
-                    self.games[index].opponent.avatar = avatar_data
-                        DispatchQueue.main.async(execute: {
-                            //perform all UI stuff here
-                            self.tableView.reloadRows(at: [IndexPath(item: index, section: 0)], with: UITableViewRowAnimation.none)
-                        })
-                    }
-                }
-             
-
-            })
+                    
+                    print("DOWNLOADING AVATAR FOR: \(opponentId)")
+                    let avatar_data = http.getAvatar(avatar_url: "https://avatars-wordfeud-com.s3.amazonaws.com/60/\(opponentId)", completionHandler: { (avatar_data, error) in
+                        if let error = error {
+                            // got an error in getting the data, need to handle it
+                            print("error calling GET for avatar")
+                            print(error)
+                            return
+                        }
+                        guard let avatar_data = avatar_data else {
+                            print("error getting avatar: result is nil")
+                            return
+                        }
+                        // success :)
+                        self.avatars[opponentId] = avatar_data
+                        print("FINISHED DOWNLOADING AVATAR FOR: \(opponentId)")
+                        for (index, game) in games.enumerated() {
+                            if game.opponent.id == opponentId {
+                                self.games[index].opponent.avatar = avatar_data
+                                DispatchQueue.main.async(execute: {
+                                    //perform all UI stuff here
+                                    self.tableView.reloadRows(at: [IndexPath(item: index, section: 0)], with: UITableViewRowAnimation.none)
+                                })
+                            }
+                        }
+                        
+                        
+                    })
                 }
                 
             }
             //ferdig med å hente bilder
-
-            debugPrint(games)
+            
             self.games = games;
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
@@ -88,6 +82,24 @@ class GameTableViewController: UITableViewController {
                 
             })
         })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadGames()
+        print("GAMETABLEVIEW WILL APPEAR")
+        print("registering observer GameView")
+        NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
+        )
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("GAMETABLEVIEW VIEW DID APPEAR")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -126,7 +138,11 @@ class GameTableViewController: UITableViewController {
         }
         cell.opponentLabel.text = game.opponent.username
         cell.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
-        cell.lastMoveLabel.text = game.lastMove.move_type
+        if let lastMove = game.lastMove {
+            cell.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
+        } else {
+            cell.lastMoveLabel.text = "No moves made"
+        }
         return cell
     }
 
@@ -177,8 +193,17 @@ class GameTableViewController: UITableViewController {
                 return
         }
         // Pass the selected object to the new view controller.
+        
+        //dette må fjernes når caching av bilder er implementert
+        if games[gameIndex].opponent.avatar == nil {
+            games[gameIndex].opponent.avatar = avatars[games[gameIndex].opponent.id]
+        }
+        
         destination.game = games[gameIndex]
     }
-    
 
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+        print("viewWillDisappear - removing observer")
+    }
 }

@@ -19,7 +19,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var myLettersLabel: UILabel!
     @IBOutlet weak var remainingLettersLabel: UILabel!
     
-    func loadGame() {
+    @objc func loadGame() {
+        print("loading game")
         guard let game = self.game else {
             print("No game to show")
             return
@@ -32,12 +33,12 @@ class GameViewController: UIViewController {
                 print(error)
                 return
             }
-            guard let game = game else {
+            guard var game = game else {
                 print("error getting game: result is nil")
                 return
             }
             // success :)
-            debugPrint(game)
+            game.opponent.avatar = self.game.opponent.avatar
             self.game = game
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
@@ -45,18 +46,41 @@ class GameViewController: UIViewController {
             })
         })
         
-        opponentImageView.image = UIImage(data: game.opponent.avatar!)
+        
+        if let lastMove = game.opponent.avatar {
+            opponentImageView.image = UIImage(data: game.opponent.avatar!)
+        } else {
+            print("mangler avatar - må hente avatar fra global cache")
+        }
         opponentLabel.text = game.opponent.username
         scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
-        lastMoveLabel.text = game.lastMove.move_type
+        if let lastMove = game.lastMove {
+            lastMoveLabel.text = "Last move: \(lastMove.move_type)"
+        } else {
+            lastMoveLabel.text = "No moves made"
+        }
         myLettersLabel.text = "\(game.player.rack!)"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //load game
+        loadGame()
+        
+        print("GAMEVIEWWILLAPPEAR")
+        print("registering observer GameView")
+        NotificationCenter.default.addObserver(self, selector:#selector(loadGame), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
+        )
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("GAMEVIEW VIEW DID APPEAR")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //load game
-        loadGame()
         
         // Do any additional setup after loading the view.
     }
@@ -76,5 +100,10 @@ class GameViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+        print("viewWillDisappear - removing observer")
+    }
     
 }
