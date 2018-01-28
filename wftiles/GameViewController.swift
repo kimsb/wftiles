@@ -43,23 +43,17 @@ class GameViewController: UIViewController {
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
                 self.remainingLettersLabel.text = "\(game.usedLetters!)"
+                self.opponentImageView.image = UIImage(data: game.opponent.avatar!)
+                self.opponentLabel.text = game.opponent.username
+                self.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
+                if let lastMove = game.lastMove {
+                    self.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
+                } else {
+                    self.lastMoveLabel.text = "No moves made"
+                }
+                self.myLettersLabel.text = "\(game.player.rack!)"
             })
         })
-        
-        
-        if let lastMove = game.opponent.avatar {
-            opponentImageView.image = UIImage(data: game.opponent.avatar!)
-        } else {
-            print("mangler avatar - må hente avatar fra global cache")
-        }
-        opponentLabel.text = game.opponent.username
-        scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
-        if let lastMove = game.lastMove {
-            lastMoveLabel.text = "Last move: \(lastMove.move_type)"
-        } else {
-            lastMoveLabel.text = "No moves made"
-        }
-        myLettersLabel.text = "\(game.player.rack!)"
     }
     
     override func viewWillAppear(_ animated: Bool) {
