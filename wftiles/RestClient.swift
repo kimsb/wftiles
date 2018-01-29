@@ -40,6 +40,7 @@ class RestClient {
         let id: UInt64
         let last_move: Move?
         let players: [Player]
+        let ruleset: Int
     }
     
     enum TileEnum: Decodable {
@@ -88,7 +89,7 @@ class RestClient {
             letters = tiles.map(self.enumToLetter)
         }
         
-        return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move)
+        return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset)
     }
     
     func getGame(id: UInt64, completionHandler: @escaping (Game?, Error?) -> Void) {

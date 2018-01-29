@@ -20,7 +20,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var remainingLettersLabel: UILabel!
     
     @objc func loadGame() {
-        print("loading game")
+        print("RULESET: \(game.ruleset)")
         guard let game = self.game else {
             print("No game to show")
             return
@@ -38,11 +38,41 @@ class GameViewController: UIViewController {
                 return
             }
             // success :)
+            let language = Constants.letters.languages[game.ruleset]
+            var letterCount = Constants.letters.counts[game.ruleset]
+            let letterScore = Constants.letters.points[game.ruleset]
+            //find remaining letters
+            if let rack = game.player.rack {
+                for letter in rack {
+                    letterCount[letter]! -= 1
+                }
+            }
+            if let usedLetters = game.usedLetters {
+                for letter in usedLetters {
+                    letterCount[letter]! -= 1
+                }
+            }
+            //letterCount now holds count of remaining letters
+            //call method for showing tiles in prefered fashion (now shown as all letters left)
+            var remainingLetters = [String]()
+            for (letter, count) in letterCount {
+                for _ in 0..<count {
+                    remainingLetters.append(letter)
+                }
+            }
+            let locale = Locale(identifier: Constants.letters.locales[game.ruleset])
+            let sortedRack = game.player.rack!.sorted {
+                $0.compare($1, locale: locale) == .orderedAscending
+            }
+            let sortedRemainingLetters = remainingLetters.sorted {
+                $0.compare($1, locale: locale) == .orderedAscending
+            }
+                        
             game.opponent.avatar = self.game.opponent.avatar
             self.game = game
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
-                self.remainingLettersLabel.text = "\(game.usedLetters!)"
+                self.remainingLettersLabel.text = "\(sortedRemainingLetters)"
                 self.opponentImageView.image = UIImage(data: game.opponent.avatar!)
                 self.opponentLabel.text = game.opponent.username
                 self.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
@@ -51,7 +81,7 @@ class GameViewController: UIViewController {
                 } else {
                     self.lastMoveLabel.text = "No moves made"
                 }
-                self.myLettersLabel.text = "\(game.player.rack!)"
+                self.myLettersLabel.text = "\(sortedRack)"
             })
         })
     }

@@ -10,8 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     //MARK: Properties
-    @IBOutlet weak var inputTextField: UITextField!
-    @IBOutlet weak var outputLabel: UILabel!
+    @IBOutlet weak var userTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,6 @@ class ViewController: UIViewController {
     
     //MARK: Actions
     @IBAction func connectAction(_ sender: UIButton) {
-        outputLabel.text = "Logging in..."
         let http = RestClient()
         
         let user = http.login(completionHandler: { (user, error) in
@@ -43,7 +42,6 @@ class ViewController: UIViewController {
             debugPrint(user)
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
-                self.outputLabel.text = "Welcome, \(user.username)!"
                 self.performSegue(withIdentifier: "loginToTableSegue", sender: nil)
 
             })
