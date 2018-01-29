@@ -13,7 +13,7 @@ struct Player: Decodable {
     let score: Int
     let id: UInt64
     let rack: [String]?
-    var avatar: Data?
+    let avatar_updated: UInt64?
     
     /*init(username: String, score: Int, id: UInt64, rack: [String]?) {
         self.username = username

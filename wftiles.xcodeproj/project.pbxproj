@@ -18,6 +18,8 @@
 		F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A8201B63F600605A93 /* GameTableViewController.swift */; };
 		F395F5AB201D173F00605A93 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5AA201D173F00605A93 /* GameViewController.swift */; };
 		F395F5AD201EFDF300605A93 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5AC201EFDF300605A93 /* Constants.swift */; };
+		F395F5B0201FA83C00605A93 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5AF201FA83C00605A93 /* String+SHA1.swift */; };
+		F395F5B2201FBB3300605A93 /* Avatars.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5B1201FBB3300605A93 /* Avatars.swift */; };
 		F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05B20190DCE00745422 /* RestClient.swift */; };
 		F3F6A05E2019CEF400745422 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05D2019CEF400745422 /* Game.swift */; };
 		F3F6A0602019D45800745422 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05F2019D45800745422 /* Move.swift */; };
@@ -60,6 +62,9 @@
 		F395F5A8201B63F600605A93 /* GameTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewController.swift; sourceTree = "<group>"; };
 		F395F5AA201D173F00605A93 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F395F5AC201EFDF300605A93 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F395F5AE201FA50900605A93 /* wftiles-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "wftiles-bridging-header.h"; sourceTree = "<group>"; };
+		F395F5AF201FA83C00605A93 /* String+SHA1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
+		F395F5B1201FBB3300605A93 /* Avatars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatars.swift; sourceTree = "<group>"; };
 		F3F6A05B20190DCE00745422 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		F3F6A05D2019CEF400745422 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		F3F6A05F2019D45800745422 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
@@ -130,6 +135,9 @@
 				F395F5A8201B63F600605A93 /* GameTableViewController.swift */,
 				F395F5AA201D173F00605A93 /* GameViewController.swift */,
 				F395F5AC201EFDF300605A93 /* Constants.swift */,
+				F395F5AE201FA50900605A93 /* wftiles-bridging-header.h */,
+				F395F5AF201FA83C00605A93 /* String+SHA1.swift */,
+				F395F5B1201FBB3300605A93 /* Avatars.swift */,
 			);
 			path = wftiles;
 			sourceTree = "<group>";
@@ -293,10 +301,12 @@
 				F3F6A05E2019CEF400745422 /* Game.swift in Sources */,
 				F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */,
 				F3099C1220175CBA000AE01A /* ViewController.swift in Sources */,
+				F395F5B0201FA83C00605A93 /* String+SHA1.swift in Sources */,
 				F3F6A0622019D57100745422 /* Player.swift in Sources */,
 				F3F6A0602019D45800745422 /* Move.swift in Sources */,
 				F3099C1020175CBA000AE01A /* AppDelegate.swift in Sources */,
 				F395F5A7201B5E5D00605A93 /* GameTableViewCell.swift in Sources */,
+				F395F5B2201FBB3300605A93 /* Avatars.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +478,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "wftiles/wftiles-bridging-header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -483,6 +494,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "wftiles/wftiles-bridging-header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

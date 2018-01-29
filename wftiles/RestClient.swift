@@ -10,6 +10,15 @@ import Foundation
 
 class RestClient {
     
+    static var client = RestClient()
+    
+    var userId: UInt64?
+    var userName: String?
+    var password: String?
+    
+    private init() {
+    }
+    
     struct LoginResponse: Codable {
         let status: String
         let content: LoginUser
@@ -64,7 +73,7 @@ class RestClient {
     func enumToLetter(values: [TileEnum]) -> String {
         if case .wildcard(let value) = values[3] {
             if value {
-                return "-"
+                return ""
             } else if case .character(let value) = values[2] {
                 return value
             }
@@ -73,11 +82,10 @@ class RestClient {
     }
     
     func gameDecoderToGame(gameDecoder: GameDecoder) -> Game {
-        let userId = 8443993
         let opponent, loggedInPlayer: Player
         var letters: [String]? = nil
         
-        if gameDecoder.players[0].id == userId {
+        if gameDecoder.players[0].id == self.userId {
             loggedInPlayer = gameDecoder.players[0]
             opponent = gameDecoder.players[1]
         } else {
@@ -95,12 +103,6 @@ class RestClient {
     func getGame(id: UInt64, completionHandler: @escaping (Game?, Error?) -> Void) {
         
         print("Entering game-func...")
-        
-        let headers = [
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Cache-Control": "no-cache",
-            ]
         
         print("Id: \(id)")
         
@@ -146,12 +148,6 @@ class RestClient {
     
     func getGames(completionHandler: @escaping ([Game]?, Error?) -> Void) {
         
-        let headers = [
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Cache-Control": "no-cache",
-            ]
-        
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/games/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 10.0)
@@ -191,16 +187,12 @@ class RestClient {
         dataTask.resume()
     }
     
-    func login(completionHandler: @escaping (LoginUser?, Error?) -> Void)  {
+    //send inn enum med id/email
+    func login(email: String, password: String, completionHandler: @escaping (LoginUser?, Error?) -> Void)  {
         
-        let headers = [
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Cache-Control": "no-cache",
-            ]
         let parameters = [
-            "password": "f5efa36b1fe6763fc936fd92569bb7e0ad1ae986",
-            "email": "kbovim@hotmail.com"
+            "password": password,
+            "email": email
             ] as [String : Any]
         
         do {
@@ -222,6 +214,7 @@ class RestClient {
                     return
                 }
                 guard error == nil else {
+                    print("error not nil")
                     completionHandler(nil, error)
                     return
                 }
@@ -229,6 +222,9 @@ class RestClient {
                 let decoder = JSONDecoder()
                 do {
                     let loginResponse = try decoder.decode(LoginResponse.self, from: responseData)
+                    self.userId = loginResponse.content.id
+                    self.userName = loginResponse.content.username
+                    self.password = password
                     print("Login:")
                     print(loginResponse.status)
                     print(loginResponse.content.username)
@@ -254,11 +250,7 @@ class RestClient {
         print("Entering getAvatar...")
         //må bare hente bilde hvis det ikke allerede er cachet, eller avatar_updated er ny
         
-        let headers = [
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Cache-Control": "no-cache",
-            ]
+        
         
         let request = NSMutableURLRequest(url: NSURL(string: avatar_url)! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
@@ -278,12 +270,16 @@ class RestClient {
                 completionHandler(nil, error)
                 return
             }
-            
-            print("har lastet ned image")
-            
+                        
             completionHandler(responseData, nil)
             
         })
         dataTask.resume()
     }
+    
+    let headers = [
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Cache-Control": "no-cache",
+        ]
 }

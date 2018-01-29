@@ -26,7 +26,7 @@ class GameViewController: UIViewController {
             return
         }
         
-        let gameWithTiles = RestClient().getGame(id: game.id, completionHandler: { (game, error) in
+        let gameWithTiles = RestClient.client.getGame(id: game.id, completionHandler: { (game, error) in
             if let error = error {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Game")
@@ -68,12 +68,11 @@ class GameViewController: UIViewController {
                 $0.compare($1, locale: locale) == .orderedAscending
             }
                         
-            game.opponent.avatar = self.game.opponent.avatar
             self.game = game
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
                 self.remainingLettersLabel.text = "\(sortedRemainingLetters)"
-                self.opponentImageView.image = UIImage(data: game.opponent.avatar!)
+                self.opponentImageView.image = UIImage(data: Avatars.store.cache[game.opponent.id]!.data)
                 self.opponentLabel.text = game.opponent.username
                 self.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
                 if let lastMove = game.lastMove {

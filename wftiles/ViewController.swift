@@ -25,9 +25,7 @@ class ViewController: UIViewController {
     
     //MARK: Actions
     @IBAction func connectAction(_ sender: UIButton) {
-        let http = RestClient()
-        
-        let user = http.login(completionHandler: { (user, error) in
+        let user = RestClient.client.login(email: userTextField.text!, password: (passwordTextField.text!+"JarJarBinks9").sha1!, completionHandler: { (user, error) in
             if let error = error {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Login")
