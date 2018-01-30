@@ -72,7 +72,7 @@ class GameViewController: UIViewController {
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
                 self.remainingLettersLabel.text = "\(sortedRemainingLetters)"
-                self.opponentImageView.image = UIImage(data: Avatars.store.cache[game.opponent.id]!.data)
+                self.opponentImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
                 self.opponentLabel.text = game.opponent.username
                 self.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
                 if let lastMove = game.lastMove {

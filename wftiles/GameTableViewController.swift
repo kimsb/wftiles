@@ -33,7 +33,7 @@ class GameTableViewController: UITableViewController {
             var opponentInfo = [UInt64:UInt64]()
             //var opponentIds = Set<UInt64>()
             for game in games {
-                if (Avatars.store.cache[game.opponent.id] == nil || Avatars.store.cache[game.opponent.id]!.updated != game.opponent.avatar_updated!) {
+                if (AppData.store.getAvatar(id: game.opponent.id) == nil || AppData.store.getAvatar(id: game.opponent.id)!.updated != game.opponent.avatar_updated!) {
                     //opponentIds.insert(game.opponent.id)
                     opponentInfo[game.opponent.id] = game.opponent.avatar_updated
                 }
@@ -56,8 +56,7 @@ class GameTableViewController: UITableViewController {
                             return
                         }
                         // success :)
-                        //self.avatars[opponentId] = avatar_data
-                        Avatars.store.cache[opponentId] = Avatars.Avatar(data: avatar_data, updated: opponentInfo[opponentId]!)
+                        AppData.store.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!))
                         print("FINISHED DOWNLOADING AVATAR FOR: \(opponentId)")
                         for (index, game) in games.enumerated() {
                             if game.opponent.id == opponentId {
@@ -131,8 +130,8 @@ class GameTableViewController: UITableViewController {
         // Fetches the appropriate game for the data source layout.
         let game = games[indexPath.row]
         
-        if let avatar = Avatars.store.cache[game.opponent.id] {
-            cell.opponentImageView.image = UIImage(data: avatar.data)
+        if let avatar = AppData.store.getAvatar(id: game.opponent.id) {
+            cell.opponentImageView.image = avatar.image
         }
         cell.opponentLabel.text = game.opponent.username
         cell.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
