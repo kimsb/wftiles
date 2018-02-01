@@ -12,16 +12,18 @@ class RestClient {
     
     static var client = RestClient()
     
-    var userId: UInt64?
-    var userName: String?
-    var password: String?
-    
     private init() {
     }
     
-    struct LoginResponse: Codable {
+    struct LoginResponse: Decodable {
         let status: String
-        let content: LoginUser
+        let content: LoginContent
+    }
+    
+    struct LoginContent: Decodable {
+        let username: String
+        let id: UInt64
+        let avatar_root: String
     }
     
     struct GamesResponse: Decodable {
@@ -85,7 +87,7 @@ class RestClient {
         let opponent, loggedInPlayer: Player
         var letters: [String]? = nil
         
-        if gameDecoder.players[0].id == self.userId {
+        if gameDecoder.players[0].id == AppData.store.getUser()!.id {
             loggedInPlayer = gameDecoder.players[0]
             opponent = gameDecoder.players[1]
         } else {
@@ -101,10 +103,6 @@ class RestClient {
     }
     
     func getGame(id: UInt64, completionHandler: @escaping (Game?, Error?) -> Void) {
-        
-        print("Entering game-func...")
-        
-        print("Id: \(id)")
         
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/game/\(id)/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
@@ -128,9 +126,6 @@ class RestClient {
             let decoder = JSONDecoder()
             do {
                 let gameResponse = try decoder.decode(GameResponse.self, from: responseData)
-                print("games:")
-                print(gameResponse.status)
-                
                 let gameDecoder = gameResponse.content.game
                 let game = self.gameDecoderToGame(gameDecoder: gameDecoder)
                 
@@ -139,7 +134,6 @@ class RestClient {
             } catch {
                 print("error trying to convert data to JSON")
                 completionHandler(nil, error)
-                print(error)
             }
             
         })
@@ -170,15 +164,11 @@ class RestClient {
             let decoder = JSONDecoder()
             do {
                 let gamesResponse = try decoder.decode(GamesResponse.self, from: responseData)
-                print("games:")
-                print(gamesResponse.status)
-                print(gamesResponse.content.games.count)
                 
                 completionHandler(gamesResponse.content.games.map(self.gameDecoderToGame), nil)
                 
             } catch {
                 print("error trying to convert data to JSON")
-                print(error)
                 completionHandler(nil, error)
             }
             
@@ -188,7 +178,7 @@ class RestClient {
     }
     
     //send inn enum med id/email
-    func login(email: String, password: String, completionHandler: @escaping (LoginUser?, Error?) -> Void)  {
+    func login(email: String, password: String, completionHandler: @escaping (User?, Error?) -> Void)  {
         
         let parameters = [
             "password": password,
@@ -222,17 +212,11 @@ class RestClient {
                 let decoder = JSONDecoder()
                 do {
                     let loginResponse = try decoder.decode(LoginResponse.self, from: responseData)
-                    self.userId = loginResponse.content.id
-                    self.userName = loginResponse.content.username
-                    self.password = password
-                    print("Login:")
-                    print(loginResponse.status)
-                    print(loginResponse.content.username)
-                    print(loginResponse.content.id)
-                    completionHandler(loginResponse.content, nil)
+                    let user = User(username: loginResponse.content.username, password: password, id: loginResponse.content.id, avatarRoot: loginResponse.content.avatar_root)
+                    AppData.store.setUser(user: user)
+                    completionHandler(user, nil)
                 } catch {
                     print("error trying to convert data to JSON")
-                    print(error)
                     completionHandler(nil, error)
                 }
             })
@@ -240,17 +224,11 @@ class RestClient {
             
             dataTask.resume()
         } catch {
-            print("Noe galt skjedde...")
             completionHandler(nil, error)
         }
     }
     
     func getAvatar(avatar_url: String, completionHandler: @escaping (Data?, Error?) -> Void) {
-        
-        print("Entering getAvatar...")
-        //må bare hente bilde hvis det ikke allerede er cachet, eller avatar_updated er ny
-        
-        
         
         let request = NSMutableURLRequest(url: NSURL(string: avatar_url)! as URL,
                                           cachePolicy: .useProtocolCachePolicy,

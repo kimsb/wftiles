@@ -20,7 +20,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var remainingLettersLabel: UILabel!
     
     @objc func loadGame() {
-        print("RULESET: \(game.ruleset)")
+        ProgressHUD.hud.show(text: "Loading...")
         guard let game = self.game else {
             print("No game to show")
             return
@@ -81,6 +81,7 @@ class GameViewController: UIViewController {
                     self.lastMoveLabel.text = "No moves made"
                 }
                 self.myLettersLabel.text = "\(sortedRack)"
+                ProgressHUD.hud.hide()
             })
         })
     }
@@ -90,16 +91,13 @@ class GameViewController: UIViewController {
         
         //load game
         loadGame()
-        
-        print("GAMEVIEWWILLAPPEAR")
-        print("registering observer GameView")
+
         NotificationCenter.default.addObserver(self, selector:#selector(loadGame), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
         )
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("GAMEVIEW VIEW DID APPEAR")
     }
     
     override func viewDidLoad() {
@@ -126,7 +124,6 @@ class GameViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
-        print("viewWillDisappear - removing observer")
     }
     
 }

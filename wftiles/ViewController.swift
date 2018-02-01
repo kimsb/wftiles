@@ -15,6 +15,15 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //logger inn hvis man har innloggingsdata lagret
+        if let user = AppData.store.getUser() {
+            
+            //MÅ ENDRE DETTE NÅR IMPLEMENTERING AV LOGIN MED USERNAME ER FERDIG
+            
+            login(email: "kbovim@hotmail.com", password: user.password)
+        }
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -23,9 +32,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: Actions
-    @IBAction func connectAction(_ sender: UIButton) {
-        let user = RestClient.client.login(email: userTextField.text!, password: (passwordTextField.text!+"JarJarBinks9").sha1!, completionHandler: { (user, error) in
+    func login(email: String, password: String) {
+        
+        ProgressHUD.hud.show(text: "Logging in...")
+        
+        let user = RestClient.client.login(email: email, password: password, completionHandler: { (user, error) in
             if let error = error {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Login")
@@ -41,10 +52,14 @@ class ViewController: UIViewController {
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
                 self.performSegue(withIdentifier: "loginToTableSegue", sender: nil)
-
             })
         })
-
+    }
+    
+    
+    //MARK: Actions
+    @IBAction func connectAction(_ sender: UIButton) {
+        login(email: userTextField.text!, password: (passwordTextField.text!+"JarJarBinks9").sha1!)
     }	
     
 }

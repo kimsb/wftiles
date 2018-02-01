@@ -13,8 +13,8 @@ class GameTableViewController: UITableViewController {
     var games = [Game]()
     
     @objc func loadGames() {
-        print("loading games")
-        print("HENTER GAMES FRA TABLEVIEWCONTROLLER")
+        
+        ProgressHUD.hud.show(text: "Loading...")
         
         let games = RestClient.client.getGames(completionHandler: { (games, error) in
             if let error = error {
@@ -31,19 +31,18 @@ class GameTableViewController: UITableViewController {
             
             //hente bilder for alle spillere:
             var opponentInfo = [UInt64:UInt64]()
-            //var opponentIds = Set<UInt64>()
             for game in games {
                 if (AppData.store.getAvatar(id: game.opponent.id) == nil || AppData.store.getAvatar(id: game.opponent.id)!.updated != game.opponent.avatar_updated!) {
-                    //opponentIds.insert(game.opponent.id)
                     opponentInfo[game.opponent.id] = game.opponent.avatar_updated
                 }
             }
             
             //henter bilder
+            let avatarTaskGroup = DispatchGroup()
             //for opponentId in opponentIds {
             for opponentId in opponentInfo.keys {
                 
-                    print("DOWNLOADING AVATAR FOR: \(opponentId)")
+                avatarTaskGroup.enter()
                     let avatar_data = RestClient.client.getAvatar(avatar_url: "https://avatars-wordfeud-com.s3.amazonaws.com/60/\(opponentId)", completionHandler: { (avatar_data, error) in
                         if let error = error {
                             // got an error in getting the data, need to handle it
@@ -57,22 +56,22 @@ class GameTableViewController: UITableViewController {
                         }
                         // success :)
                         AppData.store.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!))
-                        print("FINISHED DOWNLOADING AVATAR FOR: \(opponentId)")
                         for (index, game) in games.enumerated() {
                             if game.opponent.id == opponentId {
-                                //self.games[index].opponent.avatar = avatar_data
                                 DispatchQueue.main.async(execute: {
                                     //perform all UI stuff here
                                     self.tableView.reloadRows(at: [IndexPath(item: index, section: 0)], with: UITableViewRowAnimation.none)
                                 })
                             }
                         }
-                        
-                        
+                        avatarTaskGroup.leave()
                     })
                 
             }
             //ferdig med å hente bilder
+            avatarTaskGroup.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: {
+                ProgressHUD.hud.hide()
+            }))
             
             self.games = games;
             DispatchQueue.main.async(execute: {
@@ -85,15 +84,12 @@ class GameTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadGames()
-        print("GAMETABLEVIEW WILL APPEAR")
-        print("registering observer GameView")
         NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
         )
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("GAMETABLEVIEW VIEW DID APPEAR")
     }
     
     override func viewDidLoad() {
@@ -196,6 +192,6 @@ class GameTableViewController: UITableViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
-        print("viewWillDisappear - removing observer")
     }
+    
 }
