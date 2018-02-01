@@ -19,9 +19,12 @@ class ViewController: UIViewController {
         //logger inn hvis man har innloggingsdata lagret
         if let user = AppData.store.getUser() {
             
-            //MÅ ENDRE DETTE NÅR IMPLEMENTERING AV LOGIN MED USERNAME ER FERDIG
+            print("USER: \(user.email) : \(user.username) : \(user.password) : \(user.loginMethod)")
             
-            login(email: "kbovim@hotmail.com", password: user.password)
+            let loginValue = user.loginMethod == "email" ? user.email : user.username
+            userTextField.text = loginValue
+            passwordTextField.text = user.password
+            login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password)
         }
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -32,11 +35,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func login(email: String, password: String) {
+    func login(loginMethod: String, loginValue: String, password: String) {
         
         ProgressHUD.hud.show(text: "Logging in...")
         
-        let user = RestClient.client.login(email: email, password: password, completionHandler: { (user, error) in
+        let user = RestClient.client.login(loginMethod: loginMethod, loginValue: loginValue, password: password, completionHandler: { (user, error) in
             if let error = error {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Login")
@@ -59,7 +62,11 @@ class ViewController: UIViewController {
     
     //MARK: Actions
     @IBAction func connectAction(_ sender: UIButton) {
-        login(email: userTextField.text!, password: (passwordTextField.text!+"JarJarBinks9").sha1!)
+        
+        //DENNE MÅ DET VÆRE BEDRE LOGIKK PÅ, OG FALLBACK HVIS LOGIN MED LOGINMETHOD:EMAIL IKKE FUNKER FOR LOGINVALUE MED '@'
+        let loginMethod = userTextField.text!.range(of:"@") != nil ? "email" : "username"
+        
+        login(loginMethod: loginMethod, loginValue: userTextField.text!, password: passwordTextField.text!)
     }	
     
 }

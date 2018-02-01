@@ -22,6 +22,7 @@ class RestClient {
     
     struct LoginContent: Decodable {
         let username: String
+        let email: String
         let id: UInt64
         let avatar_root: String
     }
@@ -178,17 +179,18 @@ class RestClient {
     }
     
     //send inn enum med id/email
-    func login(email: String, password: String, completionHandler: @escaping (User?, Error?) -> Void)  {
+    func login(loginMethod: String, loginValue: String, password: String, completionHandler: @escaping (User?, Error?) -> Void)  {
         
         let parameters = [
-            "password": password,
-            "email": email
+            "password": (password+"JarJarBinks9").sha1!,
+            "\(loginMethod)": loginValue
             ] as [String : Any]
         
         do {
             let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
             
-            let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/login/email/")! as URL,
+            
+            let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/login/" + ("email" == loginMethod ? "email/" : ""))! as URL,
                                               cachePolicy: .useProtocolCachePolicy,
                                               timeoutInterval: 10.0)
             request.httpMethod = "POST"
@@ -212,7 +214,8 @@ class RestClient {
                 let decoder = JSONDecoder()
                 do {
                     let loginResponse = try decoder.decode(LoginResponse.self, from: responseData)
-                    let user = User(username: loginResponse.content.username, password: password, id: loginResponse.content.id, avatarRoot: loginResponse.content.avatar_root)
+                    let user = User(username: loginResponse.content.username, email: loginResponse.content.email, password: password,
+                                    id: loginResponse.content.id, avatarRoot: loginResponse.content.avatar_root, loginMethod: loginMethod)
                     AppData.store.setUser(user: user)
                     completionHandler(user, nil)
                 } catch {
@@ -220,8 +223,7 @@ class RestClient {
                     completionHandler(nil, error)
                 }
             })
-            
-            
+                        
             dataTask.resume()
         } catch {
             completionHandler(nil, error)
