@@ -14,7 +14,7 @@ class GameTableViewController: UITableViewController {
     
     @objc func loadGames() {
         
-        Alerts.shared.show(text: "Loading...", delay: 0.5)
+        Alerts.shared.show(text: "Loading...")
         
         let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {

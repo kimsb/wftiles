@@ -20,7 +20,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var remainingLettersLabel: UILabel!
     
     @objc func loadGame() {
-        Alerts.shared.show(text: "Loading...", delay: 0.5)
+        Alerts.shared.show(text: "Loading...")
         guard let game = self.game else {
             print("No game to show")
             return

@@ -125,25 +125,25 @@
 			isa = PBXGroup;
 			children = (
 				F3099C0F20175CBA000AE01A /* AppDelegate.swift */,
-				F3099C1120175CBA000AE01A /* ViewController.swift */,
-				F3099C1320175CBA000AE01A /* Main.storyboard */,
 				F3099C1620175CBB000AE01A /* Assets.xcassets */,
+				F3099C1320175CBA000AE01A /* Main.storyboard */,
 				F3099C1820175CBB000AE01A /* LaunchScreen.storyboard */,
 				F3099C1B20175CBB000AE01A /* Info.plist */,
+				F3099C1120175CBA000AE01A /* ViewController.swift */,
+				F395F5A8201B63F600605A93 /* GameTableViewController.swift */,
+				F395F5AA201D173F00605A93 /* GameViewController.swift */,
+				F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */,
 				F3F6A05B20190DCE00745422 /* RestClient.swift */,
 				F3F6A05D2019CEF400745422 /* Game.swift */,
 				F3F6A05F2019D45800745422 /* Move.swift */,
 				F3F6A0612019D57100745422 /* Player.swift */,
 				F3F6A0652019F66A00745422 /* User.swift */,
-				F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */,
-				F395F5A8201B63F600605A93 /* GameTableViewController.swift */,
-				F395F5AA201D173F00605A93 /* GameViewController.swift */,
 				F395F5AC201EFDF300605A93 /* Constants.swift */,
-				F395F5AE201FA50900605A93 /* wftiles-bridging-header.h */,
-				F395F5AF201FA83C00605A93 /* String+SHA1.swift */,
 				F395F5B1201FBB3300605A93 /* AppData.swift */,
 				F395F5B32020FCEF00605A93 /* Avatar.swift */,
 				F378872A20232BA80080FA40 /* Alerts.swift */,
+				F395F5AF201FA83C00605A93 /* String+SHA1.swift */,
+				F395F5AE201FA50900605A93 /* wftiles-bridging-header.h */,
 			);
 			path = wftiles;
 			sourceTree = "<group>";

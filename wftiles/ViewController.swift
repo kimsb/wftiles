@@ -37,7 +37,7 @@ class ViewController: UIViewController {
     
     func login(loginMethod: String, loginValue: String, password: String) {
         
-        Alerts.shared.show(text: "Logging in...", delay: 0.5)
+        Alerts.shared.show(text: "Logging in...")
         
         let user = RestClient.client.login(loginMethod: loginMethod, loginValue: loginValue, password: password, completionHandler: { (user, errorString) in
             if let errorString = errorString {

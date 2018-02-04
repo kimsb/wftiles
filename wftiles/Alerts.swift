@@ -72,10 +72,10 @@ class Alerts: UIVisualEffectView {
         })
     }
     
-    func show(text: String, delay: Double = 0.0) {
+    func show(text: String) {
         self.hideCalled = false
         self.label.text = text
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if (!self.hideCalled) {
                 self.sinceShown = Date()
                 if !self.activityIndictor.isAnimating {
