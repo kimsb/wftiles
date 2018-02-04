@@ -1,5 +1,5 @@
 //
-//  ProgressHUD.swift
+//  Alerts.swift
 //  wftiles
 //
 //  Created by Kim Stephen Bovim on 01/02/2018.
@@ -9,14 +9,17 @@
 import Foundation
 import UIKit
 
-class ProgressHUD: UIVisualEffectView {
+class Alerts: UIVisualEffectView {
     
-    static let hud = ProgressHUD()
+    static let shared = Alerts()
     
+    private let holdingView = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!.view!
     private let activityIndictor: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     private let label: UILabel = UILabel()
     private let blurEffect = UIBlurEffect(style: .dark)
     private let vibrancyView: UIVisualEffectView
+    private var sinceShown = Date()
+    private var hideCalled = false
     
     private init() {
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
@@ -69,26 +72,49 @@ class ProgressHUD: UIVisualEffectView {
         })
     }
     
-    func show(text: String) {
-        DispatchQueue.main.async(execute: {
-            self.label.text = text
-            if !self.activityIndictor.isAnimating {
-                UIApplication.shared.beginIgnoringInteractionEvents()
-                let appDel = UIApplication.shared.delegate as! AppDelegate
-                let holdingView = appDel.window!.rootViewController!.view!
-                holdingView.addSubview(self)
-                self.activityIndictor.startAnimating()
-                self.isHidden = false
+    func show(text: String, delay: Double = 0.0) {
+        self.hideCalled = false
+        self.label.text = text
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            if (!self.hideCalled) {
+                self.sinceShown = Date()
+                if !self.activityIndictor.isAnimating {
+                    UIApplication.shared.beginIgnoringInteractionEvents()
+                    self.holdingView.addSubview(self)
+                    self.activityIndictor.startAnimating()
+                    self.isHidden = false
+                }
             }
-        })
+        }
     }
     
     func hide() {
-        DispatchQueue.main.async(execute: {
-            self.activityIndictor.stopAnimating()
-            self.isHidden = true
-            self.removeFromSuperview()
-            UIApplication.shared.endIgnoringInteractionEvents()
-        })
+        //DispatchQueue.main.asyncAfter(deadline: .now() + shownSecs) {
+        self.hideCalled = true
+        let shownSecs = max(0.0, 0.5 - (Date().timeIntervalSince(self.sinceShown)))
+        DispatchQueue.main.asyncAfter(deadline: .now() + shownSecs) {
+            if !self.isHidden {
+                self.activityIndictor.stopAnimating()
+                self.isHidden = true
+                self.removeFromSuperview()
+                UIApplication.shared.endIgnoringInteractionEvents()
+            }
+        }
     }
+    
+    func alert(view: UIViewController, title: String, errorString: String) {
+        DispatchQueue.main.async(execute:{
+            self.hide()
+            
+            let refreshAlert = UIAlertController(title: title, message: errorString, preferredStyle: UIAlertControllerStyle.alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                //"Handle Ok logic here"
+            }))
+            
+            view.present(refreshAlert, animated: true, completion: nil)
+        })
+        
+    }
+    
 }

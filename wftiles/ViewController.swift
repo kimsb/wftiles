@@ -37,13 +37,15 @@ class ViewController: UIViewController {
     
     func login(loginMethod: String, loginValue: String, password: String) {
         
-        ProgressHUD.hud.show(text: "Logging in...")
+        Alerts.shared.show(text: "Logging in...", delay: 0.5)
         
-        let user = RestClient.client.login(loginMethod: loginMethod, loginValue: loginValue, password: password, completionHandler: { (user, error) in
-            if let error = error {
+        let user = RestClient.client.login(loginMethod: loginMethod, loginValue: loginValue, password: password, completionHandler: { (user, errorString) in
+            if let errorString = errorString {
                 // got an error in getting the data, need to handle it
-                print("error calling POST for Login")
-                print(error)
+                print("error calling POST for Login (ViewController)")
+                print(errorString)
+                //BØR LEGGE TIL MULIGHET FOR Å HIDE HUD UANSETT OM DET HAR GÅTT TID ELLER IKKE
+                Alerts.shared.alert(view: self, title: "Login failed", errorString: errorString)
                 return
             }
             guard let user = user else {
@@ -58,7 +60,6 @@ class ViewController: UIViewController {
             })
         })
     }
-    
     
     //MARK: Actions
     @IBAction func connectAction(_ sender: UIButton) {

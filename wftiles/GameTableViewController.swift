@@ -14,13 +14,13 @@ class GameTableViewController: UITableViewController {
     
     @objc func loadGames() {
         
-        ProgressHUD.hud.show(text: "Loading...")
+        Alerts.shared.show(text: "Loading...", delay: 0.5)
         
-        let games = RestClient.client.getGames(completionHandler: { (games, error) in
-            if let error = error {
+        let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
+            if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Games")
-                print(error)
+                Alerts.shared.alert(view: self, title: "Loading failed", errorString: errorString)
                 return
             }
             guard let games = games else {
@@ -70,7 +70,7 @@ class GameTableViewController: UITableViewController {
             }
             //ferdig med å hente bilder
             avatarTaskGroup.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: {
-                ProgressHUD.hud.hide()
+                Alerts.shared.hide()
             }))
             
             self.games = games;

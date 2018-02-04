@@ -15,16 +15,19 @@ class RestClient {
     private init() {
     }
     
+    
+    
     struct LoginResponse: Decodable {
         let status: String
         let content: LoginContent
     }
     
     struct LoginContent: Decodable {
-        let username: String
-        let email: String
-        let id: UInt64
-        let avatar_root: String
+        let username: String?
+        let email: String?
+        let id: UInt64?
+        let avatar_root: String?
+        let type: String?
     }
     
     struct GamesResponse: Decodable {
@@ -103,24 +106,31 @@ class RestClient {
         return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset)
     }
     
-    func getGame(id: UInt64, completionHandler: @escaping (Game?, Error?) -> Void) {
+    func getGame(id: UInt64, completionHandler: @escaping (Game?, String?) -> Void) {
         
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/game/\(id)/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 10.0)
+                                          timeoutInterval: 5.0)
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = headers
         
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             
-            guard let responseData = data else {
-                print("Error: did not receive data")
-                completionHandler(nil, error)
+            guard error == nil else {
+                print("error not nil")
+                if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
+                    print("not connected")
+                    completionHandler(nil, "No internet connection")
+                    return
+                }
+                completionHandler(nil, "")
                 return
             }
-            guard error == nil else {
-                completionHandler(nil, error)
+            
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                completionHandler(nil, "")
                 return
             }
             
@@ -134,31 +144,38 @@ class RestClient {
                 
             } catch {
                 print("error trying to convert data to JSON")
-                completionHandler(nil, error)
+                completionHandler(nil, "")
             }
             
         })
         dataTask.resume()
     }
     
-    func getGames(completionHandler: @escaping ([Game]?, Error?) -> Void) {
+    func getGames(completionHandler: @escaping ([Game]?, String?) -> Void) {
         
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/games/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 10.0)
+                                          timeoutInterval: 5.0)
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = headers
         
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             
-            guard let responseData = data else {
-                print("Error: did not receive data")
-                completionHandler(nil, error)
+            guard error == nil else {
+                print("error not nil")
+                if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
+                    print("not connected")
+                    completionHandler(nil, "No internet connection")
+                    return
+                }
+                completionHandler(nil, "")
                 return
             }
-            guard error == nil else {
-                completionHandler(nil, error)
+            
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                completionHandler(nil, "")
                 return
             }
             
@@ -170,7 +187,7 @@ class RestClient {
                 
             } catch {
                 print("error trying to convert data to JSON")
-                completionHandler(nil, error)
+                completionHandler(nil, "")
             }
             
         })
@@ -179,8 +196,7 @@ class RestClient {
     }
     
     //send inn enum med id/email
-    func login(loginMethod: String, loginValue: String, password: String, completionHandler: @escaping (User?, Error?) -> Void)  {
-        
+    func login(loginMethod: String, loginValue: String, password: String, completionHandler: @escaping (User?, String?) -> Void)  {
         let parameters = [
             "password": (password+"JarJarBinks9").sha1!,
             "\(loginMethod)": loginValue
@@ -188,45 +204,61 @@ class RestClient {
         
         do {
             let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-            
-            
             let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/login/" + ("email" == loginMethod ? "email/" : ""))! as URL,
                                               cachePolicy: .useProtocolCachePolicy,
-                                              timeoutInterval: 10.0)
+                                              timeoutInterval: 5.0)
+
             request.httpMethod = "POST"
             request.allHTTPHeaderFields = headers
             request.httpBody = postData as Data
             
-            let session = URLSession.shared
-            let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            let dataTask = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+                
+                guard error == nil else {
+                    print("error not nil")
+                    if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
+                        print("not connected")
+                        completionHandler(nil, "No internet connection")
+                        return
+                    }
+                    completionHandler(nil, "")
+                    return
+                }
                 
                 guard let responseData = data else {
                     print("Error: did not receive data")
-                    completionHandler(nil, error)
-                    return
-                }
-                guard error == nil else {
-                    print("error not nil")
-                    completionHandler(nil, error)
+                    completionHandler(nil, "")
                     return
                 }
                 
                 let decoder = JSONDecoder()
                 do {
                     let loginResponse = try decoder.decode(LoginResponse.self, from: responseData)
-                    let user = User(username: loginResponse.content.username, email: loginResponse.content.email, password: password,
-                                    id: loginResponse.content.id, avatarRoot: loginResponse.content.avatar_root, loginMethod: loginMethod)
+                    if loginResponse.status == "error" {
+                        print("login failed")
+                        switch loginResponse.content.type! {
+                        case "unknown_email":
+                            completionHandler(nil, "Unknown email")
+                        case "unknown_username":
+                            completionHandler(nil, "Unknown username")
+                        default:
+                            completionHandler(nil, "Wrong password")
+                        }
+                        return
+                    }
+                    let user = User(username: loginResponse.content.username!, email: loginResponse.content.email!, password: password,
+                                    id: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root!, loginMethod: loginMethod)
                     AppData.store.setUser(user: user)
                     completionHandler(user, nil)
                 } catch {
                     print("error trying to convert data to JSON")
-                    completionHandler(nil, error)
+                    completionHandler(nil, "")
                 }
             })
                         
             dataTask.resume()
         } catch {
-            completionHandler(nil, error)
+            completionHandler(nil, "")
         }
     }
     
@@ -234,7 +266,7 @@ class RestClient {
         
         let request = NSMutableURLRequest(url: NSURL(string: avatar_url)! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 10.0)
+                                          timeoutInterval: 5.0)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         

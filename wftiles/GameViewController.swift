@@ -20,17 +20,17 @@ class GameViewController: UIViewController {
     @IBOutlet weak var remainingLettersLabel: UILabel!
     
     @objc func loadGame() {
-        ProgressHUD.hud.show(text: "Loading...")
+        Alerts.shared.show(text: "Loading...", delay: 0.5)
         guard let game = self.game else {
             print("No game to show")
             return
         }
         
-        let gameWithTiles = RestClient.client.getGame(id: game.id, completionHandler: { (game, error) in
-            if let error = error {
+        let gameWithTiles = RestClient.client.getGame(id: game.id, completionHandler: { (game, errorString) in
+            if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Game")
-                print(error)
+                Alerts.shared.alert(view: self, title: "Loading failed", errorString: errorString)
                 return
             }
             guard var game = game else {
@@ -81,7 +81,7 @@ class GameViewController: UIViewController {
                     self.lastMoveLabel.text = "No moves made"
                 }
                 self.myLettersLabel.text = "\(sortedRack)"
-                ProgressHUD.hud.hide()
+                Alerts.shared.hide()
             })
         })
     }
