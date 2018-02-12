@@ -22,6 +22,10 @@
 		F395F5B0201FA83C00605A93 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5AF201FA83C00605A93 /* String+SHA1.swift */; };
 		F395F5B2201FBB3300605A93 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5B1201FBB3300605A93 /* AppData.swift */; };
 		F395F5B42020FCEF00605A93 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5B32020FCEF00605A93 /* Avatar.swift */; };
+		F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */; };
+		F3DC0B46202FA9DD00E006F9 /* GameHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */; };
+		F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */; };
+		F3EFD6A1202A352D00169CE8 /* TileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */; };
 		F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05B20190DCE00745422 /* RestClient.swift */; };
 		F3F6A05E2019CEF400745422 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05D2019CEF400745422 /* Game.swift */; };
 		F3F6A0602019D45800745422 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05F2019D45800745422 /* Move.swift */; };
@@ -69,6 +73,10 @@
 		F395F5AF201FA83C00605A93 /* String+SHA1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
 		F395F5B1201FBB3300605A93 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		F395F5B32020FCEF00605A93 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
+		F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionViewController.swift; sourceTree = "<group>"; };
+		F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHeaderView.xib; sourceTree = "<group>"; };
+		F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHeaderView.swift; sourceTree = "<group>"; };
+		F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3F6A05B20190DCE00745422 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		F3F6A05D2019CEF400745422 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		F3F6A05F2019D45800745422 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
@@ -144,6 +152,10 @@
 				F378872A20232BA80080FA40 /* Alerts.swift */,
 				F395F5AF201FA83C00605A93 /* String+SHA1.swift */,
 				F395F5AE201FA50900605A93 /* wftiles-bridging-header.h */,
+				F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */,
+				F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */,
+				F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */,
+				F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */,
 			);
 			path = wftiles;
 			sourceTree = "<group>";
@@ -274,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3099C1A20175CBB000AE01A /* LaunchScreen.storyboard in Resources */,
+				F3DC0B46202FA9DD00E006F9 /* GameHeaderView.xib in Resources */,
 				F3099C1720175CBB000AE01A /* Assets.xcassets in Resources */,
 				F3099C1520175CBB000AE01A /* Main.storyboard in Resources */,
 			);
@@ -309,9 +322,12 @@
 				F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */,
 				F3099C1220175CBA000AE01A /* ViewController.swift in Sources */,
 				F378872B20232BA80080FA40 /* Alerts.swift in Sources */,
+				F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */,
 				F395F5B0201FA83C00605A93 /* String+SHA1.swift in Sources */,
+				F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */,
 				F3F6A0622019D57100745422 /* Player.swift in Sources */,
 				F3F6A0602019D45800745422 /* Move.swift in Sources */,
+				F3EFD6A1202A352D00169CE8 /* TileCollectionViewCell.swift in Sources */,
 				F3099C1020175CBA000AE01A /* AppDelegate.swift in Sources */,
 				F395F5A7201B5E5D00605A93 /* GameTableViewCell.swift in Sources */,
 				F395F5B2201FBB3300605A93 /* AppData.swift in Sources */,

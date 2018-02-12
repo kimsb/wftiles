@@ -8,16 +8,19 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     //MARK: Properties
     var game: Game!
+    var sortedRack = [String]()
+    var sortedRemainingLetters = [String]()
+    
     @IBOutlet weak var opponentImageView: UIImageView!
     @IBOutlet weak var opponentLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var lastMoveLabel: UILabel!
-    @IBOutlet weak var myLettersLabel: UILabel!
-    @IBOutlet weak var remainingLettersLabel: UILabel!
+    @IBOutlet weak var rackCollectionView: UICollectionView!
+    @IBOutlet weak var remainingTilesCollectionView: UICollectionView!
     
     @objc func loadGame() {
         Alerts.shared.show(text: "Loading...")
@@ -40,7 +43,6 @@ class GameViewController: UIViewController {
             // success :)
             let language = Constants.letters.languages[game.ruleset]
             var letterCount = Constants.letters.counts[game.ruleset]
-            let letterScore = Constants.letters.points[game.ruleset]
             //find remaining letters
             if let rack = game.player.rack {
                 for letter in rack {
@@ -61,17 +63,17 @@ class GameViewController: UIViewController {
                 }
             }
             let locale = Locale(identifier: Constants.letters.locales[game.ruleset])
-            let sortedRack = game.player.rack!.sorted {
+            self.sortedRack = game.player.rack!.sorted {
                 $0.compare($1, locale: locale) == .orderedAscending
             }
-            let sortedRemainingLetters = remainingLetters.sorted {
+            self.sortedRemainingLetters = remainingLetters.sorted {
                 $0.compare($1, locale: locale) == .orderedAscending
             }
                         
             self.game = game
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
-                self.remainingLettersLabel.text = "\(sortedRemainingLetters)"
+                //self.remainingLettersLabel.text = "\(sortedRemainingLetters)"
                 self.opponentImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
                 self.opponentLabel.text = game.opponent.username
                 self.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
@@ -80,7 +82,9 @@ class GameViewController: UIViewController {
                 } else {
                     self.lastMoveLabel.text = "No moves made"
                 }
-                self.myLettersLabel.text = "\(sortedRack)"
+                //self.myLettersLabel.text = "\(sortedRack)"
+                self.rackCollectionView.reloadData()
+                self.remainingTilesCollectionView.reloadData()
                 Alerts.shared.hide()
             })
         })
@@ -126,4 +130,31 @@ class GameViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == self.rackCollectionView {
+            return sortedRack.count
+        }
+        return sortedRemainingLetters.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let reuseIdentifier = "TileCollectionViewCell"
+        // get a reference to our storyboard cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! TileCollectionViewCell
+
+        // Use the outlet in our custom class to get a reference to the UILabel in the cell
+        if collectionView == self.rackCollectionView {
+            cell.letterLabel.text = self.sortedRack[indexPath.item]
+            cell.scoreLabel.text = String(describing: Constants.letters.points[game.ruleset][self.sortedRack[indexPath.item]]!)
+        } else if collectionView == self.remainingTilesCollectionView {
+            cell.letterLabel.text = self.sortedRemainingLetters[indexPath.item]
+            cell.scoreLabel.text = String(describing: Constants.letters.points[game.ruleset][self.sortedRemainingLetters[indexPath.item]]!)
+        }
+        
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 4
+        return cell
+    }
 }
