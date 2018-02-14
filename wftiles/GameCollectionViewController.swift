@@ -10,13 +10,18 @@ import UIKit
 
 private let reuseIdentifier = "TileCollectionViewCell"
 
-class GameCollectionViewController: UICollectionViewController {
+class GameCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     //MARK: Properties
     @IBOutlet var gameCollectionView: UICollectionView!
     var game: Game!
     var sortedRack = [String]()
     var sortedRemainingLetters = [String]()
+    var showSummary = true
+    var letterCount = [String:Int]()
+    
+    //dette må gjøres penere
+    private let norwegianLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "V", "W", "Y", "Æ", "Ø", "Å", ""]
     
     @objc func loadGame() {
         Alerts.shared.show(text: "Loading...")
@@ -50,6 +55,10 @@ class GameCollectionViewController: UICollectionViewController {
                     letterCount[letter]! -= 1
                 }
             }
+            
+            //for visning av summary
+            self.letterCount = letterCount
+            
             //letterCount now holds count of remaining letters
             //call method for showing tiles in prefered fashion (now shown as all letters left)
             var remainingLetters = [String]()
@@ -107,9 +116,11 @@ class GameCollectionViewController: UICollectionViewController {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        let nib = UINib(nibName: "GameHeaderView", bundle: nil)
-        self.gameCollectionView.register(nib, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView")
+        let headerNib = UINib(nibName: "GameHeaderView", bundle: nil)
+        self.gameCollectionView.register(headerNib, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView")
         
+        let summaryCellNib = UINib(nibName: "TileSummaryCollectionViewCell", bundle: nil)
+        self.gameCollectionView.register(summaryCellNib, forCellWithReuseIdentifier: "TileSummaryCollectionViewCell")
         
         // Do any additional setup after loading the view.
     }
@@ -172,7 +183,15 @@ class GameCollectionViewController: UICollectionViewController {
             return reusableview
         }
     }
-
+    
+    //for å sette str på cell
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if showSummary && indexPath.section == 2 {
+            return CGSize(width: 80, height: 40)
+        }
+        return CGSize(width: 40, height: 40)
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return 0
@@ -180,10 +199,35 @@ class GameCollectionViewController: UICollectionViewController {
         if section == 1 {
             return sortedRack.count
         }
+        
+        //TEST
+        if (showSummary) {
+            return norwegianLetters.count
+        }
         return sortedRemainingLetters.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if showSummary && indexPath.section == 2 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TileSummaryCollectionViewCell", for: indexPath as IndexPath) as! TileSummaryCollectionViewCell
+            cell.tileLetterLabel.text = self.norwegianLetters[indexPath.item]
+            let score = Constants.letters.points[game.ruleset][cell.tileLetterLabel.text!]!
+            cell.tileScoreLabel.text = score > 0 ? String(describing: score) : ""
+            cell.tileView.layer.borderColor = UIColor.black.cgColor
+            cell.tileView.layer.borderWidth = 1
+            cell.tileView.layer.cornerRadius = 4
+            
+            let count = self.letterCount[cell.tileLetterLabel.text!]
+            if count == nil {
+                cell.letterCountLabel.text = "0"
+            } else {
+                cell.letterCountLabel.text = "\(count!)"
+            }
+            
+            return cell
+        }
+        
         // get a reference to our storyboard cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! TileCollectionViewCell
         
