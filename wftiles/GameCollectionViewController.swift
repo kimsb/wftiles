@@ -161,7 +161,14 @@ class GameCollectionViewController: UICollectionViewController {
             
             return reusableview
         } else {
-            let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "tileHeader", for: indexPath)
+            let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "TileHeaderView", for: indexPath) as! TileHeaderView
+            
+            if indexPath.section == 1 {
+                reusableview.headerLabel.text = "My letters"
+            } else {
+                reusableview.headerLabel.text = "Remaining letters"
+            }
+            
             return reusableview
         }
     }
@@ -183,12 +190,11 @@ class GameCollectionViewController: UICollectionViewController {
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         if indexPath.section == 1 {
             cell.letterLabel.text = self.sortedRack[indexPath.item]
-            cell.scoreLabel.text = String(describing: Constants.letters.points[game.ruleset][self.sortedRack[indexPath.item]]!)
         } else {
             cell.letterLabel.text = self.sortedRemainingLetters[indexPath.item]
-            cell.scoreLabel.text = String(describing: Constants.letters.points[game.ruleset][self.sortedRemainingLetters[indexPath.item]]!)
         }
-        
+        let score = Constants.letters.points[game.ruleset][cell.letterLabel.text!]!
+        cell.scoreLabel.text = score > 0 ? String(describing: score) : ""
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 4

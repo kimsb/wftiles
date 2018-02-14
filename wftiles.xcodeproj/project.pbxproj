@@ -14,6 +14,7 @@
 		F3099C1A20175CBB000AE01A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3099C1820175CBB000AE01A /* LaunchScreen.storyboard */; };
 		F3099C2520175CBB000AE01A /* wftilesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3099C2420175CBB000AE01A /* wftilesTests.swift */; };
 		F3099C3020175CBB000AE01A /* wftilesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3099C2F20175CBB000AE01A /* wftilesUITests.swift */; };
+		F330F40320339906003A2872 /* TableHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F330F40220339906003A2872 /* TableHeaderCell.swift */; };
 		F378872B20232BA80080FA40 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F378872A20232BA80080FA40 /* Alerts.swift */; };
 		F395F5A7201B5E5D00605A93 /* GameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */; };
 		F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A8201B63F600605A93 /* GameTableViewController.swift */; };
@@ -26,6 +27,7 @@
 		F3DC0B46202FA9DD00E006F9 /* GameHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */; };
 		F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */; };
 		F3EFD6A1202A352D00169CE8 /* TileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */; };
+		F3F6150220336CB6005D58E2 /* TileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6150120336CB6005D58E2 /* TileHeaderView.swift */; };
 		F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05B20190DCE00745422 /* RestClient.swift */; };
 		F3F6A05E2019CEF400745422 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05D2019CEF400745422 /* Game.swift */; };
 		F3F6A0602019D45800745422 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05F2019D45800745422 /* Move.swift */; };
@@ -64,6 +66,7 @@
 		F3099C2B20175CBB000AE01A /* wftilesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wftilesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3099C2F20175CBB000AE01A /* wftilesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wftilesUITests.swift; sourceTree = "<group>"; };
 		F3099C3120175CBB000AE01A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F330F40220339906003A2872 /* TableHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderCell.swift; sourceTree = "<group>"; };
 		F378872A20232BA80080FA40 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewCell.swift; sourceTree = "<group>"; };
 		F395F5A8201B63F600605A93 /* GameTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +80,7 @@
 		F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHeaderView.xib; sourceTree = "<group>"; };
 		F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHeaderView.swift; sourceTree = "<group>"; };
 		F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileCollectionViewCell.swift; sourceTree = "<group>"; };
+		F3F6150120336CB6005D58E2 /* TileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileHeaderView.swift; sourceTree = "<group>"; };
 		F3F6A05B20190DCE00745422 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
 		F3F6A05D2019CEF400745422 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		F3F6A05F2019D45800745422 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 				F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */,
 				F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */,
 				F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */,
+				F3F6150120336CB6005D58E2 /* TileHeaderView.swift */,
+				F330F40220339906003A2872 /* TableHeaderCell.swift */,
 			);
 			path = wftiles;
 			sourceTree = "<group>";
@@ -314,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F395F5AB201D173F00605A93 /* GameViewController.swift in Sources */,
+				F330F40320339906003A2872 /* TableHeaderCell.swift in Sources */,
 				F395F5AD201EFDF300605A93 /* Constants.swift in Sources */,
 				F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */,
 				F3F6A0662019F66A00745422 /* User.swift in Sources */,
@@ -328,6 +335,7 @@
 				F3F6A0622019D57100745422 /* Player.swift in Sources */,
 				F3F6A0602019D45800745422 /* Move.swift in Sources */,
 				F3EFD6A1202A352D00169CE8 /* TileCollectionViewCell.swift in Sources */,
+				F3F6150220336CB6005D58E2 /* TileHeaderView.swift in Sources */,
 				F3099C1020175CBA000AE01A /* AppDelegate.swift in Sources */,
 				F395F5A7201B5E5D00605A93 /* GameTableViewCell.swift in Sources */,
 				F395F5B2201FBB3300605A93 /* AppData.swift in Sources */,

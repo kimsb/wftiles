@@ -10,7 +10,7 @@ import UIKit
 
 class GameTableViewController: UITableViewController {
     //MARK: Properties
-    var games = [Game]()
+    var games = Array(repeating: [Game](), count: 3)
     
     @objc func loadGames() {
         
@@ -28,6 +28,18 @@ class GameTableViewController: UITableViewController {
                 return
             }
             // success :)
+            self.games = Array(repeating: [Game](), count: 3)
+            for game in games {
+                if !game.isRunning {
+                    self.games[2].append(game)
+                } else {
+                    if game.playersTurn {
+                        self.games[0].append(game)
+                    } else {
+                        self.games[1].append(game)
+                    }
+                }
+            }
             
             //hente bilder for alle spillere:
             var opponentInfo = [UInt64:UInt64]()
@@ -43,29 +55,33 @@ class GameTableViewController: UITableViewController {
             for opponentId in opponentInfo.keys {
                 
                 avatarTaskGroup.enter()
-                    let avatar_data = RestClient.client.getAvatar(avatar_url: "https://avatars-wordfeud-com.s3.amazonaws.com/60/\(opponentId)", completionHandler: { (avatar_data, error) in
-                        if let error = error {
-                            // got an error in getting the data, need to handle it
-                            print("error calling GET for avatar")
-                            print(error)
-                            return
-                        }
-                        guard let avatar_data = avatar_data else {
-                            print("error getting avatar: result is nil")
-                            return
-                        }
-                        // success :)
-                        AppData.store.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!))
-                        for (index, game) in games.enumerated() {
-                            if game.opponent.id == opponentId {
+                let avatar_data = RestClient.client.getAvatar(avatar_url: "https://avatars-wordfeud-com.s3.amazonaws.com/60/\(opponentId)", completionHandler: { (avatar_data, error) in
+                    if let error = error {
+                        // got an error in getting the data, need to handle it
+                        print("error calling GET for avatar")
+                        print(error)
+                        return
+                    }
+                    guard let avatar_data = avatar_data else {
+                        print("error getting avatar: result is nil")
+                        return
+                    }
+                    // success :)
+                    AppData.store.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!))
+                    
+                    for section in 0 ..< self.games.count {
+                        for row in 0 ..< self.games[section].count {
+                            if self.games[section][row].opponent.id == opponentId {
                                 DispatchQueue.main.async(execute: {
                                     //perform all UI stuff here
-                                    self.tableView.reloadRows(at: [IndexPath(item: index, section: 0)], with: UITableViewRowAnimation.none)
+                                    self.tableView.reloadRows(at: [IndexPath(item: row, section: section)], with: UITableViewRowAnimation.none)
                                 })
                             }
                         }
-                        avatarTaskGroup.leave()
-                    })
+                    }
+                    
+                    avatarTaskGroup.leave()
+                })
                 
             }
             //ferdig med å hente bilder
@@ -73,7 +89,6 @@ class GameTableViewController: UITableViewController {
                 Alerts.shared.hide()
             }))
             
-            self.games = games;
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
                 self.tableView.reloadData()
@@ -97,26 +112,26 @@ class GameTableViewController: UITableViewController {
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return games.count
     }
-
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return games[section].count
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "GameTableViewCell"
@@ -124,7 +139,8 @@ class GameTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of GameTableViewCell.")
         }
         // Fetches the appropriate game for the data source layout.
-        let game = games[indexPath.row]
+        //let game = games[indexPath.row]
+        let game = games[indexPath.section][indexPath.row]
         
         if let avatar = AppData.store.getAvatar(id: game.opponent.id) {
             cell.opponentImageView.image = avatar.image
@@ -138,58 +154,40 @@ class GameTableViewController: UITableViewController {
         }
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let header = tableView.dequeueReusableCell(withIdentifier: "TableHeaderCell") as! TableHeaderCell
+        if section == 0 {
+            header.headerLabel.text = "Your turn"
+        } else if section == 1 {
+            header.headerLabel.text = "Opponents turn"
+        } else {
+            header.headerLabel.text = "Finished games"
+        }
+        header.backgroundColor = UIColor.white
+        
+        return header
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return games[section].count > 0 ? 40 : 0
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         guard let destination = segue.destination as? GameCollectionViewController,
-            let gameIndex = tableView.indexPathForSelectedRow?.row else {
+            let gameIndexPath = tableView.indexPathForSelectedRow else {
                 print("prepare failed")
                 return
         }
         // Pass the selected object to the new view controller.
-        
-        destination.game = games[gameIndex]
+        destination.game = games[gameIndexPath.section][gameIndexPath.row]
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }
