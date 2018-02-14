@@ -116,9 +116,18 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Diff" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xzy-ev-XHc">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="27"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="0.93933498859405518" green="0.93553417921066284" blue="0.11563283950090408" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="diffLabel" destination="xzy-ev-XHc" id="xfI-xg-YPl"/>
                                     <outlet property="lastMoveLabel" destination="Ahv-M0-pvl" id="gMS-r5-nDa"/>
                                     <outlet property="opponentImageView" destination="0XK-sB-T4h" id="2kW-vA-Fb1"/>
                                     <outlet property="opponentLabel" destination="xt9-QS-GNw" id="Caz-qB-Yd4"/>
@@ -269,7 +278,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="BqB-zE-mcS"/>
+        <segue reference="ve4-hA-39b"/>
         <segue reference="7aM-20-DwJ"/>
     </inferredMetricsTieBreakers>
 </document>

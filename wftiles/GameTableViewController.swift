@@ -152,6 +152,14 @@ class GameTableViewController: UITableViewController {
         } else {
             cell.lastMoveLabel.text = "No moves made"
         }
+        let diff = game.player.score - game.opponent.score
+        if (diff != 0) {
+            cell.diffLabel.backgroundColor = diff > 0 ? UIColor.green : UIColor.red
+        }
+        cell.diffLabel.text = " \(diff > 0 ? "+" : "")\(diff) "
+        cell.diffLabel.layer.cornerRadius = 6
+        cell.diffLabel.layer.masksToBounds = true
+        cell.diffLabel.sizeToFit()
         return cell
     }
     
