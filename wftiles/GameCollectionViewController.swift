@@ -10,18 +10,14 @@ import UIKit
 
 private let reuseIdentifier = "TileCollectionViewCell"
 
-class GameCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class GameCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate {
 
     //MARK: Properties
     @IBOutlet var gameCollectionView: UICollectionView!
     var game: Game!
     var sortedRack = [String]()
-    var sortedRemainingLetters = [String]()
-    var showSummary = true
+    var remainingLetters = [String]()
     var letterCount = [String:Int]()
-    
-    //dette må gjøres penere
-    private let norwegianLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "V", "W", "Y", "Æ", "Ø", "Å", ""]
     
     @objc func loadGame() {
         Alerts.shared.show(text: "Loading...")
@@ -42,54 +38,36 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
                 return
             }
             // success :)
-            let language = Constants.letters.languages[game.ruleset]
-            var letterCount = Constants.letters.counts[game.ruleset]
+            
+            //Bør sjekke om det er nye data, ellers bruke samme som sist.
+            //og lagre tiles hvis man går ut av game, så man kan vise det samme igjen neste gang
+            
+            let language = Constants.tiles.languages[game.ruleset]
+            self.letterCount = Constants.tiles.counts[game.ruleset]
             //find remaining letters
             if let rack = game.player.rack {
                 for letter in rack {
-                    letterCount[letter]! -= 1
+                    self.letterCount[letter]! -= 1
                 }
             }
             if let usedLetters = game.usedLetters {
                 for letter in usedLetters {
-                    letterCount[letter]! -= 1
+                    self.letterCount[letter]! -= 1
                 }
             }
-            
-            //for visning av summary
-            self.letterCount = letterCount
             
             //letterCount now holds count of remaining letters
-            //call method for showing tiles in prefered fashion (now shown as all letters left)
-            var remainingLetters = [String]()
-            for (letter, count) in letterCount {
-                for _ in 0..<count {
-                    remainingLetters.append(letter)
-                }
-            }
-            let locale = Locale(identifier: Constants.letters.locales[game.ruleset])
+            self.updateRemaingLetters()
+            
+            //sort rack alphabetically
+            //skal dette også følge vokal/konsonant?
+            let locale = Locale(identifier: Constants.tiles.locales[game.ruleset])
             self.sortedRack = game.player.rack!.sorted {
-                $0.compare($1, locale: locale) == .orderedAscending
-            }
-            self.sortedRemainingLetters = remainingLetters.sorted {
                 $0.compare($1, locale: locale) == .orderedAscending
             }
             
             self.game = game
             DispatchQueue.main.async(execute: {
-                //perform all UI stuff here
-                //self.remainingLettersLabel.text = "\(sortedRemainingLetters)"
-                /*self.opponentImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
-                self.opponentLabel.text = game.opponent.username
-                self.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
-                if let lastMove = game.lastMove {
-                    self.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
-                } else {
-                    self.lastMoveLabel.text = "No moves made"
-                }*/
-                //self.myLettersLabel.text = "\(sortedRack)"
-                //self.rackCollectionView.reloadData()
-                //self.remainingTilesCollectionView.reloadData()
                 self.gameCollectionView.reloadData()
                 Alerts.shared.hide()
             })
@@ -186,7 +164,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     
     //for å sette str på cell
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if showSummary && indexPath.section == 2 {
+        if AppData.store.showSummary() && indexPath.section == 2 {
             return CGSize(width: 80, height: 40)
         }
         return CGSize(width: 40, height: 40)
@@ -199,20 +177,19 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         if section == 1 {
             return sortedRack.count
         }
-        
-        //TEST
-        if (showSummary) {
-            return norwegianLetters.count
+
+        if (AppData.store.showSummary()) {
+            return Constants.tiles.letters(ruleset: game.ruleset).count
         }
-        return sortedRemainingLetters.count
+        return remainingLetters.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if showSummary && indexPath.section == 2 {
+        if AppData.store.showSummary() && indexPath.section == 2 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TileSummaryCollectionViewCell", for: indexPath as IndexPath) as! TileSummaryCollectionViewCell
-            cell.tileLetterLabel.text = self.norwegianLetters[indexPath.item]
-            let score = Constants.letters.points[game.ruleset][cell.tileLetterLabel.text!]!
+            cell.tileLetterLabel.text = Constants.tiles.letters(ruleset: game.ruleset)[indexPath.item]
+            let score = Constants.tiles.points[game.ruleset][cell.tileLetterLabel.text!]!
             cell.tileScoreLabel.text = score > 0 ? String(describing: score) : ""
             cell.tileView.layer.borderColor = UIColor.black.cgColor
             cell.tileView.layer.borderWidth = 1
@@ -235,9 +212,9 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         if indexPath.section == 1 {
             cell.letterLabel.text = self.sortedRack[indexPath.item]
         } else {
-            cell.letterLabel.text = self.sortedRemainingLetters[indexPath.item]
+            cell.letterLabel.text = self.remainingLetters[indexPath.item]
         }
-        let score = Constants.letters.points[game.ruleset][cell.letterLabel.text!]!
+        let score = Constants.tiles.points[game.ruleset][cell.letterLabel.text!]!
         cell.scoreLabel.text = score > 0 ? String(describing: score) : ""
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 1
@@ -276,4 +253,39 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     }
     */
 
+    @IBAction func popoverAction(_ sender: Any) {
+        self.performSegue(withIdentifier: "popover", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "popover" {
+            let destination = segue.destination
+            if let popover = destination.popoverPresentationController {
+                popover.delegate = self
+            }
+        }
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    func viewSwitchChangedValue() {
+        self.gameCollectionView.reloadData()
+    }
+    
+    func sortSwitchChangedValue() {
+        updateRemaingLetters()
+        self.gameCollectionView.reloadData()
+    }
+    
+    private func updateRemaingLetters() {
+        remainingLetters = []
+        for letter in Constants.tiles.letters(ruleset: game.ruleset) {
+            for _ in 0..<self.letterCount[letter]! {
+                remainingLetters.append(letter)
+            }
+        }
+    }
+    
 }

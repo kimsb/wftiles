@@ -31,8 +31,45 @@ class AppData {
         saveUser()
     }
     
+    func showSummary() -> Bool {
+        guard let preferences = preferences else {
+            return false
+        }
+        return preferences.showSummary
+    }
+    
+    func setShowSummary(showSummary: Bool) {
+        preferences = Preferences(showSummary: showSummary, sortByVowels: sortByVowels())
+        savePreferences()
+    }
+    
+    func sortByVowels() -> Bool {
+        guard let preferences = preferences else {
+            return false
+        }
+        return preferences.sortByVowels
+    }
+    
+    func setSortByVowels(sortByVowels: Bool) {
+        preferences = Preferences(showSummary: showSummary(), sortByVowels: sortByVowels)
+        savePreferences()
+    }
+    
+    private var preferences: Preferences?
     private var user: User?
-    private var avatars: [UInt64:Avatar] // = [UInt64:Avatar]()
+    private var avatars: [UInt64:Avatar]
+    
+    private func savePreferences() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(preferences!, toFile: Preferences.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Preferences successfully saved.", log: OSLog.default, type: .debug)
+            
+            print("preferences showSummary: \(preferences!.showSummary), sortByVowels: \(preferences!.sortByVowels)")
+            
+        } else {
+            os_log("Failed to save preferences...", log: OSLog.default, type: .error)
+        }
+    }
     
     private func saveUser() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(user!, toFile: User.ArchiveURL.path)
@@ -53,6 +90,14 @@ class AppData {
     }
     
     private init() {
+        let loadedPreferences = NSKeyedUnarchiver.unarchiveObject(withFile: Preferences.ArchiveURL.path) as? Preferences
+        if loadedPreferences == nil {
+            os_log("No preferences loaded", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Preferences successfully loaded.", log: OSLog.default, type: .debug)
+        }
+        preferences = loadedPreferences
+        
         let loadedUser = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
         if loadedUser == nil {
             os_log("No user loaded", log: OSLog.default, type: .debug)

@@ -41,8 +41,8 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 return
             }
             // success :)
-            let language = Constants.letters.languages[game.ruleset]
-            var letterCount = Constants.letters.counts[game.ruleset]
+            let language = Constants.tiles.languages[game.ruleset]
+            var letterCount = Constants.tiles.counts[game.ruleset]
             //find remaining letters
             if let rack = game.player.rack {
                 for letter in rack {
@@ -62,7 +62,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     remainingLetters.append(letter)
                 }
             }
-            let locale = Locale(identifier: Constants.letters.locales[game.ruleset])
+            let locale = Locale(identifier: Constants.tiles.locales[game.ruleset])
             self.sortedRack = game.player.rack!.sorted {
                 $0.compare($1, locale: locale) == .orderedAscending
             }
@@ -146,10 +146,10 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         if collectionView == self.rackCollectionView {
             cell.letterLabel.text = self.sortedRack[indexPath.item]
-            cell.scoreLabel.text = String(describing: Constants.letters.points[game.ruleset][self.sortedRack[indexPath.item]]!)
+            cell.scoreLabel.text = String(describing: Constants.tiles.points[game.ruleset][self.sortedRack[indexPath.item]]!)
         } else if collectionView == self.remainingTilesCollectionView {
             cell.letterLabel.text = self.sortedRemainingLetters[indexPath.item]
-            cell.scoreLabel.text = String(describing: Constants.letters.points[game.ruleset][self.sortedRemainingLetters[indexPath.item]]!)
+            cell.scoreLabel.text = String(describing: Constants.tiles.points[game.ruleset][self.sortedRemainingLetters[indexPath.item]]!)
         }
         
         cell.layer.borderColor = UIColor.black.cgColor

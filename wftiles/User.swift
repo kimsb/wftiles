@@ -82,5 +82,6 @@ class User: NSObject, NSCoding {
         }
         
         self.init(username: username, email: email, password: password, id: id, avatarRoot: avatarRoot, loginMethod:loginMethod)
+        
     }
 }

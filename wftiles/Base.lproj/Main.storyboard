@@ -213,7 +213,23 @@
                             <outlet property="delegate" destination="IPS-nf-jPK" id="CnX-A7-Dev"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="nwg-k8-f1K"/>
+                    <navigationItem key="navigationItem" id="nwg-k8-f1K">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="l62-a8-1Ak">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FCu-Mz-w6U">
+                                <rect key="frame" x="276" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="popoverAction:" destination="IPS-nf-jPK" eventType="touchUpInside" id="571-V5-ZL2"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <segue destination="SMD-Kj-WCu" kind="popoverPresentation" identifier="popover" popoverAnchorBarButtonItem="l62-a8-1Ak" id="iQj-51-4OP">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="gameCollectionView" destination="pyC-6q-iau" id="jwi-LK-ckl"/>
                     </connections>
@@ -221,6 +237,73 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cfh-Gc-TwB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3364" y="31.934032983508249"/>
+        </scene>
+        <!--Popover Controller-->
+        <scene sceneID="Oi5-ry-p9d">
+            <objects>
+                <viewController modalPresentationStyle="currentContext" id="SMD-Kj-WCu" customClass="PopoverController" customModule="wftiles" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="XzJ-eE-Nas">
+                        <rect key="frame" x="0.0" y="0.0" width="330" height="120"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lyp-ye-wQ3">
+                                <rect key="frame" x="127" y="20" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <color key="onTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="viewSwitchChangedValue:" destination="SMD-Kj-WCu" eventType="valueChanged" id="k1h-WF-iG9"/>
+                                </connections>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WNO-dx-6ds">
+                                <rect key="frame" x="127" y="67" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <action selector="sortSwitchChangedValue:" destination="SMD-Kj-WCu" eventType="valueChanged" id="zIs-BV-PT1"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Klassisk" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1x0-P8-vzd">
+                                <rect key="frame" x="17" y="25" width="102" height="21"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sammendrag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="486-oY-VSo">
+                                <rect key="frame" x="184" y="25" width="116" height="21"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alfabetisk" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAw-zx-Qez">
+                                <rect key="frame" x="12" y="72" width="107" height="21"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vokal/konsonant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzD-s4-3TT">
+                                <rect key="frame" x="184" y="72" width="127" height="21"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="wgt-82-m29"/>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="330" height="120"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="330" height="120"/>
+                    <connections>
+                        <outlet property="sortSwitch" destination="WNO-dx-6ds" id="5EY-wS-lhs"/>
+                        <outlet property="viewSwitch" destination="lyp-ye-wQ3" id="PoD-nY-raL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pvY-hb-MGj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4109.6000000000004" y="31.934032983508249"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zNB-3o-jCv">
@@ -279,6 +362,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ve4-hA-39b"/>
-        <segue reference="7aM-20-DwJ"/>
+        <segue reference="NcM-BX-w0F"/>
     </inferredMetricsTieBreakers>
 </document>
