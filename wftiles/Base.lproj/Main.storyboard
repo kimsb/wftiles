@@ -225,7 +225,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" id="MOx-XT-cKN">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3" minimumInteritemSpacing="3" sectionInsetReference="safeArea" id="MOx-XT-cKN">
                             <size key="itemSize" width="40" height="40"/>
                             <size key="headerReferenceSize" width="50" height="50"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -239,16 +239,14 @@
                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMU-6V-BLz">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMU-6V-BLz">
                                             <rect key="frame" x="24" y="0.0" width="16" height="16"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0F4-hA-lHI">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0F4-hA-lHI">
                                             <rect key="frame" x="1" y="6" width="38" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -256,24 +254,39 @@
                                     </subviews>
                                 </view>
                                 <color key="backgroundColor" red="0.98431372549019602" green="0.98431372549019602" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottomMargin" secondItem="iMU-6V-BLz" secondAttribute="bottom" constant="16" id="9ms-L6-ltl"/>
+                                    <constraint firstItem="iMU-6V-BLz" firstAttribute="leading" secondItem="Xe4-W3-YiY" secondAttribute="leadingMargin" constant="16" id="L5Q-Uw-Yn5"/>
+                                    <constraint firstAttribute="trailing" secondItem="iMU-6V-BLz" secondAttribute="trailing" id="VPa-5M-8PZ"/>
+                                    <constraint firstItem="0F4-hA-lHI" firstAttribute="centerX" secondItem="Xe4-W3-YiY" secondAttribute="centerX" id="fF1-0P-Lbp"/>
+                                    <constraint firstItem="0F4-hA-lHI" firstAttribute="top" secondItem="Xe4-W3-YiY" secondAttribute="topMargin" constant="-2" id="kwY-Nl-PPc"/>
+                                    <constraint firstItem="iMU-6V-BLz" firstAttribute="top" secondItem="Xe4-W3-YiY" secondAttribute="top" id="lav-b7-QXF"/>
+                                    <constraint firstItem="0F4-hA-lHI" firstAttribute="leading" secondItem="Xe4-W3-YiY" secondAttribute="leadingMargin" constant="-7" id="pH1-y0-V8f"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="0F4-hA-lHI" secondAttribute="bottom" constant="-5" id="wtX-Px-GWi"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="letterLabel" destination="0F4-hA-lHI" id="y6h-1H-3jS"/>
                                     <outlet property="scoreLabel" destination="iMU-6V-BLz" id="Qv5-eI-MiM"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="TileHeaderView" id="glo-0d-bZA" customClass="TileHeaderView" customModule="wftiles" customModuleProvider="target">
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TileHeaderView" id="glo-0d-bZA" customClass="TileHeaderView" customModule="wftiles" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7C2-9v-N7B">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7C2-9v-N7B">
                                     <rect key="frame" x="8" y="15" width="359" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
+                            <constraints>
+                                <constraint firstItem="7C2-9v-N7B" firstAttribute="leading" secondItem="glo-0d-bZA" secondAttribute="leadingMargin" id="4Ad-8s-KKG"/>
+                                <constraint firstItem="7C2-9v-N7B" firstAttribute="top" secondItem="glo-0d-bZA" secondAttribute="topMargin" constant="7" id="BXq-sR-w5J"/>
+                                <constraint firstItem="7C2-9v-N7B" firstAttribute="centerX" secondItem="glo-0d-bZA" secondAttribute="centerX" id="b45-Pa-p89"/>
+                                <constraint firstItem="7C2-9v-N7B" firstAttribute="centerY" secondItem="glo-0d-bZA" secondAttribute="centerY" id="n9r-09-8im"/>
+                            </constraints>
                             <connections>
                                 <outlet property="headerLabel" destination="7C2-9v-N7B" id="4Xz-D9-vYA"/>
                             </connections>
