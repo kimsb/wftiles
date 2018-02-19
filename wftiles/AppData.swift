@@ -60,57 +60,24 @@ class AppData {
     private var avatars: [UInt64:Avatar]
     
     private func savePreferences() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(preferences!, toFile: Preferences.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("Preferences successfully saved.", log: OSLog.default, type: .debug)
-            
-            print("preferences showSummary: \(preferences!.showSummary), sortByVowels: \(preferences!.sortByVowels)")
-            
-        } else {
-            os_log("Failed to save preferences...", log: OSLog.default, type: .error)
-        }
+        NSKeyedArchiver.archiveRootObject(preferences!, toFile: Preferences.ArchiveURL.path)
     }
     
     private func saveUser() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(user!, toFile: User.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("User successfully saved.", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Failed to save user...", log: OSLog.default, type: .error)
-        }
+        NSKeyedArchiver.archiveRootObject(user!, toFile: User.ArchiveURL.path)
     }
     
     private func saveAvatars() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(avatars, toFile: Avatar.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("Avatars successfully saved.", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Failed to save avatars...", log: OSLog.default, type: .error)
-        }
+        NSKeyedArchiver.archiveRootObject(avatars, toFile: Avatar.ArchiveURL.path)
     }
     
     private init() {
-        let loadedPreferences = NSKeyedUnarchiver.unarchiveObject(withFile: Preferences.ArchiveURL.path) as? Preferences
-        if loadedPreferences == nil {
-            os_log("No preferences loaded", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Preferences successfully loaded.", log: OSLog.default, type: .debug)
-        }
-        preferences = loadedPreferences
-        
-        let loadedUser = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
-        if loadedUser == nil {
-            os_log("No user loaded", log: OSLog.default, type: .debug)
-        } else {
-            os_log("User successfully loaded.", log: OSLog.default, type: .debug)
-        }
-        user = loadedUser
+        preferences = NSKeyedUnarchiver.unarchiveObject(withFile: Preferences.ArchiveURL.path) as? Preferences
+        user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
         
         if let loadedAvatars = NSKeyedUnarchiver.unarchiveObject(withFile: Avatar.ArchiveURL.path) as? [UInt64:Avatar] {
-            os_log("Avatars successfully loaded.", log: OSLog.default, type: .debug)
             avatars = loadedAvatars
         } else {
-            os_log("No avatars loaded", log: OSLog.default, type: .debug)
             avatars = [UInt64:Avatar]()
         }
     }

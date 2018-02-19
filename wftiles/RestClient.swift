@@ -57,6 +57,7 @@ class RestClient {
         let players: [Player]
         let ruleset: Int
         let current_player: Int
+        let updated: UInt64
     }
     
     enum TileEnum: Decodable {
@@ -106,7 +107,7 @@ class RestClient {
             letters = tiles.map(self.enumToLetter)
         }
         
-        return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset, playersTurn: playersTurn)
+        return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset, playersTurn: playersTurn, updated: gameDecoder.updated)
     }
     
     func getGame(id: UInt64, completionHandler: @escaping (Game?, String?) -> Void) {
@@ -265,9 +266,9 @@ class RestClient {
         }
     }
     
-    func getAvatar(avatar_url: String, completionHandler: @escaping (Data?, Error?) -> Void) {
+    func getAvatar(opponentId: UInt64, completionHandler: @escaping (Data?, Error?) -> Void) {
         
-        let request = NSMutableURLRequest(url: NSURL(string: avatar_url)! as URL,
+        let request = NSMutableURLRequest(url: NSURL(string: "\(AppData.store.getUser()!.avatarRoot)/80/\(opponentId)")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 5.0)
         request.httpMethod = "GET"

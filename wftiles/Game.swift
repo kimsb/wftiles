@@ -18,4 +18,5 @@ struct Game {
     let lastMove: Move?
     let ruleset: Int
     let playersTurn: Bool
+    let updated: UInt64
 }

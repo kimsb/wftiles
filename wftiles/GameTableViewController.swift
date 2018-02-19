@@ -55,7 +55,7 @@ class GameTableViewController: UITableViewController {
             for opponentId in opponentInfo.keys {
                 
                 avatarTaskGroup.enter()
-                let avatar_data = RestClient.client.getAvatar(avatar_url: "https://avatars-wordfeud-com.s3.amazonaws.com/60/\(opponentId)", completionHandler: { (avatar_data, error) in
+                let avatar_data = RestClient.client.getAvatar(opponentId: opponentId, completionHandler: { (avatar_data, error) in
                     if let error = error {
                         // got an error in getting the data, need to handle it
                         print("error calling GET for avatar")
@@ -146,9 +146,14 @@ class GameTableViewController: UITableViewController {
             cell.opponentImageView.image = avatar.image
         }
         cell.opponentLabel.text = game.opponent.username
-        cell.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
+        cell.languageLabel.text = Constants.tiles.languages[game.ruleset]
+        cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
         if let lastMove = game.lastMove {
-            cell.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
+            if lastMove.move_type == "move" {
+                cell.lastMoveLabel.text = "Last move: \(lastMove.main_word!) (\(lastMove.points!) points)"
+            } else {
+                cell.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
+            }
         } else {
             cell.lastMoveLabel.text = "No moves made"
         }
@@ -179,7 +184,7 @@ class GameTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return games[section].count > 0 ? 40 : 0
+        return games[section].count > 0 ? 50 : 0
     }
     
     // MARK: - Navigation

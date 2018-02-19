@@ -13,11 +13,4 @@ struct Move: Decodable {
     let move_type: String
     let user_id: UInt64
     let main_word: String?
-    
-    /*init(tilesUsed: [String], points: Int, moveType: String, playerId: UInt64, mainWord: String?) {
-        self.points = points
-        self.moveType = moveType
-        self.playerId = playerId
-        self.mainWord = mainWord
-    }*/
 }

@@ -11,6 +11,7 @@ import UIKit
 class GameTableViewCell: UITableViewCell {
     //MARK: Properties
     @IBOutlet weak var opponentLabel: UILabel!
+    @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var lastMoveLabel: UILabel!
     @IBOutlet weak var opponentImageView: UIImageView!

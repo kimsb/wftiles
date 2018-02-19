@@ -16,6 +16,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let backButton = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backButton
+        
         //logger inn hvis man har innloggingsdata lagret
         if let user = AppData.store.getUser() {
             
@@ -27,6 +30,9 @@ class ViewController: UIViewController {
             login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password)
         }
         
+        if userTextField.text == "" {
+            userTextField.becomeFirstResponder()
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -61,14 +67,24 @@ class ViewController: UIViewController {
         })
     }
     
-    //MARK: Actions
-    @IBAction func connectAction(_ sender: UIButton) {
-        
+    func login() {
         //DENNE MÅ DET VÆRE BEDRE LOGIKK PÅ, OG FALLBACK HVIS LOGIN MED LOGINMETHOD:EMAIL IKKE FUNKER FOR LOGINVALUE MED '@'
         let loginMethod = userTextField.text!.range(of:"@") != nil ? "email" : "username"
         
         login(loginMethod: loginMethod, loginValue: userTextField.text!, password: passwordTextField.text!)
+    }
+    
+    //MARK: Actions
+    @IBAction func connectAction(_ sender: UIButton) {
+        login()
     }	
     
+    @IBAction func nextFromUserTextField(_ sender: Any) {
+        passwordTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func goFromPasswordTextField(_ sender: Any) {
+        login()
+    }
 }
 

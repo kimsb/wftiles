@@ -10,25 +10,32 @@ import UIKit
 
 class PopoverController: UIViewController {
     
-    @IBOutlet weak var viewSwitch: UISwitch!
-    @IBOutlet weak var sortSwitch: UISwitch!
+    @IBOutlet weak var viewSegmentedController: UISegmentedControl!
+    @IBOutlet weak var sortSegmentedController: UISegmentedControl!
     
-    @IBAction func viewSwitchChangedValue(_ sender: Any) {
-        AppData.store.setShowSummary(showSummary: viewSwitch.isOn)
+    @IBAction func viewSegmentedControllerChangedValue(_ sender: Any) {
+        AppData.store.setShowSummary(showSummary: viewSegmentedController.selectedSegmentIndex == 1)
         let gameCollectionViewController = popoverPresentationController!.delegate as! GameCollectionViewController
         gameCollectionViewController.viewSwitchChangedValue()
     }
 
-    @IBAction func sortSwitchChangedValue(_ sender: Any) {
-        AppData.store.setSortByVowels(sortByVowels: sortSwitch.isOn)
+    @IBAction func sortSegmentedControllerChangedValue(_ sender: Any) {
+        AppData.store.setSortByVowels(sortByVowels: sortSegmentedController.selectedSegmentIndex == 1)
         let gameCollectionViewController = popoverPresentationController!.delegate as! GameCollectionViewController
         gameCollectionViewController.sortSwitchChangedValue()
     }
     
-    
     override func viewDidLoad() {
-        viewSwitch.setOn(AppData.store.showSummary(), animated: false)
-        sortSwitch.setOn(AppData.store.sortByVowels(), animated: false)
+        if AppData.store.showSummary() {
+            viewSegmentedController.selectedSegmentIndex = 1
+        } else {
+            viewSegmentedController.selectedSegmentIndex = 0
+        }
+        if AppData.store.sortByVowels() {
+            sortSegmentedController.selectedSegmentIndex = 1
+        } else {
+            sortSegmentedController.selectedSegmentIndex = 0
+        }
     }
     
 }

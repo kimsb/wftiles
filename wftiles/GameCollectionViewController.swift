@@ -13,6 +13,7 @@ private let reuseIdentifier = "TileCollectionViewCell"
 class GameCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate {
 
     //MARK: Properties
+    @IBOutlet weak var preferencesButton: UIButton!
     @IBOutlet var gameCollectionView: UICollectionView!
     var game: Game!
     var sortedRack = [String]()
@@ -90,7 +91,10 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        preferencesButton.setTitle("\u{2699}\u{0000FE0E}", for: .normal)
+        preferencesButton.titleLabel?.font = preferencesButton.titleLabel?.font.withSize(30)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -200,6 +204,11 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
                 cell.letterCountLabel.text = "0"
             } else {
                 cell.letterCountLabel.text = "\(count!)"
+                if (count == 0) {
+                    cell.tileView.backgroundColor = UIColor.lightGray
+                } else {
+                    cell.tileView.backgroundColor = UIColor(red: CGFloat(251/255.0), green: CGFloat(251/255.0), blue: CGFloat(241/255.0), alpha: CGFloat(1.0))
+                }
             }
             
             return cell
@@ -262,6 +271,8 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             let destination = segue.destination
             if let popover = destination.popoverPresentationController {
                 popover.delegate = self
+                popover.sourceView = preferencesButton
+                popover.sourceRect = preferencesButton.bounds
             }
         }
     }
