@@ -110,6 +110,10 @@ class GameTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = AppData.store.getUser()!.username
+        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backButton
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         

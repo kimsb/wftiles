@@ -92,6 +92,8 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = game.opponent.username
+        
         preferencesButton.setTitle("\u{2699}\u{0000FE0E}", for: .normal)
         preferencesButton.titleLabel?.font = preferencesButton.titleLabel?.font.withSize(30)
         

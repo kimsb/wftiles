@@ -14,12 +14,17 @@ class TableHeaderCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let headerSeparator = UIView();
-        headerSeparator.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 1)
+        
+        let holdingView = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!.view!
+        let maxSize = holdingView.frame.size.height > holdingView.frame.size.width
+            ? holdingView.frame.size.height : holdingView.frame.size.width
+        
+        /*let headerSeparator = UIView();
+        headerSeparator.frame = CGRect(x: 0, y: 0, width: maxSize, height: 1)
         headerSeparator.backgroundColor = UIColor(white:224.0/255.0, alpha:1.0)
-        self.addSubview(headerSeparator)
+        self.addSubview(headerSeparator)*/
         let footerSeparator = UIView();
-        footerSeparator.frame = CGRect(x: 0, y: self.frame.size.height - 1, width: self.frame.size.width, height: 1)
+        footerSeparator.frame = CGRect(x: 0, y: self.frame.size.height - 1, width: maxSize, height: 1)
         footerSeparator.backgroundColor = UIColor(white:224.0/255.0, alpha:1.0)
         self.addSubview(footerSeparator)
     }

@@ -21,9 +21,6 @@ class ViewController: UIViewController {
         
         //logger inn hvis man har innloggingsdata lagret
         if let user = AppData.store.getUser() {
-            
-            print("USER: \(user.email) : \(user.username) : \(user.password) : \(user.loginMethod)")
-            
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             userTextField.text = loginValue
             passwordTextField.text = user.password

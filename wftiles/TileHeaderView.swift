@@ -12,4 +12,5 @@ import UIKit
 class TileHeaderView: UICollectionReusableView {
 
     @IBOutlet weak var headerLabel: UILabel!
+    
 }
