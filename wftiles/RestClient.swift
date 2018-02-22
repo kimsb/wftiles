@@ -124,7 +124,6 @@ class RestClient {
             guard error == nil else {
                 print("error not nil")
                 if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-                    print("not connected")
                     completionHandler(nil, "No internet connection")
                     return
                 }
@@ -169,7 +168,6 @@ class RestClient {
             guard error == nil else {
                 print("error not nil")
                 if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-                    print("not connected")
                     completionHandler(nil, "No internet connection")
                     return
                 }
@@ -221,7 +219,6 @@ class RestClient {
                 guard error == nil else {
                     print("error not nil")
                     if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-                        print("not connected")
                         completionHandler(nil, "No internet connection")
                         return
                     }
