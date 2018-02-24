@@ -57,7 +57,7 @@ class AppData {
     
     private var preferences: Preferences?
     private var user: User?
-    private var avatars: [UInt64:Avatar]
+    var avatars: [UInt64:Avatar]
     
     private func savePreferences() {
         NSKeyedArchiver.archiveRootObject(preferences!, toFile: Preferences.ArchiveURL.path)
@@ -67,7 +67,7 @@ class AppData {
         NSKeyedArchiver.archiveRootObject(user!, toFile: User.ArchiveURL.path)
     }
     
-    private func saveAvatars() {
+    func saveAvatars() {
         NSKeyedArchiver.archiveRootObject(avatars, toFile: Avatar.ArchiveURL.path)
     }
     

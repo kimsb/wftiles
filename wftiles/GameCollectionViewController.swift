@@ -132,9 +132,17 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         if(section==0) {
-            return CGSize(width:collectionView.frame.size.width, height:110)
+            return CGSize(width:collectionView.safeAreaLayoutGuide.layoutFrame.size.width, height:110)
         } else {
-            return CGSize(width:collectionView.frame.size.width, height:50)
+            return CGSize(width:collectionView.frame.size.width, height:40)
+        }
+    }
+    
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if(section==0) {
+            return UIEdgeInsets.zero
+        } else {
+            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         }
     }
     
@@ -145,7 +153,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameHeaderView
             
             reusableview.avatarImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
-            reusableview.opponentLabel.text = game.opponent.username
+            reusableview.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
             reusableview.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
             reusableview.lastMoveLabel.text = game.getLastMoveText()
             return reusableview
@@ -157,7 +165,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             } else {
                 reusableview.headerLabel.text = Texts.shared.getText(key: "remainingTiles")
             }
-            
+
             return reusableview
         }
     }

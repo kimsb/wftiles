@@ -13,7 +13,7 @@ class GameHeaderView: UICollectionReusableView {
     
     //MARK: Variables
     @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var opponentLabel: UILabel!
+    @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var lastMoveLabel: UILabel!
 }

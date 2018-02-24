@@ -15,7 +15,6 @@ class GameTableViewCell: UITableViewCell {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var lastMoveLabel: UILabel!
     @IBOutlet weak var opponentImageView: UIImageView!
-    @IBOutlet weak var diffLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

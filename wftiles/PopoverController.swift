@@ -26,21 +26,7 @@ class PopoverController: UIViewController {
         gameCollectionViewController.sortSwitchChangedValue()
     }
     
-    func getTextWidth(text: String, font: UIFont?) -> CGFloat {
-        let attributes = font != nil ? [NSAttributedStringKey.font: font] : [:]
-        return text.size(withAttributes: attributes as Any as? [NSAttributedStringKey : Any]).width
-    }
-    
-    func getMaxFontSize(text: String, maxWidth: CGFloat) -> CGFloat {
-        var fontSize = 17
-        while (fontSize > 10 && getTextWidth(text: text, font: UIFont.systemFont(ofSize: CGFloat(fontSize))) > maxWidth) {
-            fontSize -= 1
-        }
-        return CGFloat(fontSize)
-    }
-    
     override func viewDidLoad() {
-        
         resizeViewIfNecessary()
         
         let vowelsConsonants = Texts.shared.getText(key: "vowelsConsonants")
@@ -49,7 +35,7 @@ class PopoverController: UIViewController {
         sortSegmentedController.setTitle(Texts.shared.getText(key: "alphabetical"), forSegmentAt: 0)
         sortSegmentedController.setTitle(vowelsConsonants, forSegmentAt: 1)
         
-        let maxFontSize = getMaxFontSize(text: vowelsConsonants, maxWidth: sortSegmentedController.frame.width/2 - 10)
+        let maxFontSize = Texts.shared.getMaxFontSize(text: vowelsConsonants, maxWidth: sortSegmentedController.frame.width/2 - 10)
         viewSegmentedController.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
         sortSegmentedController.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
         

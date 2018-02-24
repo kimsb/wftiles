@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Texts {
     static let shared = Texts()
@@ -15,6 +16,33 @@ class Texts {
     private let locales = ["en", "nb", "nl", "da", "sv", "es", "fr", "de", "fi", "pt"]
     private let languages = ["englishUS", "norwegianBokmal", "dutch", "danish", "swedish", "englishIntl", "spanish", "french", "swedishStrict",
                              "german", "norwegianNynorsk", "finnish", "portuguese"]
+    
+    func getMaxFontSize(text: String, maxWidth: CGFloat) -> CGFloat {
+        var fontSize = 17
+        while (fontSize > 10 && getTextWidth(text: text, font: UIFont.systemFont(ofSize: CGFloat(fontSize))) > maxWidth) {
+            fontSize -= 1
+        }
+        return CGFloat(fontSize)
+    }
+    
+    func getText(key: String) -> String {
+        guard let textArray = texts[key] else {
+            return "Missing text"
+        }
+        return textArray[getLocaleIndex()]
+    }
+    
+    func getGameLanguage(ruleset: Int) -> String {
+        if ruleset >= languages.count {
+            return getText(key: "unsupportedLamguage")
+        }
+        return getText(key: languages[ruleset])
+    }
+    
+    private func getTextWidth(text: String, font: UIFont?) -> CGFloat {
+        let attributes = font != nil ? [NSAttributedStringKey.font: font] : [:]
+        return text.size(withAttributes: attributes as Any as? [NSAttributedStringKey : Any]).width
+    }
     
     private func getLocaleIndex() -> Int {
         var preferredLanguage = NSLocale.preferredLanguages[0]
@@ -25,22 +53,6 @@ class Texts {
             return 0
         }
         return index
-    }
-    
-    func getText(key: String) -> String {
-        guard let textArray = texts[key] else {
-            return "Missing text"
-        }
-        return textArray[getLocaleIndex()]
-    }
-    
-    
-    func getGameLanguage(ruleset: Int) -> String {
-        if ruleset >= languages.count {
-            return getText(key: "unsupportedLamguage")
-        }
-        return getText(key: languages[ruleset])
-        
     }
     
     private init() {

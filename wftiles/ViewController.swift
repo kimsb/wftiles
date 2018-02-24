@@ -17,6 +17,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        AppData.store.avatars = [UInt64:Avatar]()
+        AppData.store.saveAvatars()
+        
         userTextField.placeholder = "\(Texts.shared.getText(key: "usernameEmail")) (Wordfeud)"
         passwordTextField.placeholder = "\(Texts.shared.getText(key: "password")) (Wordfeud)"
         loginButton.setTitle(Texts.shared.getText(key: "login"), for: .normal)
