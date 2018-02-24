@@ -13,4 +13,5 @@ struct Move: Decodable {
     let move_type: String
     let user_id: UInt64
     let main_word: String?
+    let tile_count: Int?
 }

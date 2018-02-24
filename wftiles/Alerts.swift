@@ -108,7 +108,7 @@ class Alerts: UIVisualEffectView {
             
             let refreshAlert = UIAlertController(title: title, message: errorString, preferredStyle: UIAlertControllerStyle.alert)
             
-            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            refreshAlert.addAction(UIAlertAction(title: Texts.shared.getText(key: "ok"), style: .default, handler: { (action: UIAlertAction!) in
                 //"Handle Ok logic here"
             }))
             

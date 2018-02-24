@@ -12,13 +12,9 @@ class Constants {
     
     static let tiles = Constants()
     
-    let languages = ["English (US)", "Norwegian (bokmål)", "Dutch", "Danish", "Swedish", "English (Intl)", "Spanish", "French", "Swedish (strict)",
-                     "German", "Norwegian (nynorsk)", "Finnish", "Portuguese"]
-    
-    let locales = ["en", "nb", "nl", "da", "sv", "en", "es", "fr", "sv", "de", "nn", "fi", "pt"]
-    
     let counts, points: [[String:Int]]
     private let letters: [[String]]
+    let locales = ["en", "nb", "nl", "da", "sv", "en", "es", "fr", "sv", "de", "nb", "fi", "pt"]
     
     func letters(ruleset: Int) -> [String] {
         if AppData.store.sortByVowels() {

@@ -69,6 +69,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Wordfeud Tiles" id="p8A-gs-Zay"/>
                     <connections>
+                        <outlet property="loginButton" destination="BhP-ab-FIc" id="Rrk-fa-btH"/>
                         <outlet property="passwordTextField" destination="tju-Bc-Ftm" id="Rbe-An-Pdg"/>
                         <outlet property="userTextField" destination="pCe-bW-iYb" id="sqm-gy-4W9"/>
                         <segue destination="tS2-dc-JTK" kind="show" identifier="loginToTableSegue" id="NcM-BX-w0F"/>
@@ -326,22 +327,11 @@
             <objects>
                 <viewController modalPresentationStyle="currentContext" id="SMD-Kj-WCu" customClass="PopoverController" customModule="wftiles" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="XzJ-eE-Nas">
-                        <rect key="frame" x="0.0" y="0.0" width="330" height="120"/>
+                        <rect key="frame" x="0.0" y="0.0" width="330" height="121"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dbE-2b-CyX">
-                                <rect key="frame" x="16" y="22" width="298" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="Klassisk"/>
-                                    <segment title="Sammendrag"/>
-                                </segments>
-                                <connections>
-                                    <action selector="viewSegmentedControllerChangedValue:" destination="SMD-Kj-WCu" eventType="valueChanged" id="UOs-1p-qpi"/>
-                                </connections>
-                            </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Hdg-kM-SuY">
-                                <rect key="frame" x="16" y="68" width="298" height="29"/>
+                                <rect key="frame" x="16" y="71" width="298" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Alfabetisk"/>
@@ -351,14 +341,26 @@
                                     <action selector="sortSegmentedControllerChangedValue:" destination="SMD-Kj-WCu" eventType="valueChanged" id="GR5-T4-QsI"/>
                                 </connections>
                             </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dbE-2b-CyX">
+                                <rect key="frame" x="16" y="21" width="298" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Klassisk"/>
+                                    <segment title="Sammendrag"/>
+                                </segments>
+                                <connections>
+                                    <action selector="viewSegmentedControllerChangedValue:" destination="SMD-Kj-WCu" eventType="valueChanged" id="UOs-1p-qpi"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="wgt-82-m29"/>
                     </view>
-                    <value key="contentSizeForViewInPopover" type="size" width="330" height="120"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="330" height="121"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="330" height="120"/>
+                    <size key="freeformSize" width="330" height="121"/>
                     <connections>
+                        <outlet property="popoverView" destination="XzJ-eE-Nas" id="hMf-nu-QsK"/>
                         <outlet property="sortSegmentedController" destination="Hdg-kM-SuY" id="fWU-xi-upf"/>
                         <outlet property="viewSegmentedController" destination="dbE-2b-CyX" id="O8b-Pi-lBd"/>
                     </connections>

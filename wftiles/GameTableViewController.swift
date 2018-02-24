@@ -14,13 +14,13 @@ class GameTableViewController: UITableViewController {
     
     @objc func loadGames() {
         
-        Alerts.shared.show(text: "Loading...")
+        Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         
         let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Games")
-                Alerts.shared.alert(view: self, title: "Loading failed", errorString: errorString)
+                Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: errorString)
                 return
             }
             guard let games = games else {
@@ -111,7 +111,7 @@ class GameTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = AppData.store.getUser()!.username
-        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
 
         // Uncomment the following line to preserve selection between presentations
@@ -150,17 +150,10 @@ class GameTableViewController: UITableViewController {
             cell.opponentImageView.image = avatar.image
         }
         cell.opponentLabel.text = game.opponent.username
-        cell.languageLabel.text = Constants.tiles.languages[game.ruleset]
+        cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
-        if let lastMove = game.lastMove {
-            if lastMove.move_type == "move" {
-                cell.lastMoveLabel.text = "Last move: \(lastMove.main_word!) (\(lastMove.points!) points)"
-            } else {
-                cell.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
-            }
-        } else {
-            cell.lastMoveLabel.text = "No moves made"
-        }
+        cell.lastMoveLabel.text = game.getLastMoveText();
+        
         let diff = game.player.score - game.opponent.score
         if (diff != 0) {
             cell.diffLabel.backgroundColor = diff > 0 ? UIColor.green : UIColor.red
@@ -176,11 +169,11 @@ class GameTableViewController: UITableViewController {
         
         let header = tableView.dequeueReusableCell(withIdentifier: "TableHeaderCell") as! TableHeaderCell
         if section == 0 {
-            header.headerLabel.text = "Your turn"
+            header.headerLabel.text = Texts.shared.getText(key: "yourTurn")
         } else if section == 1 {
-            header.headerLabel.text = "Opponents turn"
+            header.headerLabel.text = Texts.shared.getText(key: "opponentsTurn")
         } else {
-            header.headerLabel.text = "Finished games"
+            header.headerLabel.text = Texts.shared.getText(key: "finishedGames")
         }
         header.backgroundColor = UIColor.white
         

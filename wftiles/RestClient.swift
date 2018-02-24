@@ -92,6 +92,7 @@ class RestClient {
     func gameDecoderToGame(gameDecoder: GameDecoder) -> Game {
         let opponent, loggedInPlayer: Player
         var letters: [String]? = nil
+        
         let playersTurn = gameDecoder.players[gameDecoder.current_player].id == AppData.store.getUser()!.id
         
         if gameDecoder.players[0].id == AppData.store.getUser()!.id {
@@ -124,7 +125,7 @@ class RestClient {
             guard error == nil else {
                 print("error not nil")
                 if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-                    completionHandler(nil, "No internet connection")
+                    completionHandler(nil, Texts.shared.getText(key: "connectionError"))
                     return
                 }
                 completionHandler(nil, "")
@@ -168,7 +169,7 @@ class RestClient {
             guard error == nil else {
                 print("error not nil")
                 if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-                    completionHandler(nil, "No internet connection")
+                    completionHandler(nil, Texts.shared.getText(key: "connectionError"))
                     return
                 }
                 completionHandler(nil, "")
@@ -219,7 +220,7 @@ class RestClient {
                 guard error == nil else {
                     print("error not nil")
                     if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-                        completionHandler(nil, "No internet connection")
+                        completionHandler(nil, Texts.shared.getText(key: "connectionError"))
                         return
                     }
                     completionHandler(nil, "")
@@ -239,11 +240,11 @@ class RestClient {
                         print("login failed")
                         switch loginResponse.content.type! {
                         case "unknown_email":
-                            completionHandler(nil, "Unknown email")
+                            completionHandler(nil, Texts.shared.getText(key: "unknownEmail"))
                         case "unknown_username":
-                            completionHandler(nil, "Unknown username")
+                            completionHandler(nil, Texts.shared.getText(key: "unknownUsername"))
                         default:
-                            completionHandler(nil, "Wrong password")
+                            completionHandler(nil, Texts.shared.getText(key: "wrongPassword"))
                         }
                         return
                     }

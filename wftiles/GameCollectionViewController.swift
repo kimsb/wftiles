@@ -21,7 +21,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     var letterCount = [String:Int]()
     
     @objc func loadGame() {
-        Alerts.shared.show(text: "Loading...")
+        Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         guard let game = self.game else {
             print("No game to show")
             return
@@ -31,7 +31,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Game")
-                Alerts.shared.alert(view: self, title: "Loading failed", errorString: errorString)
+                Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: errorString)
                 return
             }
             guard var game = game else {
@@ -43,7 +43,6 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             //Bør sjekke om det er nye data, ellers bruke samme som sist.
             //og lagre tiles hvis man går ut av game, så man kan vise det samme igjen neste gang
             
-            let language = Constants.tiles.languages[game.ruleset]
             self.letterCount = Constants.tiles.counts[game.ruleset]
             //find remaining letters
             if let rack = game.player.rack {
@@ -148,20 +147,15 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             reusableview.avatarImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
             reusableview.opponentLabel.text = game.opponent.username
             reusableview.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
-            if let lastMove = game.lastMove {
-                reusableview.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
-            } else {
-                reusableview.lastMoveLabel.text = "No moves made"
-            }
-            
+            reusableview.lastMoveLabel.text = game.getLastMoveText()
             return reusableview
         } else {
             let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "TileHeaderView", for: indexPath) as! TileHeaderView
             
             if indexPath.section == 1 {
-                reusableview.headerLabel.text = "My letters"
+                reusableview.headerLabel.text = Texts.shared.getText(key: "yourTiles")
             } else {
-                reusableview.headerLabel.text = "Remaining letters"
+                reusableview.headerLabel.text = Texts.shared.getText(key: "remainingTiles")
             }
             
             return reusableview

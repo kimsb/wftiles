@@ -12,11 +12,16 @@ class ViewController: UIViewController {
     //MARK: Properties
     @IBOutlet weak var userTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let backButton = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: nil)
+        userTextField.placeholder = "\(Texts.shared.getText(key: "usernameEmail")) (Wordfeud)"
+        passwordTextField.placeholder = "\(Texts.shared.getText(key: "password")) (Wordfeud)"
+        loginButton.setTitle(Texts.shared.getText(key: "login"), for: .normal)
+        
+        let backButton = UIBarButtonItem(title: Texts.shared.getText(key: "logout"), style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
         
         //logger inn hvis man har innloggingsdata lagret
@@ -40,7 +45,7 @@ class ViewController: UIViewController {
     
     func login(loginMethod: String, loginValue: String, password: String) {
         
-        Alerts.shared.show(text: "Logging in...")
+        Alerts.shared.show(text: Texts.shared.getText(key: "loggingIn"))
         
         let user = RestClient.client.login(loginMethod: loginMethod, loginValue: loginValue, password: password, completionHandler: { (user, errorString) in
             if let errorString = errorString {
@@ -48,7 +53,7 @@ class ViewController: UIViewController {
                 print("error calling POST for Login (ViewController)")
                 print(errorString)
                 //BØR LEGGE TIL MULIGHET FOR Å HIDE HUD UANSETT OM DET HAR GÅTT TID ELLER IKKE
-                Alerts.shared.alert(view: self, title: "Login failed", errorString: errorString)
+                Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loginFailed"), errorString: errorString)
                 return
             }
             guard let user = user else {

@@ -23,7 +23,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var remainingTilesCollectionView: UICollectionView!
     
     @objc func loadGame() {
-        Alerts.shared.show(text: "Loading...")
+        Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         guard let game = self.game else {
             print("No game to show")
             return
@@ -33,7 +33,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Game")
-                Alerts.shared.alert(view: self, title: "Loading failed", errorString: errorString)
+                Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: errorString)
                 return
             }
             guard var game = game else {
@@ -41,7 +41,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 return
             }
             // success :)
-            let language = Constants.tiles.languages[game.ruleset]
+            let language = Texts.shared.getGameLanguage(ruleset: game.ruleset)
             var letterCount = Constants.tiles.counts[game.ruleset]
             //find remaining letters
             if let rack = game.player.rack {
@@ -77,12 +77,8 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.opponentImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
                 self.opponentLabel.text = game.opponent.username
                 self.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
-                if let lastMove = game.lastMove {
-                    self.lastMoveLabel.text = "Last move: \(lastMove.move_type)"
-                } else {
-                    self.lastMoveLabel.text = "No moves made"
-                }
-                //self.myLettersLabel.text = "\(sortedRack)"
+                self.lastMoveLabel.text = game.getLastMoveText()
+                
                 self.rackCollectionView.reloadData()
                 self.remainingTilesCollectionView.reloadData()
                 Alerts.shared.hide()
