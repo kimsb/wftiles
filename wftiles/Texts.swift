@@ -136,7 +136,7 @@ class Texts {
         
         texts["loginFailed"] = ["Login failed", "Innlogging feilet", "Aanmelden mislukt", "Login mislykkedes", "Inloggningen misslyckades", "Error de inicio de sesion", "Échec de la connexion", "Anmeldung fehlgeschlagen", "Kirjautuminen epäonnistui", "Falha na autenticação"]
         
-        texts["pleaseWait"] = ["Please wait...", "Vennligst vent...", "Even wachten...", "Vent et øjeblik...", "Vänligen vänta...", "Un momento, por favor", "Un instant...", "Bitte warte...", "Odota", "Por favor, aguarde..."]
+        texts["pleaseWait"] = ["Please wait...", "Vennligst vent...", "Even wachten...", "Vent et øjeblik...", "Vänligen vänta...", "Un momento, por favor...", "Un instant...", "Bitte warte...", "Odota...", "Por favor, aguarde..."]
         
         texts["loadingFailed"] = ["Loading failed", "Lasting feilet", "Laden mislukt", "Loading mislykkedes", "Hämtningen misslyckades", "La descarga falló", "Chargement échoué", "Laden fehlgeschlagen", "Lataus epäonnistui", "O carregamento falhou"]
         

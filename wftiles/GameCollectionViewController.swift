@@ -154,7 +154,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             
             reusableview.avatarImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
             reusableview.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
-            reusableview.scoreLabel.text = "(\(game.player.score) - \(game.opponent.score))"
+            reusableview.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
             reusableview.lastMoveLabel.text = game.getLastMoveText()
             return reusableview
         } else {

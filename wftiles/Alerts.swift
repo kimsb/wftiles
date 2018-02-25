@@ -20,6 +20,9 @@ class Alerts: UIVisualEffectView {
     private let vibrancyView: UIVisualEffectView
     private var sinceShown = Date()
     private var hideCalled = false
+    private var height: CGFloat = 50
+    private let width = CGFloat(160)
+    private let activityIndicatorSize: CGFloat = 40
     
     private init() {
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
@@ -43,38 +46,48 @@ class Alerts: UIVisualEffectView {
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
+        updateFrames()
+    }
+    
+    private func updateFrames() {
         DispatchQueue.main.async(execute: {
             if let superview = self.superview {
-                let width = superview.frame.size.width / 2.3
-                let height: CGFloat = 50.0
-                self.frame = CGRect(x: superview.frame.size.width / 2 - width / 2,
-                                    y: superview.frame.height / 2 - height / 2,
-                                    width: width,
-                                    height: height)
+                self.frame = CGRect(x: superview.frame.size.width / 2 - self.width / 2,
+                                    y: superview.frame.height / 2 - self.height / 2,
+                                    width: self.width,
+                                    height: self.height)
                 self.vibrancyView.frame = self.bounds
                 
-                let activityIndicatorSize: CGFloat = 40
                 self.activityIndictor.frame = CGRect(x: 5,
-                                                     y: height / 2 - activityIndicatorSize / 2,
-                                                     width: activityIndicatorSize,
-                                                     height: activityIndicatorSize)
+                                                     y: self.height / 2 - self.activityIndicatorSize / 2,
+                                                     width: self.activityIndicatorSize,
+                                                     height: self.activityIndicatorSize)
                 self.activityIndictor.color = UIColor.lightText
                 self.layer.cornerRadius = 8.0
                 self.layer.masksToBounds = true
                 self.label.textAlignment = NSTextAlignment.center
-                self.label.frame = CGRect(x: activityIndicatorSize + 5,
+                self.label.frame = CGRect(x: self.activityIndicatorSize + 5,
                                           y: 0,
-                                          width: width - activityIndicatorSize - 15,
-                                          height: height)
+                                          width: self.width - self.activityIndicatorSize - 15,
+                                          height: self.height)
                 self.label.textColor = UIColor.lightText
-                self.label.font = UIFont.boldSystemFont(ofSize: 16)
             }
         })
     }
     
     func show(text: String) {
-        self.hideCalled = false
         self.label.text = text
+        height = 50
+        self.label.numberOfLines = 1
+        let maxLabelWidth = width - self.activityIndicatorSize - 25
+        var maxFontSize = Texts.shared.getMaxFontSize(text: text, maxWidth: maxLabelWidth)
+        while maxFontSize < 12 {
+            height += 20
+            self.label.numberOfLines += 1
+            maxFontSize = Texts.shared.getMaxFontSize(text: text, maxWidth: maxLabelWidth * CGFloat(self.label.numberOfLines))
+        }
+        self.label.font = UIFont.systemFont(ofSize: maxFontSize)
+        self.hideCalled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if (!self.hideCalled) {
                 self.sinceShown = Date()
@@ -83,13 +96,14 @@ class Alerts: UIVisualEffectView {
                     self.holdingView.addSubview(self)
                     self.activityIndictor.startAnimating()
                     self.isHidden = false
+                } else {
+                    self.updateFrames()
                 }
             }
         }
     }
     
     func hide() {
-        //DispatchQueue.main.asyncAfter(deadline: .now() + shownSecs) {
         self.hideCalled = true
         let shownSecs = max(0.0, 0.5 - (Date().timeIntervalSince(self.sinceShown)))
         DispatchQueue.main.asyncAfter(deadline: .now() + shownSecs) {

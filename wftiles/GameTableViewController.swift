@@ -154,15 +154,6 @@ class GameTableViewController: UITableViewController {
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
         cell.lastMoveLabel.text = game.getLastMoveText();
         
-        print("cell height: \(cell.frame.size.height)")
-        print("avatar.height: \(cell.opponentImageView.frame.size.height)")
-        print("avatar.width: \(cell.opponentImageView.frame.size.width)")
-        print("avatar border radius: \(cell.opponentImageView.layer.cornerRadius)")
-        
-        
-        //cell.opponentImageView.contentMode = .scaleAspectFit
-        
-        
         /*let diff = game.player.score - game.opponent.score
         if (diff != 0) {
             cell.diffLabel.backgroundColor = diff > 0 ? UIColor.green : UIColor.red
