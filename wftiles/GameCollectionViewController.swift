@@ -125,6 +125,11 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
 
     // MARK: UICollectionViewDataSource
 
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.gameCollectionView.reloadData()
+    }
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
