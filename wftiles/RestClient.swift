@@ -11,6 +11,7 @@ import Foundation
 class RestClient {
     
     static var client = RestClient()
+    static var count = 0
     
     private init() {
     }
@@ -36,7 +37,8 @@ class RestClient {
     }
     
     struct GamesContent: Decodable {
-        let games: [GameDecoder]
+        let games: [GameDecoder]?
+        let type: String?
     }
     
     struct GameResponse: Decodable {
@@ -115,7 +117,7 @@ class RestClient {
         
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/game/\(id)/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 5.0)
+                                          timeoutInterval: 10.0)
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = headers
         
@@ -157,9 +159,20 @@ class RestClient {
     
     func getGames(completionHandler: @escaping ([Game]?, String?) -> Void) {
         
+        //TEST
+        if RestClient.count == 0 {
+            RestClient.count += 1
+            let cookieStore = HTTPCookieStorage.shared
+            for cookie in cookieStore.cookies ?? [] {
+                cookieStore.deleteCookie(cookie)
+            }
+        }
+        
+        
+        
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/games/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 5.0)
+                                          timeoutInterval: 10.0)
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = headers
         
@@ -186,7 +199,17 @@ class RestClient {
             do {
                 let gamesResponse = try decoder.decode(GamesResponse.self, from: responseData)
                 
-                completionHandler(gamesResponse.content.games.map(self.gameDecoderToGame), nil)
+                guard let games = gamesResponse.content.games else {
+                    if gamesResponse.status == "error" && gamesResponse.content.type != nil && gamesResponse.content.type == "login_required" {
+                        print("have to log in")
+                        completionHandler(nil, gamesResponse.content.type)
+                        return
+                    }
+                    completionHandler(nil, "")
+                    return
+                }
+                
+                completionHandler(games.map(self.gameDecoderToGame), nil)
                 
             } catch {
                 print("error trying to convert data to JSON")
@@ -209,7 +232,7 @@ class RestClient {
             let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
             let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/login/" + ("email" == loginMethod ? "email/" : ""))! as URL,
                                               cachePolicy: .useProtocolCachePolicy,
-                                              timeoutInterval: 5.0)
+                                              timeoutInterval: 10.0)
 
             request.httpMethod = "POST"
             request.allHTTPHeaderFields = headers

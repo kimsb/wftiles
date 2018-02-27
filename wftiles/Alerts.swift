@@ -76,18 +76,20 @@ class Alerts: UIVisualEffectView {
     }
     
     func show(text: String) {
-        self.label.text = text
-        height = 50
-        self.label.numberOfLines = 1
-        let maxLabelWidth = width - self.activityIndicatorSize - 25
-        var maxFontSize = Texts.shared.getMaxFontSize(text: text, maxWidth: maxLabelWidth)
-        while maxFontSize < 12 {
-            height += 20
-            self.label.numberOfLines += 1
-            maxFontSize = Texts.shared.getMaxFontSize(text: text, maxWidth: maxLabelWidth * CGFloat(self.label.numberOfLines))
-        }
-        self.label.font = UIFont.systemFont(ofSize: maxFontSize)
-        self.hideCalled = false
+        DispatchQueue.main.async(execute: {
+            self.label.text = text
+            self.height = 50
+            self.label.numberOfLines = 1
+            let maxLabelWidth = self.width - self.activityIndicatorSize - 25
+            var maxFontSize = Texts.shared.getMaxFontSize(text: text, maxWidth: maxLabelWidth)
+            while maxFontSize < 12 {
+                self.height += 20
+                self.label.numberOfLines += 1
+                maxFontSize = Texts.shared.getMaxFontSize(text: text, maxWidth: maxLabelWidth * CGFloat(self.label.numberOfLines))
+            }
+            self.label.font = UIFont.systemFont(ofSize: maxFontSize)
+            self.hideCalled = false
+        })
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if (!self.hideCalled) {
                 self.sinceShown = Date()
@@ -101,6 +103,7 @@ class Alerts: UIVisualEffectView {
                 }
             }
         }
+        
     }
     
     func hide() {
@@ -118,6 +121,7 @@ class Alerts: UIVisualEffectView {
     
     func alert(view: UIViewController, title: String, errorString: String) {
         DispatchQueue.main.async(execute:{
+            
             self.hide()
             
             let refreshAlert = UIAlertController(title: title, message: errorString, preferredStyle: UIAlertControllerStyle.alert)

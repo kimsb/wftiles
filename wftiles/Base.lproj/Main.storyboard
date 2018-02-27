@@ -82,7 +82,7 @@
         <!--Game Table View Controller-->
         <scene sceneID="Ece-am-fzn">
             <objects>
-                <tableViewController id="tS2-dc-JTK" customClass="GameTableViewController" customModule="wftiles" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="gameTableViewController" id="tS2-dc-JTK" customClass="GameTableViewController" customModule="wftiles" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="4aH-VJ-qXh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -199,7 +199,17 @@
                             <outlet property="delegate" destination="tS2-dc-JTK" id="h1W-ju-gd5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Tkr-Gi-RhJ"/>
+                    <navigationItem key="navigationItem" id="Tkr-Gi-RhJ">
+                        <barButtonItem key="leftBarButtonItem" title="Logg ut" id="NSa-Zp-kGB">
+                            <connections>
+                                <action selector="logoutAction:" destination="tS2-dc-JTK" id="o13-ya-EUj"/>
+                                <segue destination="1oA-0J-WRL" kind="show" id="n6C-iA-ULN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="logoutButton" destination="NSa-Zp-kGB" id="pme-Od-una"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhd-Fy-lQ4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -377,7 +387,7 @@
         <!--Navigation Controller-->
         <scene sceneID="fy3-F1-egL">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JM0-kh-k87" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="tableViewNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="JM0-kh-k87" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Mc4-rC-uLI">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

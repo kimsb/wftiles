@@ -10,16 +10,42 @@ import UIKit
 
 class GameTableViewController: UITableViewController {
     //MARK: Properties
+    @IBOutlet weak var logoutButton: UIBarButtonItem!
     var games = Array(repeating: [Game](), count: 3)
+    private var viewHasLoaded = false
+    
+    func loginAndTryAgain() -> Void {
+        
+        print("logger inn på nytt")
+        
+        if let user = AppData.store.getUser() {
+            let loginValue = user.loginMethod == "email" ? user.email : user.username
+            RestClient.client.login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password, completionHandler: { (user, errorString) in
+                if let errorString = errorString {
+                    print("error login and try again")
+                    print(errorString)
+                    Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: "")
+                    return
+                }
+                self.loadGames()
+            })
+        }
+    }
     
     @objc func loadGames() {
         
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         
+        print("prøver å laste games")
+        
         let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Games")
+                if errorString == "login_required" {
+                    self.loginAndTryAgain()
+                    return
+                }
                 Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: errorString)
                 return
             }
@@ -98,9 +124,14 @@ class GameTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        print("tableViewController viewWillAppear")
         loadGames()
-        NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
-        )
+        if viewHasLoaded {
+            viewHasLoaded = false
+            NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
+            )
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -109,6 +140,10 @@ class GameTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewHasLoaded = true
+        
+        print("tableViewController viewDidLoad")
         
         self.navigationItem.title = AppData.store.getUser()!.username
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -149,6 +184,7 @@ class GameTableViewController: UITableViewController {
         if let avatar = AppData.store.getAvatar(id: game.opponent.id) {
             cell.opponentImageView.image = avatar.image
         }
+        
         cell.opponentLabel.text = game.opponent.username
         cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
@@ -200,6 +236,10 @@ class GameTableViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    @IBAction func logoutAction(_ sender: Any) {
+        print("logoutaction!")
+        performSegue(withIdentifier: "myUnwindSegueName", sender: nil)
     }
     
 }

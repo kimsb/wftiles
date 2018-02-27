@@ -24,12 +24,11 @@ class ViewController: UIViewController {
         let backButton = UIBarButtonItem(title: Texts.shared.getText(key: "logout"), style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
         
-        //logger inn hvis man har innloggingsdata lagret
         if let user = AppData.store.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             userTextField.text = loginValue
             passwordTextField.text = user.password
-            login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password)
+        /*    login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password)*/
         }
         
         if userTextField.text == "" {
