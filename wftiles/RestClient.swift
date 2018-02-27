@@ -11,12 +11,9 @@ import Foundation
 class RestClient {
     
     static var client = RestClient()
-    static var count = 0
     
     private init() {
     }
-    
-    
     
     struct LoginResponse: Decodable {
         let status: String
@@ -47,7 +44,8 @@ class RestClient {
     }
     
     struct GameContent: Decodable {
-        let game: GameDecoder
+        let game: GameDecoder?
+        let type: String?
     }
     
     struct GameDecoder: Decodable {
@@ -143,10 +141,18 @@ class RestClient {
             let decoder = JSONDecoder()
             do {
                 let gameResponse = try decoder.decode(GameResponse.self, from: responseData)
-                let gameDecoder = gameResponse.content.game
-                let game = self.gameDecoderToGame(gameDecoder: gameDecoder)
                 
-                completionHandler(game, nil)
+                guard let game = gameResponse.content.game else {
+                    if gameResponse.status == "error" && gameResponse.content.type != nil && gameResponse.content.type == "login_required" {
+                        print("have to log in (game)")
+                        completionHandler(nil, gameResponse.content.type)
+                        return
+                    }
+                    completionHandler(nil, "")
+                    return
+                }
+                
+                completionHandler(self.gameDecoderToGame(gameDecoder: game), nil)
                 
             } catch {
                 print("error trying to convert data to JSON")
@@ -158,17 +164,6 @@ class RestClient {
     }
     
     func getGames(completionHandler: @escaping ([Game]?, String?) -> Void) {
-        
-        //TEST
-        if RestClient.count == 0 {
-            RestClient.count += 1
-            let cookieStore = HTTPCookieStorage.shared
-            for cookie in cookieStore.cookies ?? [] {
-                cookieStore.deleteCookie(cookie)
-            }
-        }
-        
-        
         
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/games/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,

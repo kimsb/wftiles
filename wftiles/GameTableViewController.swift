@@ -15,9 +15,6 @@ class GameTableViewController: UITableViewController {
     private var viewHasLoaded = false
     
     func loginAndTryAgain() -> Void {
-        
-        print("logger inn på nytt")
-        
         if let user = AppData.store.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             RestClient.client.login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password, completionHandler: { (user, errorString) in
@@ -35,9 +32,6 @@ class GameTableViewController: UITableViewController {
     @objc func loadGames() {
         
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
-        
-        print("prøver å laste games")
-        
         let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
@@ -125,13 +119,12 @@ class GameTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("tableViewController viewWillAppear")
         loadGames()
         if viewHasLoaded {
-            viewHasLoaded = false
             NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
             )
         }
+        viewHasLoaded = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -140,10 +133,6 @@ class GameTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewHasLoaded = true
-        
-        print("tableViewController viewDidLoad")
         
         self.navigationItem.title = AppData.store.getUser()!.username
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -227,7 +216,6 @@ class GameTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         guard let destination = segue.destination as? GameCollectionViewController,
             let gameIndexPath = tableView.indexPathForSelectedRow else {
-                print("prepare failed")
                 return
         }
         // Pass the selected object to the new view controller.

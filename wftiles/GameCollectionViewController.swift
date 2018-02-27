@@ -19,6 +19,22 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     var sortedRack = [String]()
     var remainingLetters = [String]()
     var letterCount = [String:Int]()
+    private var viewHasLoaded = false
+    
+    func loginAndTryAgain() -> Void {
+        if let user = AppData.store.getUser() {
+            let loginValue = user.loginMethod == "email" ? user.email : user.username
+            RestClient.client.login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password, completionHandler: { (user, errorString) in
+                if let errorString = errorString {
+                    print("error login and try again")
+                    print(errorString)
+                    Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: "")
+                    return
+                }
+                self.loadGame()
+            })
+        }
+    }
     
     @objc func loadGame() {
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
@@ -31,6 +47,10 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Game")
+                if errorString == "login_required" {
+                    self.loginAndTryAgain()
+                    return
+                }
                 Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: errorString)
                 return
             }
