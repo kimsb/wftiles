@@ -29,8 +29,7 @@ class GameTableViewController: UITableViewController {
         }
     }
     
-    @objc func loadGames() {
-        
+    @objc func loadGames() {        
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
@@ -224,10 +223,6 @@ class GameTableViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
-    }
-    @IBAction func logoutAction(_ sender: Any) {
-        print("logoutaction!")
-        performSegue(withIdentifier: "myUnwindSegueName", sender: nil)
     }
     
 }

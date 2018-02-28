@@ -29,6 +29,7 @@
 		F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */; };
 		F3DC0B46202FA9DD00E006F9 /* GameHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */; };
 		F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */; };
+		F3DD014E20474360005BD32E /* RightToLeftSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DD014D20474360005BD32E /* RightToLeftSegue.swift */; };
 		F3EFD6A1202A352D00169CE8 /* TileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */; };
 		F3F6150220336CB6005D58E2 /* TileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6150120336CB6005D58E2 /* TileHeaderView.swift */; };
 		F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6A05B20190DCE00745422 /* RestClient.swift */; };
@@ -86,6 +87,7 @@
 		F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionViewController.swift; sourceTree = "<group>"; };
 		F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHeaderView.xib; sourceTree = "<group>"; };
 		F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHeaderView.swift; sourceTree = "<group>"; };
+		F3DD014D20474360005BD32E /* RightToLeftSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightToLeftSegue.swift; sourceTree = "<group>"; };
 		F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3F6150120336CB6005D58E2 /* TileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileHeaderView.swift; sourceTree = "<group>"; };
 		F3F6A05B20190DCE00745422 /* RestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestClient.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				F3FE548E20364243003AE873 /* PopoverController.swift */,
 				F38F51A6203775A200F30460 /* Preferences.swift */,
 				F346B7D7203CA3C400584BB9 /* Texts.swift */,
+				F3DD014D20474360005BD32E /* RightToLeftSegue.swift */,
 			);
 			path = wftiles;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				F3F6A05C20190DCE00745422 /* RestClient.swift in Sources */,
 				F3F6A0662019F66A00745422 /* User.swift in Sources */,
 				F346B7D8203CA3C400584BB9 /* Texts.swift in Sources */,
+				F3DD014E20474360005BD32E /* RightToLeftSegue.swift in Sources */,
 				F395F5B42020FCEF00605A93 /* Avatar.swift in Sources */,
 				F3F6A05E2019CEF400745422 /* Game.swift in Sources */,
 				F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */,

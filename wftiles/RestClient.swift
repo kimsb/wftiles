@@ -110,9 +110,8 @@ class RestClient {
         
         return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, bagCount: gameDecoder.bag_count, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset, playersTurn: playersTurn, updated: gameDecoder.updated)
     }
-    
-    func getGame(id: UInt64, completionHandler: @escaping (Game?, String?) -> Void) {
         
+    func getGame(id: UInt64, completionHandler: @escaping (Game?, String?) -> Void) {
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/game/\(id)/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 10.0)

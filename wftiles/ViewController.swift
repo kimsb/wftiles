@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var userTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,7 +28,6 @@ class ViewController: UIViewController {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             userTextField.text = loginValue
             passwordTextField.text = user.password
-        /*    login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password)*/
         }
         
         if userTextField.text == "" {
@@ -69,7 +68,6 @@ class ViewController: UIViewController {
     }
     
     func login() {
-        //DENNE MÅ DET VÆRE BEDRE LOGIKK PÅ, OG FALLBACK HVIS LOGIN MED LOGINMETHOD:EMAIL IKKE FUNKER FOR LOGINVALUE MED '@'
         let loginMethod = userTextField.text!.range(of:"@") != nil ? "email" : "username"
         
         login(loginMethod: loginMethod, loginValue: userTextField.text!, password: passwordTextField.text!)

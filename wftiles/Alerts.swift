@@ -13,7 +13,6 @@ class Alerts: UIVisualEffectView {
     
     static let shared = Alerts()
     
-    private let holdingView = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!.view!
     private let activityIndictor: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     private let label: UILabel = UILabel()
     private let blurEffect = UIBlurEffect(style: .dark)
@@ -95,7 +94,8 @@ class Alerts: UIVisualEffectView {
                 self.sinceShown = Date()
                 if !self.activityIndictor.isAnimating {
                     UIApplication.shared.beginIgnoringInteractionEvents()
-                    self.holdingView.addSubview(self)
+                    let holdingView = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!.view!
+                    holdingView.addSubview(self)
                     self.activityIndictor.startAnimating()
                     self.isHidden = false
                 } else {

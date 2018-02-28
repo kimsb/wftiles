@@ -17,21 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        print("app delegate did finish launching")
-        
-        //allready logged in -> go directly to table view
-        if AppData.store.getUser() != nil  {
+        //if never logged in, go to login view
+        if AppData.store.getUser() == nil  {
             var storyboard:UIStoryboard?
             window =  UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
             
             storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let rootController = storyboard!.instantiateViewController(withIdentifier: "tableViewNavigationController")
+            let rootController = storyboard!.instantiateViewController(withIdentifier: "loginViewNavigationController")
             
             if let window = self.window {
                 window.rootViewController = rootController
             }
-            
         }
         
         return true
