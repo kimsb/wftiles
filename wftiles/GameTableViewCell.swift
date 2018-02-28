@@ -15,6 +15,7 @@ class GameTableViewCell: UITableViewCell {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var lastMoveLabel: UILabel!
     @IBOutlet weak var opponentImageView: UIImageView!
+    private var diffLabel: UILabel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,9 +23,31 @@ class GameTableViewCell: UITableViewCell {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
+        if diffLabel == nil {
+            super.setSelected(selected, animated: animated)
+            return
+        }
+        let backgroundColor = diffLabel!.backgroundColor
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        diffLabel!.backgroundColor = backgroundColor
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        if diffLabel == nil {
+            super.setHighlighted(highlighted, animated: animated)
+            return
+        }
+        let backgroundColor = diffLabel!.backgroundColor
+        super.setHighlighted(highlighted, animated: animated)
+        diffLabel!.backgroundColor = backgroundColor
+    }
+    
+    func addDiffLabel(myScore: Int, opponentScore: Int) {
+        if diffLabel != nil {
+            diffLabel!.removeFromSuperview()
+        }
+        diffLabel = DiffLabel(maxX: opponentImageView.frame.maxX, minY: opponentImageView.frame.minY).withDiff(yourScore: myScore, opponentScore: opponentScore)
+        addSubview(diffLabel!)
     }
 
 }

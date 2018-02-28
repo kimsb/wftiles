@@ -16,4 +16,14 @@ class GameHeaderView: UICollectionReusableView {
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var lastMoveLabel: UILabel!
+    private var diffLabel: UILabel?
+
+    func addDiffLabel(myScore: Int, opponentScore: Int) {
+        if diffLabel != nil {
+            diffLabel!.removeFromSuperview()
+        }
+        diffLabel = DiffLabel(maxX: avatarImageView.frame.maxX, minY: avatarImageView.frame.minY).withDiff(yourScore: myScore, opponentScore: opponentScore)
+        addSubview(diffLabel!)
+    }
+    
 }

@@ -177,7 +177,8 @@ class GameTableViewController: UITableViewController {
         cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
         cell.lastMoveLabel.text = game.getLastMoveText();
-        
+        cell.addDiffLabel(myScore: game.player.score, opponentScore: game.opponent.score)
+                
         /*let diff = game.player.score - game.opponent.score
         if (diff != 0) {
             cell.diffLabel.backgroundColor = diff > 0 ? UIColor.green : UIColor.red

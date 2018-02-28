@@ -178,6 +178,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameHeaderView
             
             reusableview.avatarImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
+            reusableview.addDiffLabel(myScore: game.player.score, opponentScore: game.opponent.score)
             reusableview.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
             reusableview.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
             reusableview.lastMoveLabel.text = game.getLastMoveText()

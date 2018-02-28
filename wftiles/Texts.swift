@@ -39,8 +39,8 @@ class Texts {
         return getText(key: languages[ruleset])
     }
     
-    private func getTextWidth(text: String, font: UIFont?) -> CGFloat {
-        let attributes = font != nil ? [NSAttributedStringKey.font: font] : [:]
+    func getTextWidth(text: String, font: UIFont) -> CGFloat {
+        let attributes = [NSAttributedStringKey.font: font]
         return text.size(withAttributes: attributes as Any as? [NSAttributedStringKey : Any]).width
     }
     
