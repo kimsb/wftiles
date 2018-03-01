@@ -23,9 +23,9 @@ struct Game {
     func getLastMoveText() -> String {
         guard let lastMove = lastMove else {
             if playersTurn {
-                return Texts.shared.getText(key: "firstMoveYou")
+                return String(format: Texts.shared.getText(key: "firstMoveYou"), opponent.username)
             } else {
-                return Texts.shared.getText(key: "firstMoveThem")
+                return String(format: Texts.shared.getText(key: "firstMoveThem"), opponent.username)
             }
         }
         switch lastMove.move_type {

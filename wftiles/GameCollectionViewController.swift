@@ -37,6 +37,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     @objc func loadGame() {
+        print("loader game")
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         guard let game = self.game else {
             print("No game to show")
@@ -88,6 +89,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             
             self.game = game
             DispatchQueue.main.async(execute: {
+                print("reloader data: game")
                 self.gameCollectionView.reloadData()
                 Alerts.shared.hide()
             })

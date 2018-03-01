@@ -12,7 +12,6 @@ class GameTableViewController: UITableViewController {
     //MARK: Properties
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     var games = Array(repeating: [Game](), count: 3)
-    private var viewHasLoaded = false
     
     func loginAndTryAgain() -> Void {
         if let user = AppData.store.getUser() {
@@ -29,7 +28,8 @@ class GameTableViewController: UITableViewController {
         }
     }
     
-    @objc func loadGames() {        
+    @objc func loadGames() {
+        print("loader games")
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
@@ -110,6 +110,7 @@ class GameTableViewController: UITableViewController {
             
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
+                print("reloader data: games")
                 self.tableView.reloadData()
             })
         })
@@ -119,11 +120,8 @@ class GameTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         loadGames()
-        if viewHasLoaded {
             NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
             )
-        }
-        viewHasLoaded = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
