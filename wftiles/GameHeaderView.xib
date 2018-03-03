@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,9 +17,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zbx-IW-rhj">
-                    <rect key="frame" x="16" y="20" width="70" height="70"/>
+                    <rect key="frame" x="8" y="20" width="70" height="70"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="70" id="AGq-mv-n6X"/>
+                        <constraint firstAttribute="width" constant="70" id="bl3-2s-bcU"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
@@ -30,19 +29,19 @@
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="l4D-ga-0lj">
-                    <rect key="frame" x="94" y="20" width="265" height="21"/>
+                    <rect key="frame" x="86" y="20" width="280" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="zVh-OE-k5f">
-                    <rect key="frame" x="94" y="45" width="265" height="21"/>
+                    <rect key="frame" x="86" y="45" width="280" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last move" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="5Wc-dz-2Tk">
-                    <rect key="frame" x="94" y="69" width="265" height="21"/>
+                    <rect key="frame" x="86" y="69" width="280" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -50,18 +49,18 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Zbx-IW-rhj" firstAttribute="bottom" secondItem="5Wc-dz-2Tk" secondAttribute="bottom" id="81x-ex-0wc"/>
-                <constraint firstItem="zVh-OE-k5f" firstAttribute="leading" secondItem="5Wc-dz-2Tk" secondAttribute="leading" id="DTa-4n-LSn"/>
-                <constraint firstItem="l4D-ga-0lj" firstAttribute="trailing" secondItem="zVh-OE-k5f" secondAttribute="trailing" id="OUf-Fh-Rkw"/>
-                <constraint firstItem="l4D-ga-0lj" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="Wcw-Em-sKd"/>
-                <constraint firstItem="Zbx-IW-rhj" firstAttribute="top" secondItem="l4D-ga-0lj" secondAttribute="top" id="agg-1G-c43"/>
-                <constraint firstItem="Zbx-IW-rhj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" symbolic="YES" id="e6e-CV-e61"/>
-                <constraint firstItem="l4D-ga-0lj" firstAttribute="leading" secondItem="Zbx-IW-rhj" secondAttribute="trailing" constant="8" symbolic="YES" id="fCg-ml-rki"/>
-                <constraint firstItem="Zbx-IW-rhj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="j9J-r1-cMn"/>
-                <constraint firstItem="Zbx-IW-rhj" firstAttribute="centerY" secondItem="zVh-OE-k5f" secondAttribute="centerY" id="qOn-HT-oPR"/>
-                <constraint firstItem="l4D-ga-0lj" firstAttribute="leading" secondItem="zVh-OE-k5f" secondAttribute="leading" id="qkM-qo-Xyl"/>
-                <constraint firstAttribute="bottom" secondItem="Zbx-IW-rhj" secondAttribute="bottom" constant="20" symbolic="YES" id="rGL-ol-Bas"/>
-                <constraint firstItem="zVh-OE-k5f" firstAttribute="trailing" secondItem="5Wc-dz-2Tk" secondAttribute="trailing" id="sfL-8F-CqC"/>
+                <constraint firstAttribute="bottom" secondItem="Zbx-IW-rhj" secondAttribute="bottom" constant="20" symbolic="YES" id="4hh-Oj-88e"/>
+                <constraint firstItem="Zbx-IW-rhj" firstAttribute="centerY" secondItem="zVh-OE-k5f" secondAttribute="centerY" id="5kN-e7-5VC"/>
+                <constraint firstItem="Zbx-IW-rhj" firstAttribute="bottom" secondItem="5Wc-dz-2Tk" secondAttribute="bottom" id="FHO-GL-8bw"/>
+                <constraint firstItem="Zbx-IW-rhj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="LQ5-OF-Usn"/>
+                <constraint firstItem="l4D-ga-0lj" firstAttribute="leading" secondItem="Zbx-IW-rhj" secondAttribute="trailing" constant="8" symbolic="YES" id="WXM-HX-hLr"/>
+                <constraint firstItem="zVh-OE-k5f" firstAttribute="leading" secondItem="5Wc-dz-2Tk" secondAttribute="leading" id="Xqt-KS-xof"/>
+                <constraint firstItem="zVh-OE-k5f" firstAttribute="trailing" secondItem="5Wc-dz-2Tk" secondAttribute="trailing" id="YP2-1B-hVm"/>
+                <constraint firstItem="Zbx-IW-rhj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" symbolic="YES" id="ZP9-V9-dCM"/>
+                <constraint firstItem="Zbx-IW-rhj" firstAttribute="top" secondItem="l4D-ga-0lj" secondAttribute="top" id="bvF-M8-yKx"/>
+                <constraint firstItem="l4D-ga-0lj" firstAttribute="trailing" secondItem="zVh-OE-k5f" secondAttribute="trailing" id="cXD-IF-e8i"/>
+                <constraint firstItem="l4D-ga-0lj" firstAttribute="leading" secondItem="zVh-OE-k5f" secondAttribute="leading" id="jJc-zL-cHG"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="l4D-ga-0lj" secondAttribute="trailing" constant="9" id="sqm-1w-Ysb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
