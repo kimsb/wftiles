@@ -148,7 +148,7 @@ class GameTableViewController: UITableViewController {
         
         games = orderGamesByStatus(games: AppData.store.getGames())
         
-        print("LOADED GAMES: \(games)")
+        logoutButton.title = Texts.shared.getText(key: "logout")
         
         self.navigationItem.title = AppData.store.getUser()!.username
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -195,15 +195,7 @@ class GameTableViewController: UITableViewController {
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
         cell.lastMoveLabel.text = game.getLastMoveText();
         cell.addDiffLabel(myScore: game.player.score, opponentScore: game.opponent.score)
-                
-        /*let diff = game.player.score - game.opponent.score
-        if (diff != 0) {
-            cell.diffLabel.backgroundColor = diff > 0 ? UIColor.green : UIColor.red
-        }
-        cell.diffLabel.text = " \(diff > 0 ? "+" : "")\(diff) "
-        cell.diffLabel.layer.cornerRadius = 6
-        cell.diffLabel.layer.masksToBounds = true
-        cell.diffLabel.sizeToFit()*/
+
         return cell
     }
     
@@ -237,10 +229,6 @@ class GameTableViewController: UITableViewController {
         }
         // Pass the selected object to the new view controller.
         destination.game = games[gameIndexPath.section][gameIndexPath.row]
-        
-        //TEST
-        let letters = games[gameIndexPath.section][gameIndexPath.row].usedLetters == nil ? [] : games[gameIndexPath.section][gameIndexPath.row].usedLetters!
-        print("ÅPNER GAME MED TILES: \(letters)")
     }
     
     override func viewWillDisappear(_ animated: Bool) {

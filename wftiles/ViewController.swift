@@ -21,19 +21,13 @@ class ViewController: UIViewController {
         passwordTextField.placeholder = "\(Texts.shared.getText(key: "password")) (Wordfeud)"
         loginButton.setTitle(Texts.shared.getText(key: "login"), for: .normal)
         
-        let backButton = UIBarButtonItem(title: Texts.shared.getText(key: "logout"), style: .plain, target: self, action: nil)
-        self.navigationItem.backBarButtonItem = backButton
-        
         if let user = AppData.store.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             userTextField.text = loginValue
             passwordTextField.text = user.password
-        }
-        
-        if userTextField.text == "" {
+        } else {
             userTextField.becomeFirstResponder()
         }
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,12 +63,19 @@ class ViewController: UIViewController {
     
     func login() {
         let loginMethod = userTextField.text!.range(of:"@") != nil ? "email" : "username"
-        
         login(loginMethod: loginMethod, loginValue: userTextField.text!, password: passwordTextField.text!)
     }
     
     //MARK: Actions
     @IBAction func connectAction(_ sender: UIButton) {
+        if userTextField.text! == "" {
+            Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loginFailed"), errorString: Texts.shared.getText(key: "unknownUsername"))
+            return
+        }
+        if passwordTextField.text! == "" {
+            Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loginFailed"), errorString: Texts.shared.getText(key: "wrongPassword"))
+            return
+        }
         login()
     }	
     

@@ -200,7 +200,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Tkr-Gi-RhJ">
-                        <barButtonItem key="leftBarButtonItem" title="Logg ut" id="NSa-Zp-kGB">
+                        <barButtonItem key="leftBarButtonItem" id="NSa-Zp-kGB">
                             <connections>
                                 <action selector="logoutAction:" destination="tS2-dc-JTK" id="o13-ya-EUj"/>
                                 <segue destination="BYZ-38-t0r" kind="custom" identifier="rightToLeftSegue" customClass="RightToLeftSegue" customModule="wftiles" customModuleProvider="target" id="zc6-7H-H62"/>
@@ -423,7 +423,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ve4-hA-39b"/>
-        <segue reference="NcM-BX-w0F"/>
+        <segue reference="7aM-20-DwJ"/>
         <segue reference="zc6-7H-H62"/>
     </inferredMetricsTieBreakers>
 </document>
