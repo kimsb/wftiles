@@ -23,13 +23,13 @@ class ViewController: UIViewController {
         passwordTextField.placeholder = Texts.shared.getText(key: "password")
         loginButton.setTitle(Texts.shared.getText(key: "login"), for: .normal)
         
-//        if let user = AppData.store.getUser() {
-//            let loginValue = user.loginMethod == "email" ? user.email : user.username
-//            userTextField.text = loginValue
-//            passwordTextField.text = user.password
-//        } else {
+        if let user = AppData.store.getUser() {
+            let loginValue = user.loginMethod == "email" ? user.email : user.username
+            userTextField.text = loginValue
+            passwordTextField.text = user.password
+        } else {
             userTextField.becomeFirstResponder()
-//        }
+        }
     }
     
     override func didReceiveMemoryWarning() {
