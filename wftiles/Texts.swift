@@ -56,9 +56,11 @@ class Texts {
     }
     
     private init() {
-        texts["usernameEmail"] = ["username/email", "brukernavn/e-post", "gebruikersnaam/e-mail", "brugernavn/e-mail", "användarnamn/e-post", "nombre de usuario/e-mail", "nom d'utilisateur/e-mail", "benutzername/e-mail", "käyttäjänimi/sähköposti", "nome de Usuário/e-mail"]
+        texts["loginInfo"] = ["Log in using your Wordfeud username or email address below.", "Logg inn med ditt Wordfeud-brukernavn eller e-postadresse.", "Log hieronder in met je Wordfeud-gebruikersnaam of je e-mailadres.", "Log på med dit Wordfeud-brugernavn eller e-mailadresse herunder.", "Logga in med ditt Wordfeud-användarnamn eller e-postadress nedan.", "Inicia sesión con tu nombre de usuario Wordfeud o tu dirección de correo electrónico.", "Connecte-toi en utilisant ton nom d'utilisateur Wordfeud ou ton adresse e-mail ci-dessous.", "Gib denselben Wordfeud Benutzernamen bzw. dieselbe E-Mail-Adresse ein, den/die Du bei der Anmeldung verwendet hast.", "Rekisteröidy tai kirjaudu sisään sähköpostiosoitteella tai Wordfeud-käyttäjänimellä.", "Entre em Wordfeud usuando seu nome de usuário ou e-mail abaixo."]
         
-        texts["password"] = ["password", "passord", "wachtwoord", "adgangskode", "lösenord", "contraseña", "Mot de passe", "kennwort", "salasana", "senha"]
+        texts["usernameEmail"] = ["Username or email", "Brukernavn eller e-postadresse", "Gebruikersnaam of e-mail", "Brugernavn eller e-mail", "Användarnamn eller e-postadress", "Usuario o e-mail", "Nom d'utilisateur ou e-mail", "Benutzername oder E-Mail-Adresse", "Käyttäjänimi tai sähköpostiosoite", "Nome de usuário ou e-mail"]
+        
+        texts["password"] = ["Wordfeud password", "Wordfeud-passord", "Voer je wachtwoord in", "Indtast din adgangskode", "Ange ditt lösenord", "Introducir contraseña", "Saisis ton mot de passe", "Passwort eingeben", "Anna salasana", "Digite Sua Senha"]
         
         texts["login"] = ["Log in", "Logg inn", "Inloggen", "Log på", "Logga inn", "Iniciar sesión", "Connexion", "Anmelden", "Kirjaudu", "Entrar"]
         

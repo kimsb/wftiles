@@ -12,22 +12,24 @@ class ViewController: UIViewController {
     //MARK: Properties
     @IBOutlet weak var userTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var loginInfoLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userTextField.placeholder = "\(Texts.shared.getText(key: "usernameEmail")) (Wordfeud)"
-        passwordTextField.placeholder = "\(Texts.shared.getText(key: "password")) (Wordfeud)"
+        loginInfoLabel.text = Texts.shared.getText(key: "loginInfo")
+        userTextField.placeholder = Texts.shared.getText(key: "usernameEmail")
+        passwordTextField.placeholder = Texts.shared.getText(key: "password")
         loginButton.setTitle(Texts.shared.getText(key: "login"), for: .normal)
         
-        if let user = AppData.store.getUser() {
-            let loginValue = user.loginMethod == "email" ? user.email : user.username
-            userTextField.text = loginValue
-            passwordTextField.text = user.password
-        } else {
+//        if let user = AppData.store.getUser() {
+//            let loginValue = user.loginMethod == "email" ? user.email : user.username
+//            userTextField.text = loginValue
+//            passwordTextField.text = user.password
+//        } else {
             userTextField.becomeFirstResponder()
-        }
+//        }
     }
     
     override func didReceiveMemoryWarning() {

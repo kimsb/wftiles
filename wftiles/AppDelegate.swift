@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //if never logged in, go to login view
-        if AppData.store.getUser() == nil  {
+//        if AppData.store.getUser() == nil  {
             var storyboard:UIStoryboard?
             window =  UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let window = self.window {
                 window.rootViewController = rootController
             }
-        }
+//        }
     
         return true
     }
