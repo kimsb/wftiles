@@ -37,7 +37,6 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     @objc func loadGame() {
-        print("loader game")
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         guard let game = self.game else {
             print("No game to show")
@@ -61,43 +60,50 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             }
             // success :)
             
+            print("LAGRER GAME MED LETTERS")
+            AppData.store.setGameWithUsedLetters(game: game)
             //Bør sjekke om det er nye data, ellers bruke samme som sist.
             //og lagre tiles hvis man går ut av game, så man kan vise det samme igjen neste gang
-            
-            self.letterCount = Constants.tiles.counts[game.ruleset]
-            //find remaining letters
-            if let rack = game.player.rack {
-                for letter in rack {
-                    self.letterCount[letter]! -= 1
-                }
-            }
-            if let usedLetters = game.usedLetters {
-                for letter in usedLetters {
-                    self.letterCount[letter]! -= 1
-                }
-            }
-            
-            //letterCount now holds count of remaining letters
-            self.updateRemaingLetters()
-            
-            //sort rack alphabetically
-            //skal dette også følge vokal/konsonant?
-            let locale = Locale(identifier: Constants.tiles.locales[game.ruleset])
-            self.sortedRack = game.player.rack!.sorted {
-                $0.compare($1, locale: locale) == .orderedAscending
-            }
-            
             self.game = game
-            DispatchQueue.main.async(execute: {
-                print("reloader data: game")
-                self.gameCollectionView.reloadData()
-                Alerts.shared.hide()
-            })
+            self.showTiles()
+        })
+    }
+    
+    func showTiles() {
+        letterCount = Constants.tiles.counts[game.ruleset]
+        //find remaining letters
+        if let rack = game.player.rack {
+            for letter in rack {
+                letterCount[letter]! -= 1
+            }
+        }
+        if let usedLetters = game.usedLetters {
+            for letter in usedLetters {
+                letterCount[letter]! -= 1
+            }
+        }
+        
+        //letterCount now holds count of remaining letters
+        updateRemaingLetters()
+        
+        //sort rack alphabetically
+        //skal dette også følge vokal/konsonant?
+        let locale = Locale(identifier: Constants.tiles.locales[game.ruleset])
+        sortedRack = game.player.rack!.sorted {
+            $0.compare($1, locale: locale) == .orderedAscending
+        }
+        DispatchQueue.main.async(execute: {
+            self.gameCollectionView.reloadData()
+            Alerts.shared.hide()
         })
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if (game.usedLetters != nil) {
+            showTiles()
+        }
         
         //load game
         loadGame()

@@ -55,9 +55,26 @@ class AppData {
         savePreferences()
     }
     
+    func getGames() -> [Game] {
+        return games
+    }
+    
+    func setGames(games: [Game]) {
+        self.games = games
+        saveGames()
+    }
+    
+    func setGameWithUsedLetters(game: Game) {
+        if let index = games.index(where: { $0.id == game.id}) {
+            games[index] = game
+            saveGames()
+        }
+    }
+    
     private var preferences: Preferences?
     private var user: User?
     private var avatars: [UInt64:Avatar]
+    private var games: [Game]
     
     private func savePreferences() {
         NSKeyedArchiver.archiveRootObject(preferences!, toFile: Preferences.ArchiveURL.path)
@@ -71,6 +88,11 @@ class AppData {
         NSKeyedArchiver.archiveRootObject(avatars, toFile: Avatar.ArchiveURL.path)
     }
     
+    private func saveGames() {
+        print("saving \(games.count) games")
+        NSKeyedArchiver.archiveRootObject(games, toFile: Game.ArchiveURL.path)
+    }
+    
     private init() {
         preferences = NSKeyedUnarchiver.unarchiveObject(withFile: Preferences.ArchiveURL.path) as? Preferences
         user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
@@ -80,6 +102,13 @@ class AppData {
         } else {
             avatars = [UInt64:Avatar]()
         }
+        
+        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
+            games = loadedGames
+        } else {
+            games = []
+        }
+        print("loading \(games.count) games")
     }
     
 }

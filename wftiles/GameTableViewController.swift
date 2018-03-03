@@ -29,7 +29,6 @@ class GameTableViewController: UITableViewController {
     }
     
     @objc func loadGames() {
-        print("loader games")
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
@@ -47,18 +46,7 @@ class GameTableViewController: UITableViewController {
                 return
             }
             // success :)
-            self.games = Array(repeating: [Game](), count: 3)
-            for game in games {
-                if !game.isRunning {
-                    self.games[2].append(game)
-                } else {
-                    if game.playersTurn {
-                        self.games[0].append(game)
-                    } else {
-                        self.games[1].append(game)
-                    }
-                }
-            }
+            self.games = self.orderGamesByStatus(games: self.keepTiles(games: games))
             
             //hente bilder for alle spillere:
             var opponentInfo = [UInt64:UInt64]()
@@ -116,6 +104,33 @@ class GameTableViewController: UITableViewController {
         })
     }
     
+    private func keepTiles(games: [Game]) -> [Game] {
+        let storedGames = AppData.store.getGames()
+        for game in games {
+            if let gameWithUsedLetters = storedGames.first(where: { $0.id == game.id }) {
+                game.usedLetters = gameWithUsedLetters.usedLetters
+            }
+        }
+        AppData.store.setGames(games: games)
+        return games
+    }
+    
+    private func orderGamesByStatus(games: [Game]) ->  [[Game]] {
+        var ordered = Array(repeating: [Game](), count: 3)
+        for game in games {
+            if !game.isRunning {
+                ordered[2].append(game)
+            } else {
+                if game.playersTurn {
+                    ordered[0].append(game)
+                } else {
+                    ordered[1].append(game)
+                }
+            }
+        }
+        return ordered
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -130,6 +145,10 @@ class GameTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        games = orderGamesByStatus(games: AppData.store.getGames())
+        
+        print("LOADED GAMES: \(games)")
         
         self.navigationItem.title = AppData.store.getUser()!.username
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -218,6 +237,10 @@ class GameTableViewController: UITableViewController {
         }
         // Pass the selected object to the new view controller.
         destination.game = games[gameIndexPath.section][gameIndexPath.row]
+        
+        //TEST
+        let letters = games[gameIndexPath.section][gameIndexPath.row].usedLetters == nil ? [] : games[gameIndexPath.section][gameIndexPath.row].usedLetters!
+        print("ÅPNER GAME MED TILES: \(letters)")
     }
     
     override func viewWillDisappear(_ animated: Bool) {

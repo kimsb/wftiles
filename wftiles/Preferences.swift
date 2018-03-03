@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import os.log
 
 class Preferences: NSObject, NSCoding {
     let showSummary: Bool

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import os.log
 
 class User: NSObject, NSCoding {
     let username: String
@@ -50,38 +49,13 @@ class User: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        
-        guard let username = aDecoder.decodeObject(forKey: PropertyKey.username) as? String else {
-            os_log("Unable to decode 'username' for User object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        
-        guard let email = aDecoder.decodeObject(forKey: PropertyKey.email) as? String else {
-            os_log("Unable to decode 'email' for User object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        
-        guard let password = aDecoder.decodeObject(forKey: PropertyKey.password) as? String else {
-            os_log("Unable to decode 'password' for User object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        
-        guard let id = aDecoder.decodeObject(forKey: PropertyKey.id) as? UInt64 else {
-            os_log("Unable to decode 'id' for User object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        
-        guard let avatarRoot = aDecoder.decodeObject(forKey: PropertyKey.avatarRoot) as? String else {
-            os_log("Unable to decode 'avatarRoot' for User object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        
-        guard let loginMethod = aDecoder.decodeObject(forKey: PropertyKey.loginMethod) as? String else {
-            os_log("Unable to decode 'loginMethod' for User object.", log: OSLog.default, type: .debug)
-            return nil
-        }
+        let username = aDecoder.decodeObject(forKey: PropertyKey.username) as! String
+        let email = aDecoder.decodeObject(forKey: PropertyKey.email) as! String
+        let password = aDecoder.decodeObject(forKey: PropertyKey.password) as! String
+        let id = aDecoder.decodeObject(forKey: PropertyKey.id) as! UInt64
+        let avatarRoot = aDecoder.decodeObject(forKey: PropertyKey.avatarRoot) as! String
+        let loginMethod = aDecoder.decodeObject(forKey: PropertyKey.loginMethod) as! String
         
         self.init(username: username, email: email, password: password, id: id, avatarRoot: avatarRoot, loginMethod:loginMethod)
-        
     }
 }

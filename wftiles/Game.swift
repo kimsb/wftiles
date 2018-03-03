@@ -8,17 +8,71 @@
 
 import Foundation
 
-struct Game {
+class Game: NSObject, NSCoding {
     let id: UInt64
-    let usedLetters: [String]?
+    var usedLetters: [String]?
     let isRunning: Bool
-    let bagCount: Int?
     var opponent: Player
     let player: Player
     let lastMove: Move?
     let ruleset: Int
     let playersTurn: Bool
     let updated: UInt64
+    
+    //MARK: Archiving Paths
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("game")
+    
+    struct PropertyKey {
+        static let id = "id"
+        static let usedLetters = "usedLetters"
+        static let isRunning = "isRunning"
+        static let opponent = "opponent"
+        static let player = "player"
+        static let lastMove = "lastMove"
+        static let ruleset = "ruleset"
+        static let playersTurn = "playersTurn"
+        static let updated = "updated"
+    }
+    
+    init(id: UInt64, usedLetters: [String]?, isRunning: Bool, opponent: Player, player: Player, lastMove: Move?, ruleset: Int, playersTurn: Bool, updated: UInt64) {
+        self.id = id
+        self.usedLetters = usedLetters
+        self.isRunning = isRunning
+        self.opponent = opponent
+        self.player = player
+        self.lastMove = lastMove
+        self.ruleset = ruleset
+        self.playersTurn = playersTurn
+        self.updated = updated
+    }
+    //NSCoding
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: PropertyKey.id)
+        aCoder.encode(usedLetters, forKey: PropertyKey.usedLetters)
+        aCoder.encode(isRunning, forKey: PropertyKey.isRunning)
+        aCoder.encode(opponent, forKey: PropertyKey.opponent)
+        aCoder.encode(player, forKey: PropertyKey.player)
+        aCoder.encode(lastMove, forKey: PropertyKey.lastMove)
+        aCoder.encode(ruleset, forKey: PropertyKey.ruleset)
+        aCoder.encode(playersTurn, forKey: PropertyKey.playersTurn)
+        aCoder.encode(updated, forKey: PropertyKey.updated)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        let id = aDecoder.decodeObject(forKey: PropertyKey.id) as! UInt64
+        let usedLetters = aDecoder.decodeObject(forKey: PropertyKey.usedLetters) as? [String]
+        let isRunning = Bool(aDecoder.decodeBool(forKey: PropertyKey.isRunning))
+        let opponent = aDecoder.decodeObject(forKey: PropertyKey.opponent) as! Player
+        let player = aDecoder.decodeObject(forKey: PropertyKey.player) as! Player
+        let lastMove = aDecoder.decodeObject(forKey: PropertyKey.lastMove) as? Move
+        let ruleset = aDecoder.decodeInteger(forKey: PropertyKey.ruleset)
+        let playersTurn = Bool(aDecoder.decodeBool(forKey: PropertyKey.playersTurn))
+        let updated = aDecoder.decodeObject(forKey: PropertyKey.updated) as! UInt64
+        
+        self.init(id: id, usedLetters: usedLetters, isRunning: isRunning, opponent: opponent, player: player, lastMove: lastMove, ruleset: ruleset, playersTurn: playersTurn, updated: updated)
+    }
     
     func getLastMoveText() -> String {
         guard let lastMove = lastMove else {

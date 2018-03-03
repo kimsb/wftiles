@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import os.log
 
 class Avatar: NSObject, NSCoding {
     let image: UIImage
@@ -36,16 +35,8 @@ class Avatar: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        
-        guard let image = aDecoder.decodeObject(forKey: PropertyKey.image) as? UIImage else {
-            os_log("Unable to decode 'image' for Avatar object.", log: OSLog.default, type: .debug)
-            return nil
-        }
-        
-        guard let updated = aDecoder.decodeObject(forKey: PropertyKey.updated) as? UInt64 else {
-            os_log("Unable to decode 'updated' for Avatar object.", log: OSLog.default, type: .debug)
-            return nil
-        }
+        let image = aDecoder.decodeObject(forKey: PropertyKey.image) as! UIImage
+        let updated = aDecoder.decodeObject(forKey: PropertyKey.updated) as! UInt64
         
         self.init(image: image, updated: updated)
     }
