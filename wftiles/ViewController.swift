@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         
         Alerts.shared.show(text: Texts.shared.getText(key: "loggingIn"))
         
-        let user = RestClient.client.login(loginMethod: loginMethod, loginValue: loginValue, password: password, completionHandler: { (user, errorString) in
+        RestClient.client.login(loginMethod: loginMethod, loginValue: loginValue, password: password, completionHandler: { (user, errorString) in
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Login (ViewController)")

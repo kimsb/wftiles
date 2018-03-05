@@ -15,7 +15,13 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     //MARK: Properties
     @IBOutlet weak var preferencesButton: UIButton!
     @IBOutlet var gameCollectionView: UICollectionView!
-    var game: Game!
+    private var game: Game!
+    private var remainingLetters = [String]()
+    
+    func setGame(game: Game) {
+        self.game = game
+        remainingLetters = game.getRemainingLetters()
+    }
     
     func loginAndTryAgain() -> Void {
         if let user = AppData.shared.getUser() {
@@ -39,7 +45,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             return
         }
         
-        let gameWithTiles = RestClient.client.getGame(id: game.id, completionHandler: { (game, errorString) in
+        RestClient.client.getGame(id: game.id, completionHandler: { (game, errorString) in
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Game")
@@ -50,7 +56,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
                 Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: errorString)
                 return
             }
-            guard var game = game else {
+            guard let game = game else {
                 print("error getting game: result is nil")
                 return
             }
@@ -226,7 +232,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         if indexPath.section == 1 {
             cell.letterLabel.text = game.player.rack![indexPath.item]
         } else {
-            cell.letterLabel.text = game.getRemainingLetters()[indexPath.item]
+            cell.letterLabel.text = remainingLetters[indexPath.item]
         }
         let score = Constants.tiles.points[game.ruleset][cell.letterLabel.text!]!
         cell.scoreLabel.text = score > 0 ? String(describing: score) : ""
@@ -291,6 +297,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     func sortSwitchChangedValue() {
+        remainingLetters = game.getRemainingLetters()
         self.gameCollectionView.reloadData()
     }
     

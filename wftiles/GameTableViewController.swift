@@ -30,7 +30,7 @@ class GameTableViewController: UITableViewController {
     
     @objc func loadGames() {
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
-        let games = RestClient.client.getGames(completionHandler: { (games, errorString) in
+        RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
                 // got an error in getting the data, need to handle it
                 print("error calling POST for Games")
@@ -62,7 +62,7 @@ class GameTableViewController: UITableViewController {
             for opponentId in opponentInfo.keys {
                 
                 avatarTaskGroup.enter()
-                let avatar_data = RestClient.client.getAvatar(opponentId: opponentId, completionHandler: { (avatar_data, error) in
+                RestClient.client.getAvatar(opponentId: opponentId, completionHandler: { (avatar_data, error) in
                     if let error = error {
                         // got an error in getting the data, need to handle it
                         print("error calling GET for avatar")
@@ -150,7 +150,7 @@ class GameTableViewController: UITableViewController {
         logoutButton.title = Texts.shared.getText(key: "logout")
         
         self.navigationItem.title = AppData.shared.getUser()!.username
-        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        let backButton = UIBarButtonItem(title: "", style: .done, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
 
         // Uncomment the following line to preserve selection between presentations
@@ -228,7 +228,7 @@ class GameTableViewController: UITableViewController {
                 return
         }
         // Pass the selected object to the new view controller.
-        destination.game = games[gameIndexPath.section][gameIndexPath.row]
+        destination.setGame(game: games[gameIndexPath.section][gameIndexPath.row])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
