@@ -16,10 +16,6 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     @IBOutlet weak var preferencesButton: UIButton!
     @IBOutlet var gameCollectionView: UICollectionView!
     var game: Game!
-    var sortedRack = [String]()
-    var remainingLetters = [String]()
-    var letterCount = [String:Int]()
-    private var viewHasLoaded = false
     
     func loginAndTryAgain() -> Void {
         if let user = AppData.store.getUser() {
@@ -60,50 +56,18 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             }
             // success :)
             
-            print("LAGRER GAME MED LETTERS")
             AppData.store.setGameWithUsedLetters(game: game)
-            //Bør sjekke om det er nye data, ellers bruke samme som sist.
-            //og lagre tiles hvis man går ut av game, så man kan vise det samme igjen neste gang
-            self.game = game
-            self.showTiles()
-        })
-    }
-    
-    func showTiles() {
-        letterCount = Constants.tiles.counts[game.ruleset]
-        //find remaining letters
-        if let rack = game.player.rack {
-            for letter in rack {
-                letterCount[letter]! -= 1
-            }
-        }
-        if let usedLetters = game.usedLetters {
-            for letter in usedLetters {
-                letterCount[letter]! -= 1
-            }
-        }
-        
-        //letterCount now holds count of remaining letters
-        updateRemaingLetters()
-        
-        //sort rack alphabetically
-        //skal dette også følge vokal/konsonant?
-        let locale = Locale(identifier: Constants.tiles.locales[game.ruleset])
-        sortedRack = game.player.rack!.sorted {
-            $0.compare($1, locale: locale) == .orderedAscending
-        }
-        DispatchQueue.main.async(execute: {
-            self.gameCollectionView.reloadData()
-            Alerts.shared.hide()
+
+            DispatchQueue.main.async(execute: {
+                self.game = game
+                self.gameCollectionView.reloadData()
+                Alerts.shared.hide()
+            })
         })
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if (game.usedLetters != nil) {
-            showTiles()
-        }
         
         //load game
         loadGame()
@@ -167,7 +131,11 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         if(section==0) {
-            return CGSize(width:collectionView.safeAreaLayoutGuide.layoutFrame.size.width, height:110)
+            if #available(iOS 11.0, *) {
+                return CGSize(width:collectionView.safeAreaLayoutGuide.layoutFrame.size.width, height:110)
+            } else {
+                return CGSize(width:collectionView.frame.size.width, height:110)
+            }
         } else {
             return CGSize(width:collectionView.frame.size.width, height:40)
         }
@@ -219,13 +187,13 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             return 0
         }
         if section == 1 {
-            return sortedRack.count
+            return game.player.rack!.count
         }
 
         if (AppData.store.showSummary()) {
             return Constants.tiles.letters(ruleset: game.ruleset).count
         }
-        return remainingLetters.count
+        return game.letterCount.values.reduce(0, +)
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -239,17 +207,14 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             cell.tileView.layer.borderWidth = 1
             cell.tileView.layer.cornerRadius = 4
             
-            let count = self.letterCount[cell.tileLetterLabel.text!]
-            if count == nil {
-                cell.letterCountLabel.text = "0"
-            } else {
-                cell.letterCountLabel.text = "\(count!)"
+            let count = game.letterCount[cell.tileLetterLabel.text!]!
+
+                cell.letterCountLabel.text = "\(count)"
                 if (count == 0) {
                     cell.tileView.backgroundColor = UIColor.lightGray
                 } else {
                     cell.tileView.backgroundColor = UIColor(red: CGFloat(251/255.0), green: CGFloat(251/255.0), blue: CGFloat(241/255.0), alpha: CGFloat(1.0))
                 }
-            }
             
             return cell
         }
@@ -259,9 +224,9 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         if indexPath.section == 1 {
-            cell.letterLabel.text = self.sortedRack[indexPath.item]
+            cell.letterLabel.text = game.player.rack![indexPath.item]
         } else {
-            cell.letterLabel.text = self.remainingLetters[indexPath.item]
+            cell.letterLabel.text = game.getRemainingLetters()[indexPath.item]
         }
         let score = Constants.tiles.points[game.ruleset][cell.letterLabel.text!]!
         cell.scoreLabel.text = score > 0 ? String(describing: score) : ""
@@ -326,17 +291,9 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     func sortSwitchChangedValue() {
-        updateRemaingLetters()
         self.gameCollectionView.reloadData()
     }
     
-    private func updateRemaingLetters() {
-        remainingLetters = []
-        for letter in Constants.tiles.letters(ruleset: game.ruleset) {
-            for _ in 0..<self.letterCount[letter]! {
-                remainingLetters.append(letter)
-            }
-        }
-    }
+    
     
 }

@@ -88,9 +88,24 @@ class RestClient {
         return "?"
     }
     
+    func usedLettersToRemaining(ruleset: Int, usedLetters: [String]?, rack: [String]?) -> [String:Int] {
+        var letterCount = Constants.tiles.counts[ruleset]
+        //find remaining letters
+        if rack != nil {
+            for letter in rack! {
+                letterCount[letter]! -= 1
+            }
+        }
+        if usedLetters != nil {
+            for letter in usedLetters! {
+                letterCount[letter]! -= 1
+            }
+        }
+        return letterCount
+    }
+    
     func gameDecoderToGame(gameDecoder: GameDecoder) -> Game {
         let opponent, loggedInPlayer: Player
-        var letters: [String]? = nil
         
         let playersTurn = gameDecoder.players[gameDecoder.current_player].id == AppData.store.getUser()!.id
         
@@ -101,13 +116,20 @@ class RestClient {
             loggedInPlayer = gameDecoder.players[1]
             opponent = gameDecoder.players[0]
         }
-        
-        
+        var usedLetters: [String]? = nil
         if let tiles = gameDecoder.tiles {
-            letters = tiles.map(self.enumToLetter)
+            usedLetters = tiles.map(self.enumToLetter)
+        }
+        let letterCount = usedLettersToRemaining(ruleset: gameDecoder.ruleset, usedLetters: usedLetters, rack: loggedInPlayer.rack)
+        
+        //sort rack alphabetically
+        //skal dette også følge vokal/konsonant?
+        let locale = Locale(identifier: Constants.tiles.locales[gameDecoder.ruleset])
+        loggedInPlayer.rack = loggedInPlayer.rack!.sorted {
+            $0.compare($1, locale: locale) == .orderedAscending
         }
         
-        return Game(id: gameDecoder.id, usedLetters: letters, isRunning: gameDecoder.is_running, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset, playersTurn: playersTurn, updated: gameDecoder.updated)
+        return Game(id: gameDecoder.id, letterCount: letterCount, isRunning: gameDecoder.is_running, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset, playersTurn: playersTurn, updated: gameDecoder.updated)
     }
         
     func getGame(id: UInt64, completionHandler: @escaping (Game?, String?) -> Void) {

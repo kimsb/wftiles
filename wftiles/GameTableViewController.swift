@@ -74,7 +74,7 @@ class GameTableViewController: UITableViewController {
                         return
                     }
                     // success :)
-                    AppData.store.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!))
+                    AppData.store.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!, lastShown: Date()))
                     
                     for section in 0 ..< self.games.count {
                         for row in 0 ..< self.games[section].count {
@@ -98,7 +98,6 @@ class GameTableViewController: UITableViewController {
             
             DispatchQueue.main.async(execute: {
                 //perform all UI stuff here
-                print("reloader data: games")
                 self.tableView.reloadData()
             })
         })
@@ -107,8 +106,8 @@ class GameTableViewController: UITableViewController {
     private func keepTiles(games: [Game]) -> [Game] {
         let storedGames = AppData.store.getGames()
         for game in games {
-            if let gameWithUsedLetters = storedGames.first(where: { $0.id == game.id }) {
-                game.usedLetters = gameWithUsedLetters.usedLetters
+            if let gameWithLetterCount = storedGames.first(where: { $0.id == game.id }) {
+                game.letterCount = gameWithLetterCount.letterCount
             }
         }
         AppData.store.setGames(games: games)
@@ -183,11 +182,12 @@ class GameTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of GameTableViewCell.")
         }
         // Fetches the appropriate game for the data source layout.
-        //let game = games[indexPath.row]
         let game = games[indexPath.section][indexPath.row]
         
         if let avatar = AppData.store.getAvatar(id: game.opponent.id) {
             cell.opponentImageView.image = avatar.image
+        } else {
+            cell.opponentImageView.image = nil
         }
         
         cell.opponentLabel.text = game.opponent.username

@@ -10,7 +10,7 @@ import Foundation
 
 class Game: NSObject, NSCoding {
     let id: UInt64
-    var usedLetters: [String]?
+    var letterCount: [String:Int]
     let isRunning: Bool
     var opponent: Player
     let player: Player
@@ -25,7 +25,7 @@ class Game: NSObject, NSCoding {
     
     struct PropertyKey {
         static let id = "id"
-        static let usedLetters = "usedLetters"
+        static let letterCount = "letterCount"
         static let isRunning = "isRunning"
         static let opponent = "opponent"
         static let player = "player"
@@ -35,9 +35,9 @@ class Game: NSObject, NSCoding {
         static let updated = "updated"
     }
     
-    init(id: UInt64, usedLetters: [String]?, isRunning: Bool, opponent: Player, player: Player, lastMove: Move?, ruleset: Int, playersTurn: Bool, updated: UInt64) {
+    init(id: UInt64, letterCount: [String:Int], isRunning: Bool, opponent: Player, player: Player, lastMove: Move?, ruleset: Int, playersTurn: Bool, updated: UInt64) {
         self.id = id
-        self.usedLetters = usedLetters
+        self.letterCount = letterCount
         self.isRunning = isRunning
         self.opponent = opponent
         self.player = player
@@ -49,7 +49,7 @@ class Game: NSObject, NSCoding {
     //NSCoding
     func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: PropertyKey.id)
-        aCoder.encode(usedLetters, forKey: PropertyKey.usedLetters)
+        aCoder.encode(letterCount, forKey: PropertyKey.letterCount)
         aCoder.encode(isRunning, forKey: PropertyKey.isRunning)
         aCoder.encode(opponent, forKey: PropertyKey.opponent)
         aCoder.encode(player, forKey: PropertyKey.player)
@@ -62,7 +62,7 @@ class Game: NSObject, NSCoding {
     required convenience init?(coder aDecoder: NSCoder) {
         
         let id = aDecoder.decodeObject(forKey: PropertyKey.id) as! UInt64
-        let usedLetters = aDecoder.decodeObject(forKey: PropertyKey.usedLetters) as? [String]
+        let letterCount = aDecoder.decodeObject(forKey: PropertyKey.letterCount) as! [String:Int]
         let isRunning = Bool(aDecoder.decodeBool(forKey: PropertyKey.isRunning))
         let opponent = aDecoder.decodeObject(forKey: PropertyKey.opponent) as! Player
         let player = aDecoder.decodeObject(forKey: PropertyKey.player) as! Player
@@ -71,7 +71,17 @@ class Game: NSObject, NSCoding {
         let playersTurn = Bool(aDecoder.decodeBool(forKey: PropertyKey.playersTurn))
         let updated = aDecoder.decodeObject(forKey: PropertyKey.updated) as! UInt64
         
-        self.init(id: id, usedLetters: usedLetters, isRunning: isRunning, opponent: opponent, player: player, lastMove: lastMove, ruleset: ruleset, playersTurn: playersTurn, updated: updated)
+        self.init(id: id, letterCount: letterCount, isRunning: isRunning, opponent: opponent, player: player, lastMove: lastMove, ruleset: ruleset, playersTurn: playersTurn, updated: updated)
+    }
+    
+    func getRemainingLetters() -> [String] {
+        var sortedRemainingLetters = [String]()
+        for letter in Constants.tiles.letters(ruleset: ruleset) {
+            for _ in 0..<letterCount[letter]! {
+                sortedRemainingLetters.append(letter)
+            }
+        }
+        return sortedRemainingLetters
     }
     
     func getLastMoveText() -> String {

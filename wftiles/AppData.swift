@@ -18,6 +18,10 @@ class AppData {
     }
     
     func addAvatar(id: UInt64, avatar: Avatar) {
+        if avatars.count > 99 {
+            let longestTimeSinceShown = avatars.values.min { $0.lastShown < $1.lastShown }
+            avatars = avatars.filter {$0.value.lastShown != longestTimeSinceShown!.lastShown}
+        }
         avatars[id] = avatar
         saveAvatars()
     }
@@ -89,7 +93,6 @@ class AppData {
     }
     
     private func saveGames() {
-        print("saving \(games.count) games")
         NSKeyedArchiver.archiveRootObject(games, toFile: Game.ArchiveURL.path)
     }
     
@@ -97,18 +100,17 @@ class AppData {
         preferences = NSKeyedUnarchiver.unarchiveObject(withFile: Preferences.ArchiveURL.path) as? Preferences
         user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
         
-        if let loadedAvatars = NSKeyedUnarchiver.unarchiveObject(withFile: Avatar.ArchiveURL.path) as? [UInt64:Avatar] {
-            avatars = loadedAvatars
-        } else {
+//        if let loadedAvatars = NSKeyedUnarchiver.unarchiveObject(withFile: Avatar.ArchiveURL.path) as? [UInt64:Avatar] {
+//            avatars = loadedAvatars
+//        } else {
             avatars = [UInt64:Avatar]()
-        }
+//        }
         
-        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
-            games = loadedGames
-        } else {
+//        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
+//            games = loadedGames
+//        } else {
             games = []
-        }
-        print("loading \(games.count) games")
+//        }
     }
     
 }

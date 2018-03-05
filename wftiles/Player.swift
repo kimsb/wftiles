@@ -12,7 +12,7 @@ class Player: NSObject, Codable, NSCoding {
     let username: String
     let score: Int
     let id: UInt64
-    let rack: [String]?
+    var rack: [String]?
     let avatar_updated: UInt64?
     
     struct PropertyKey {

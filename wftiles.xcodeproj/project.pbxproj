@@ -531,6 +531,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RH3SAY22R4;
 				INFOPLIST_FILE = wftiles/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -547,6 +548,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RH3SAY22R4;
 				INFOPLIST_FILE = wftiles/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
