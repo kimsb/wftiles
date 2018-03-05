@@ -39,6 +39,10 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     }
     
     @objc func loadGame() {
+        if Texts.shared.unsupportedLanguage(ruleset: game.ruleset) {
+            Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "unsupportedLanguage"), errorString: "")
+            return
+        }
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         guard let game = self.game else {
             print("No game to show")

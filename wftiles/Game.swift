@@ -45,6 +45,10 @@ class Game: NSObject, NSCoding {
         self.ruleset = ruleset
         self.playersTurn = playersTurn
         self.updated = updated
+        if Texts.shared.unsupportedLanguage(ruleset: ruleset) {
+            self.letterCount = [String:Int]()
+            self.player.rack = []
+        }
     }
     //NSCoding
     func encode(with aCoder: NSCoder) {

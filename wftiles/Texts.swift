@@ -27,14 +27,18 @@ class Texts {
     
     func getText(key: String) -> String {
         guard let textArray = texts[key] else {
-            return "Missing text"
+            return ""
         }
         return textArray[getLocaleIndex()]
     }
     
+    func unsupportedLanguage(ruleset: Int) -> Bool {
+        return ruleset >= languages.count
+    }
+    
     func getGameLanguage(ruleset: Int) -> String {
-        if ruleset >= languages.count {
-            return getText(key: "unsupportedLamguage")
+        if unsupportedLanguage(ruleset: ruleset) {
+            return getText(key: "unsupportedLanguage")
         }
         return getText(key: languages[ruleset])
     }

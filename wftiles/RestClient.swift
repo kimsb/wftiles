@@ -89,6 +89,9 @@ class RestClient {
     }
     
     func usedLettersToRemaining(ruleset: Int, usedLetters: [String]?, rack: [String]?) -> [String:Int] {
+        if Texts.shared.unsupportedLanguage(ruleset: ruleset) {
+            return [String:Int]()
+        }
         var letterCount = Constants.tiles.counts[ruleset]
         //find remaining letters
         if rack != nil {
@@ -124,9 +127,11 @@ class RestClient {
         
         //sort rack alphabetically
         //skal dette også følge vokal/konsonant?
+        if !Texts.shared.unsupportedLanguage(ruleset: gameDecoder.ruleset) {
         let locale = Locale(identifier: Constants.tiles.locales[gameDecoder.ruleset])
         loggedInPlayer.rack = loggedInPlayer.rack!.sorted {
             $0.compare($1, locale: locale) == .orderedAscending
+        }
         }
         
         return Game(id: gameDecoder.id, letterCount: letterCount, isRunning: gameDecoder.is_running, opponent: opponent, player: loggedInPlayer, lastMove: gameDecoder.last_move, ruleset: gameDecoder.ruleset, playersTurn: playersTurn, updated: gameDecoder.updated)

@@ -150,7 +150,7 @@ class GameTableViewController: UITableViewController {
         logoutButton.title = Texts.shared.getText(key: "logout")
         
         self.navigationItem.title = AppData.shared.getUser()!.username
-        let backButton = UIBarButtonItem(title: "", style: .done, target: self, action: nil)
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
 
         // Uncomment the following line to preserve selection between presentations
