@@ -7,13 +7,15 @@
 //
 
 import Foundation
-import os.log
 
 class AppData {
     
-    static let store = AppData()
+    static let shared = AppData()
 
     func getAvatar(id: UInt64) -> Avatar? {
+        if avatars[id] != nil {
+            avatars[id]!.lastShown = Date()
+        }
         return avatars[id]
     }
     
@@ -100,17 +102,17 @@ class AppData {
         preferences = NSKeyedUnarchiver.unarchiveObject(withFile: Preferences.ArchiveURL.path) as? Preferences
         user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
         
-//        if let loadedAvatars = NSKeyedUnarchiver.unarchiveObject(withFile: Avatar.ArchiveURL.path) as? [UInt64:Avatar] {
-//            avatars = loadedAvatars
-//        } else {
+        if let loadedAvatars = NSKeyedUnarchiver.unarchiveObject(withFile: Avatar.ArchiveURL.path) as? [UInt64:Avatar] {
+            avatars = loadedAvatars
+        } else {
             avatars = [UInt64:Avatar]()
-//        }
+        }
         
-//        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
-//            games = loadedGames
-//        } else {
+        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
+            games = loadedGames
+        } else {
             games = []
-//        }
+        }
     }
     
 }

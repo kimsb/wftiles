@@ -15,13 +15,13 @@ class PopoverController: UIViewController {
     @IBOutlet weak var sortSegmentedController: UISegmentedControl!
     
     @IBAction func viewSegmentedControllerChangedValue(_ sender: Any) {
-        AppData.store.setShowSummary(showSummary: viewSegmentedController.selectedSegmentIndex == 1)
+        AppData.shared.setShowSummary(showSummary: viewSegmentedController.selectedSegmentIndex == 1)
         let gameCollectionViewController = popoverPresentationController!.delegate as! GameCollectionViewController
         gameCollectionViewController.viewSwitchChangedValue()
     }
 
     @IBAction func sortSegmentedControllerChangedValue(_ sender: Any) {
-        AppData.store.setSortByVowels(sortByVowels: sortSegmentedController.selectedSegmentIndex == 1)
+        AppData.shared.setSortByVowels(sortByVowels: sortSegmentedController.selectedSegmentIndex == 1)
         let gameCollectionViewController = popoverPresentationController!.delegate as! GameCollectionViewController
         gameCollectionViewController.sortSwitchChangedValue()
     }
@@ -39,12 +39,12 @@ class PopoverController: UIViewController {
         viewSegmentedController.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
         sortSegmentedController.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
         
-        if AppData.store.showSummary() {
+        if AppData.shared.showSummary() {
             viewSegmentedController.selectedSegmentIndex = 1
         } else {
             viewSegmentedController.selectedSegmentIndex = 0
         }
-        if AppData.store.sortByVowels() {
+        if AppData.shared.sortByVowels() {
             sortSegmentedController.selectedSegmentIndex = 1
         } else {
             sortSegmentedController.selectedSegmentIndex = 0

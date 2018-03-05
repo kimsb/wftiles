@@ -94,20 +94,20 @@ class Game: NSObject, NSCoding {
         }
         switch lastMove.move_type {
         case "move":
-            if lastMove.user_id == AppData.store.getUser()!.id {
+            if lastMove.user_id == AppData.shared.getUser()!.id {
                 return String(format: Texts.shared.getText(key: "youPlayed"), lastMove.main_word!, lastMove.points!)
             } else {
                 return String(format: Texts.shared.getText(key: "theyPlayed"), opponent.username, lastMove.main_word!, lastMove.points!)
             }
         case "pass":
-            if lastMove.user_id == AppData.store.getUser()!.id  {
+            if lastMove.user_id == AppData.shared.getUser()!.id  {
                 return Texts.shared.getText(key: "youPassed")
             } else {
                 return String(format: Texts.shared.getText(key: "theyPassed"), opponent.username)
                 
             }
         case "swap":
-            if lastMove.user_id == AppData.store.getUser()!.id  {
+            if lastMove.user_id == AppData.shared.getUser()!.id  {
                 if (lastMove.tile_count! == 1) {
                     return String(format: Texts.shared.getText(key: "youSwappedOne"), lastMove.tile_count!)
                 }
@@ -119,7 +119,7 @@ class Game: NSObject, NSCoding {
                 return String(format: Texts.shared.getText(key: "theySwapped"), opponent.username, lastMove.tile_count!)
             }
         case "resign":
-            if lastMove.user_id == AppData.store.getUser()!.id  {
+            if lastMove.user_id == AppData.shared.getUser()!.id  {
                 return Texts.shared.getText(key: "youResigned")
             } else {
                 return String(format: Texts.shared.getText(key: "theyResigned"), opponent.username)

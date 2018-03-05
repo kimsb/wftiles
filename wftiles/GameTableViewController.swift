@@ -14,7 +14,7 @@ class GameTableViewController: UITableViewController {
     var games = Array(repeating: [Game](), count: 3)
     
     func loginAndTryAgain() -> Void {
-        if let user = AppData.store.getUser() {
+        if let user = AppData.shared.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             RestClient.client.login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password, completionHandler: { (user, errorString) in
                 if let errorString = errorString {
@@ -51,7 +51,7 @@ class GameTableViewController: UITableViewController {
             //hente bilder for alle spillere:
             var opponentInfo = [UInt64:UInt64]()
             for game in games {
-                if (AppData.store.getAvatar(id: game.opponent.id) == nil || AppData.store.getAvatar(id: game.opponent.id)!.updated != game.opponent.avatar_updated!) {
+                if (AppData.shared.getAvatar(id: game.opponent.id) == nil || AppData.shared.getAvatar(id: game.opponent.id)!.updated != game.opponent.avatar_updated!) {
                     opponentInfo[game.opponent.id] = game.opponent.avatar_updated
                 }
             }
@@ -74,7 +74,7 @@ class GameTableViewController: UITableViewController {
                         return
                     }
                     // success :)
-                    AppData.store.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!, lastShown: Date()))
+                    AppData.shared.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!, lastShown: Date()))
                     
                     for section in 0 ..< self.games.count {
                         for row in 0 ..< self.games[section].count {
@@ -104,13 +104,13 @@ class GameTableViewController: UITableViewController {
     }
     
     private func keepTiles(games: [Game]) -> [Game] {
-        let storedGames = AppData.store.getGames()
+        let storedGames = AppData.shared.getGames()
         for game in games {
             if let gameWithLetterCount = storedGames.first(where: { $0.id == game.id }) {
                 game.letterCount = gameWithLetterCount.letterCount
             }
         }
-        AppData.store.setGames(games: games)
+        AppData.shared.setGames(games: games)
         return games
     }
     
@@ -145,11 +145,11 @@ class GameTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        games = orderGamesByStatus(games: AppData.store.getGames())
+        games = orderGamesByStatus(games: AppData.shared.getGames())
         
         logoutButton.title = Texts.shared.getText(key: "logout")
         
-        self.navigationItem.title = AppData.store.getUser()!.username
+        self.navigationItem.title = AppData.shared.getUser()!.username
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
 
@@ -184,7 +184,7 @@ class GameTableViewController: UITableViewController {
         // Fetches the appropriate game for the data source layout.
         let game = games[indexPath.section][indexPath.row]
         
-        if let avatar = AppData.store.getAvatar(id: game.opponent.id) {
+        if let avatar = AppData.shared.getAvatar(id: game.opponent.id) {
             cell.opponentImageView.image = avatar.image
         } else {
             cell.opponentImageView.image = nil

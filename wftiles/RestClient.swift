@@ -107,9 +107,9 @@ class RestClient {
     func gameDecoderToGame(gameDecoder: GameDecoder) -> Game {
         let opponent, loggedInPlayer: Player
         
-        let playersTurn = gameDecoder.players[gameDecoder.current_player].id == AppData.store.getUser()!.id
+        let playersTurn = gameDecoder.players[gameDecoder.current_player].id == AppData.shared.getUser()!.id
         
-        if gameDecoder.players[0].id == AppData.store.getUser()!.id {
+        if gameDecoder.players[0].id == AppData.shared.getUser()!.id {
             loggedInPlayer = gameDecoder.players[0]
             opponent = gameDecoder.players[1]
         } else {
@@ -288,7 +288,7 @@ class RestClient {
                     }
                     let user = User(username: loginResponse.content.username!, email: loginResponse.content.email!, password: password,
                                     id: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root!, loginMethod: loginMethod)
-                    AppData.store.setUser(user: user)
+                    AppData.shared.setUser(user: user)
                     completionHandler(user, nil)
                 } catch {
                     print("error trying to convert data to JSON")
@@ -304,7 +304,7 @@ class RestClient {
     
     func getAvatar(opponentId: UInt64, completionHandler: @escaping (Data?, Error?) -> Void) {
         
-        let request = NSMutableURLRequest(url: NSURL(string: "\(AppData.store.getUser()!.avatarRoot)/80/\(opponentId)")! as URL,
+        let request = NSMutableURLRequest(url: NSURL(string: "\(AppData.shared.getUser()!.avatarRoot)/80/\(opponentId)")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 5.0)
         request.httpMethod = "GET"

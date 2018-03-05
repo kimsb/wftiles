@@ -18,7 +18,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     var game: Game!
     
     func loginAndTryAgain() -> Void {
-        if let user = AppData.store.getUser() {
+        if let user = AppData.shared.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             RestClient.client.login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password, completionHandler: { (user, errorString) in
                 if let errorString = errorString {
@@ -56,7 +56,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             }
             // success :)
             
-            AppData.store.setGameWithUsedLetters(game: game)
+            AppData.shared.setGameWithUsedLetters(game: game)
 
             DispatchQueue.main.async(execute: {
                 self.game = game
@@ -155,7 +155,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         if indexPath.section == 0 {
             let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameHeaderView
             
-            reusableview.avatarImageView.image = AppData.store.getAvatar(id: game.opponent.id)!.image
+            reusableview.avatarImageView.image = AppData.shared.getAvatar(id: game.opponent.id)!.image
             reusableview.addDiffLabel(myScore: game.player.score, opponentScore: game.opponent.score)
             reusableview.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
             reusableview.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
@@ -176,7 +176,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     
     //for å sette str på cell
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if AppData.store.showSummary() && indexPath.section == 2 {
+        if AppData.shared.showSummary() && indexPath.section == 2 {
             return CGSize(width: 80, height: 40)
         }
         return CGSize(width: 40, height: 40)
@@ -190,7 +190,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             return game.player.rack!.count
         }
 
-        if (AppData.store.showSummary()) {
+        if (AppData.shared.showSummary()) {
             return Constants.tiles.letters(ruleset: game.ruleset).count
         }
         return game.letterCount.values.reduce(0, +)
@@ -198,7 +198,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if AppData.store.showSummary() && indexPath.section == 2 {
+        if AppData.shared.showSummary() && indexPath.section == 2 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TileSummaryCollectionViewCell", for: indexPath as IndexPath) as! TileSummaryCollectionViewCell
             cell.tileLetterLabel.text = Constants.tiles.letters(ruleset: game.ruleset)[indexPath.item]
             let score = Constants.tiles.points[game.ruleset][cell.tileLetterLabel.text!]!

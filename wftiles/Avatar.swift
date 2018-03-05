@@ -12,7 +12,7 @@ import UIKit
 class Avatar: NSObject, NSCoding {
     let image: UIImage
     let updated: UInt64
-    let lastShown: Date
+    var lastShown: Date
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!

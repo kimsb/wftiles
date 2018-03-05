@@ -17,7 +17,7 @@ class Constants {
     let locales = ["en", "nb", "nl", "da", "sv", "en", "es", "fr", "sv", "de", "nb", "fi", "pt"]
     
     func letters(ruleset: Int) -> [String] {
-        if AppData.store.sortByVowels() {
+        if AppData.shared.sortByVowels() {
             return letters[ruleset]
         }
         return letters[ruleset].sorted {
