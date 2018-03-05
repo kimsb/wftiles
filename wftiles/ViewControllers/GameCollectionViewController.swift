@@ -95,7 +95,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         
         self.navigationItem.title = game.opponent.username
         
-        preferencesButton.setTitle("\u{2699}\u{0000FE0E}", for: .normal)
+        preferencesButton.setTitle("  \u{2699}\u{0000FE0E} ", for: .normal)
         preferencesButton.titleLabel?.font = preferencesButton.titleLabel?.font.withSize(30)
         
         // Uncomment the following line to preserve selection between presentations
@@ -286,8 +286,6 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             let destination = segue.destination
             if let popover = destination.popoverPresentationController {
                 popover.delegate = self
-                popover.sourceView = preferencesButton
-                popover.sourceRect = preferencesButton.bounds
             }
         }
     }

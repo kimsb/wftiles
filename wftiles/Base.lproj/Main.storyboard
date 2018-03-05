@@ -325,7 +325,7 @@
                             </button>
                             <connections>
                                 <segue destination="SMD-Kj-WCu" kind="popoverPresentation" identifier="popover" popoverAnchorBarButtonItem="l62-a8-1Ak" id="iQj-51-4OP">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
                                 </segue>
                             </connections>
                         </barButtonItem>
@@ -442,7 +442,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ve4-hA-39b"/>
+        <segue reference="BqB-zE-mcS"/>
         <segue reference="NcM-BX-w0F"/>
         <segue reference="zc6-7H-H62"/>
     </inferredMetricsTieBreakers>
