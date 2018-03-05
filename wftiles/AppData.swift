@@ -108,11 +108,11 @@ class AppData {
             avatars = [UInt64:Avatar]()
         }
         
-//        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
-//            games = loadedGames
-//        } else {
+        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
+            games = loadedGames
+        } else {
             games = []
-//        }
+        }
     }
     
 }

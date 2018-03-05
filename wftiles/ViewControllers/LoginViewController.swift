@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = "Wordfeud Tiles"
+        
         loginInfoLabel.text = Texts.shared.getText(key: "loginInfo")
         userTextField.placeholder = Texts.shared.getText(key: "usernameEmail")
         passwordTextField.placeholder = Texts.shared.getText(key: "password")
