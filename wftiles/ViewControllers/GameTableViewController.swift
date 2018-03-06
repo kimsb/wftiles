@@ -107,7 +107,9 @@ class GameTableViewController: UITableViewController {
         let storedGames = AppData.shared.getGames()
         for game in games {
             if let gameWithLetterCount = storedGames.first(where: { $0.id == game.id }) {
-                game.letterCount = gameWithLetterCount.letterCount
+                if game.updated == gameWithLetterCount.updated {
+                    game.letterCount = gameWithLetterCount.letterCount
+                }
             }
         }
         AppData.shared.setGames(games: games)
