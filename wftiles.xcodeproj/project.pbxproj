@@ -19,7 +19,6 @@
 		F3328E802034DD4B009AA8F9 /* TileSummaryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3328E7E2034DD4B009AA8F9 /* TileSummaryCollectionViewCell.xib */; };
 		F346B7D8203CA3C400584BB9 /* Texts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346B7D7203CA3C400584BB9 /* Texts.swift */; };
 		F34E1503204D992400927674 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F34E1501204D992400927674 /* Localizable.strings */; };
-		F36E80CA204DFBA400975EFE /* wftiles-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F36E80C9204DFBA400975EFE /* wftiles-icon.png */; };
 		F378872B20232BA80080FA40 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F378872A20232BA80080FA40 /* Alerts.swift */; };
 		F38F51A7203775A200F30460 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F51A6203775A200F30460 /* Preferences.swift */; };
 		F395F5A7201B5E5D00605A93 /* GameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */; };
@@ -108,7 +107,6 @@
 		F34E151D204D9A2600927674 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		F34E151E204D9A2600927674 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F34E1520204DD1D800927674 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		F36E80C9204DFBA400975EFE /* wftiles-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "wftiles-icon.png"; path = "../../../../Documents/wftiles-icon.png"; sourceTree = "<group>"; };
 		F378872A20232BA80080FA40 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		F38F51A6203775A200F30460 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewCell.swift; sourceTree = "<group>"; };
@@ -181,7 +179,6 @@
 		F3099C0E20175CBA000AE01A /* wftiles */ = {
 			isa = PBXGroup;
 			children = (
-				F36E80C5204DF75B00975EFE /* icons */,
 				F34E14FE204D839500927674 /* Headers */,
 				F34E14FD204D835100927674 /* Cells */,
 				F34E14FC204D830900927674 /* Xibs */,
@@ -267,14 +264,6 @@
 				F3F6150120336CB6005D58E2 /* TileHeaderView.swift */,
 			);
 			path = Headers;
-			sourceTree = "<group>";
-		};
-		F36E80C5204DF75B00975EFE /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				F36E80C9204DFBA400975EFE /* wftiles-icon.png */,
-			);
-			path = icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,7 +383,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3328E802034DD4B009AA8F9 /* TileSummaryCollectionViewCell.xib in Resources */,
-				F36E80CA204DFBA400975EFE /* wftiles-icon.png in Resources */,
 				F34E1503204D992400927674 /* Localizable.strings in Resources */,
 				F3099C1A20175CBB000AE01A /* LaunchScreen.storyboard in Resources */,
 				F3DC0B46202FA9DD00E006F9 /* GameHeaderView.xib in Resources */,
