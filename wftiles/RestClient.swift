@@ -89,18 +89,16 @@ class RestClient {
     }
     
     func usedLettersToRemaining(ruleset: Int, usedLetters: [String]?, rack: [String]?) -> [String:Int] {
-        if Texts.shared.unsupportedLanguage(ruleset: ruleset) {
+        if usedLetters == nil || Texts.shared.unsupportedLanguage(ruleset: ruleset) {
             return [String:Int]()
         }
         var letterCount = Constants.tiles.counts[ruleset]
         //find remaining letters
+        for letter in usedLetters! {
+            letterCount[letter]! -= 1
+        }
         if rack != nil {
             for letter in rack! {
-                letterCount[letter]! -= 1
-            }
-        }
-        if usedLetters != nil {
-            for letter in usedLetters! {
                 letterCount[letter]! -= 1
             }
         }

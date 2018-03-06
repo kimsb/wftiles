@@ -79,6 +79,9 @@ class Game: NSObject, NSCoding {
     }
     
     func getRemainingLetters() -> [String] {
+        if letterCount.isEmpty {
+            return []
+        }
         var sortedRemainingLetters = [String]()
         for letter in Constants.tiles.letters(ruleset: ruleset) {
             for _ in 0..<letterCount[letter]! {

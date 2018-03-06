@@ -69,7 +69,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             AppData.shared.setGameWithUsedLetters(game: game)
 
             DispatchQueue.main.async(execute: {
-                self.game = game
+                self.setGame(game: game)
                 self.gameCollectionView.reloadData()
                 Alerts.shared.hide()
             })
