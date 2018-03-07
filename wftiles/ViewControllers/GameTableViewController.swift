@@ -206,6 +206,7 @@ class GameTableViewController: UITableViewController {
         } else {
             header.headerLabel.text = Texts.shared.getText(key: "finishedGames")
         }
+        header.backgroundColor = UIColor.white
         return header
     }
     
