@@ -155,12 +155,6 @@ class GameTableViewController: UITableViewController {
         self.navigationItem.title = AppData.shared.getUser()!.username
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func didReceiveMemoryWarning() {
@@ -212,8 +206,6 @@ class GameTableViewController: UITableViewController {
         } else {
             header.headerLabel.text = Texts.shared.getText(key: "finishedGames")
         }
-        header.backgroundColor = UIColor.white
-        
         return header
     }
     
