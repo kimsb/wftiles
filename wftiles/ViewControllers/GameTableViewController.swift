@@ -187,7 +187,9 @@ class GameTableViewController: UITableViewController {
             cell.opponentImageView.image = nil
         }
         
-        cell.opponentLabel.text = game.opponent.username
+        let boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16)]
+        cell.opponentLabel.attributedText = NSMutableAttributedString(string: game.opponent.username, attributes: boldAttributes)
+        
         cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
         cell.lastMoveLabel.text = game.getLastMoveText();
