@@ -22,6 +22,7 @@ class Alerts: UIVisualEffectView {
     private var height: CGFloat = 50
     private let width = CGFloat(160)
     private let activityIndicatorSize: CGFloat = 40
+    private var refreshControl: UIRefreshControl?
     
     private init() {
         self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
@@ -75,6 +76,9 @@ class Alerts: UIVisualEffectView {
     }
     
     func show(text: String) {
+        if refreshControl != nil {
+            return
+        }
         DispatchQueue.main.async(execute: {
             self.label.text = text
             self.height = 50
@@ -103,7 +107,20 @@ class Alerts: UIVisualEffectView {
                 }
             }
         }
-        
+    }
+    
+    func refreshSpinnerShown(refreshControl: UIRefreshControl) {
+//        UIApplication.shared.beginIgnoringInteractionEvents()
+        self.sinceShown = Date()
+        self.refreshControl = refreshControl
+    }
+    
+    private func hideRefreshSpinner() {
+        if refreshControl != nil {
+            refreshControl!.endRefreshing()
+            refreshControl = nil
+        }
+//        UIApplication.shared.endIgnoringInteractionEvents()
     }
     
     func hide() {
@@ -115,6 +132,9 @@ class Alerts: UIVisualEffectView {
                 self.isHidden = true
                 self.removeFromSuperview()
                 UIApplication.shared.endIgnoringInteractionEvents()
+            }
+            if self.refreshControl != nil {
+                self.hideRefreshSpinner()
             }
         }
     }

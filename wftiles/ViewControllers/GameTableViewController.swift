@@ -12,6 +12,7 @@ class GameTableViewController: UITableViewController {
     //MARK: Properties
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     var games = Array(repeating: [Game](), count: 3)
+    var customRefresh: UIRefreshControl!
     
     func loginAndTryAgain() -> Void {
         if let user = AppData.shared.getUser() {
@@ -26,6 +27,11 @@ class GameTableViewController: UITableViewController {
                 self.loadGames()
             })
         }
+    }
+    
+    @objc func loadFromRefresh() {
+        Alerts.shared.refreshSpinnerShown(refreshControl: customRefresh)
+        loadGames()
     }
     
     @objc func loadGames() {
@@ -147,6 +153,13 @@ class GameTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        
+        customRefresh = UIRefreshControl()
+        customRefresh.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
+        customRefresh.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(customRefresh)
+        customRefresh.layer.zPosition = -1
         
         games = orderGamesByStatus(games: AppData.shared.getGames())
         
@@ -194,7 +207,7 @@ class GameTableViewController: UITableViewController {
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
         cell.lastMoveLabel.text = game.getLastMoveText();
         cell.addDiffLabel(myScore: game.player.score, opponentScore: game.opponent.score)
-
+        
         return cell
     }
     
@@ -209,6 +222,7 @@ class GameTableViewController: UITableViewController {
             header.headerLabel.text = Texts.shared.getText(key: "finishedGames")
         }
         header.backgroundColor = UIColor.white
+        
         return header
     }
     

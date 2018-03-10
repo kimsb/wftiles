@@ -17,6 +17,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     @IBOutlet var gameCollectionView: UICollectionView!
     private var game: Game!
     private var remainingLetters = [String]()
+    var refreshControl: UIRefreshControl!
     
     func setGame(game: Game) {
         self.game = game
@@ -36,6 +37,11 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
                 self.loadGame()
             })
         }
+    }
+    
+    @objc func loadFromRefresh() {
+        Alerts.shared.refreshSpinnerShown(refreshControl: refreshControl!)
+        loadGame()
     }
     
     @objc func loadGame() {
@@ -92,6 +98,11 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
+        refreshControl.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
+        gameCollectionView.addSubview(refreshControl)
         
         self.navigationItem.title = game.opponent.username
         
