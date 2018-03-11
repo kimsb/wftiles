@@ -97,7 +97,6 @@ class Alerts: UIVisualEffectView {
             if (!self.hideCalled) {
                 self.sinceShown = Date()
                 if !self.activityIndictor.isAnimating {
-                    UIApplication.shared.beginIgnoringInteractionEvents()
                     let holdingView = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!.view!
                     holdingView.addSubview(self)
                     self.activityIndictor.startAnimating()
@@ -110,7 +109,6 @@ class Alerts: UIVisualEffectView {
     }
     
     func refreshSpinnerShown(refreshControl: UIRefreshControl) {
-//        UIApplication.shared.beginIgnoringInteractionEvents()
         self.sinceShown = Date()
         self.refreshControl = refreshControl
     }
@@ -120,7 +118,6 @@ class Alerts: UIVisualEffectView {
             refreshControl!.endRefreshing()
             refreshControl = nil
         }
-//        UIApplication.shared.endIgnoringInteractionEvents()
     }
     
     func hide() {
@@ -131,7 +128,6 @@ class Alerts: UIVisualEffectView {
                 self.activityIndictor.stopAnimating()
                 self.isHidden = true
                 self.removeFromSuperview()
-                UIApplication.shared.endIgnoringInteractionEvents()
             }
             if self.refreshControl != nil {
                 self.hideRefreshSpinner()
