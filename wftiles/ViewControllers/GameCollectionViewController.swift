@@ -11,7 +11,7 @@ import UIKit
 private let reuseIdentifier = "TileCollectionViewCell"
 
 class GameCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate {
-
+    
     //MARK: Properties
     @IBOutlet weak var preferencesButton: UIButton!
     @IBOutlet var gameCollectionView: UICollectionView!
@@ -73,7 +73,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             // success :)
             
             AppData.shared.setGameWithUsedLetters(game: game)
-
+            
             DispatchQueue.main.async(execute: {
                 self.setGame(game: game)
                 self.gameCollectionView.reloadData()
@@ -98,7 +98,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
         refreshControl.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
@@ -108,14 +108,14 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         
         preferencesButton.setTitle("  \u{2699}\u{0000FE0E} ", for: .normal)
         preferencesButton.titleLabel?.font = preferencesButton.titleLabel?.font.withSize(30)
-
+        
         let headerNib = UINib(nibName: "GameHeaderView", bundle: nil)
         self.gameCollectionView.register(headerNib, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView")
         
         let summaryCellNib = UINib(nibName: "TileSummaryCollectionViewCell", bundle: nil)
         self.gameCollectionView.register(summaryCellNib, forCellWithReuseIdentifier: "TileSummaryCollectionViewCell")
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -159,7 +159,8 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         if indexPath.section == 0 {
             let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameHeaderView
             
-            reusableview.avatarImageView.image = AppData.shared.getAvatar(id: game.opponent.id)!.image
+            let avatar = AppData.shared.getAvatar(id: game.opponent.id)
+            reusableview.avatarImageView.image = avatar != nil ? avatar!.image : nil
             reusableview.addDiffLabel(myScore: game.player.score, opponentScore: game.opponent.score)
             reusableview.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
             reusableview.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
@@ -173,7 +174,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             } else {
                 reusableview.headerLabel.text = Texts.shared.getText(key: "remainingTiles")
             }
-
+            
             return reusableview
         }
     }
@@ -191,15 +192,18 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             return 0
         }
         if section == 1 {
-            return game.player.rack!.count
+            guard let rack = game.player.rack else {
+                return 0
+            }
+            return rack.count
         }
-
+        
         if (AppData.shared.showSummary()) {
             return Constants.tiles.letters(ruleset: game.ruleset).count
         }
         return game.letterCount.values.reduce(0, +)
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if AppData.shared.showSummary() && indexPath.section == 2 {
@@ -211,14 +215,16 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             cell.tileView.layer.borderWidth = 1
             cell.tileView.layer.cornerRadius = 4
             
-            let count = game.letterCount[cell.tileLetterLabel.text!]!
-
-                cell.letterCountLabel.text = "\(count)"
-                if (count == 0) {
-                    cell.tileView.backgroundColor = UIColor.lightGray
-                } else {
-                    cell.tileView.backgroundColor = UIColor(red: CGFloat(251/255.0), green: CGFloat(251/255.0), blue: CGFloat(241/255.0), alpha: CGFloat(1.0))
-                }
+            let count = game.letterCount[cell.tileLetterLabel.text!] != nil
+                ? game.letterCount[cell.tileLetterLabel.text!]!
+                : 0
+            
+            cell.letterCountLabel.text = "\(count)"
+            if (count == 0) {
+                cell.tileView.backgroundColor = UIColor.lightGray
+            } else {
+                cell.tileView.backgroundColor = UIColor(red: CGFloat(251/255.0), green: CGFloat(251/255.0), blue: CGFloat(241/255.0), alpha: CGFloat(1.0))
+            }
             
             return cell
         }
@@ -239,7 +245,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         cell.layer.cornerRadius = 4
         return cell
     }
-
+    
     @IBAction func popoverAction(_ sender: Any) {
         self.performSegue(withIdentifier: "popover", sender: self)
     }

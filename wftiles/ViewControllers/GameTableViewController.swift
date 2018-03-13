@@ -57,7 +57,8 @@ class GameTableViewController: UITableViewController {
             //hente bilder for alle spillere:
             var opponentInfo = [UInt64:UInt64]()
             for game in games {
-                if (AppData.shared.getAvatar(id: game.opponent.id) == nil || AppData.shared.getAvatar(id: game.opponent.id)!.updated != game.opponent.avatar_updated!) {
+                let avatar = AppData.shared.getAvatar(id: game.opponent.id)
+                if (avatar == nil || (game.opponent.avatar_updated != nil && avatar!.updated != game.opponent.avatar_updated!)) {
                     opponentInfo[game.opponent.id] = game.opponent.avatar_updated
                 }
             }
@@ -141,10 +142,10 @@ class GameTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-            loadGames()
+        loadGames()
         
-            NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
-            )
+        NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
+        )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -153,7 +154,7 @@ class GameTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
         customRefresh = UIRefreshControl()
         customRefresh.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
@@ -165,7 +166,8 @@ class GameTableViewController: UITableViewController {
         
         logoutButton.title = Texts.shared.getText(key: "logout")
         
-        self.navigationItem.title = AppData.shared.getUser()!.username
+        let user = AppData.shared.getUser()
+        self.navigationItem.title = user != nil ? user!.username : ""
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
     }
@@ -201,11 +203,8 @@ class GameTableViewController: UITableViewController {
         // Fetches the appropriate game for the data source layout.
         let game = games[indexPath.section][indexPath.row]
         
-        if let avatar = AppData.shared.getAvatar(id: game.opponent.id) {
-            cell.opponentImageView.image = avatar.image
-        } else {
-            cell.opponentImageView.image = nil
-        }
+        let avatar = AppData.shared.getAvatar(id: game.opponent.id)
+        cell.opponentImageView.image = avatar != nil ? avatar!.image : nil
         
         let boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16)]
         cell.opponentLabel.attributedText = NSMutableAttributedString(string: game.opponent.username, attributes: boldAttributes)
