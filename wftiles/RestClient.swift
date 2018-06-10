@@ -62,6 +62,7 @@ class RestClient {
     enum TileEnum: Decodable {
         case character(String)
         case wildcard(Bool)
+        case ignoredPlacingInt(Int)
         
         init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
@@ -69,8 +70,11 @@ class RestClient {
             if let value = try? container.decode(String.self) {
                 self = .character(value)
             } else if let value = try? container.decode(Int.self) {
-                self = .wildcard(value > 0)
+                self = .ignoredPlacingInt(value)
+            } else if let value = try? container.decode(Bool.self) {
+                self = .wildcard(value)
             } else {
+                print("Decoding of TileEnum fails")
                 let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Unknown type")
                 throw DecodingError.dataCorrupted(context)
             }
