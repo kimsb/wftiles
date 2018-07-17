@@ -26,6 +26,9 @@ class RestClient {
         let id: UInt64?
         let avatar_root: String?
         let type: String?
+        let fb_first_name: String?
+        let fb_middle_name: String?
+        let fb_last_name: String?
     }
     
     struct GamesResponse: Decodable {
@@ -293,8 +296,9 @@ class RestClient {
                         }
                         return
                     }
+                    
                     let user = User(username: loginResponse.content.username!, email: loginResponse.content.email!, password: password,
-                                    id: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root!, loginMethod: loginMethod)
+                                    id: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root!, loginMethod: loginMethod, fb_first_name: loginResponse.content.fb_first_name, fb_middle_name: loginResponse.content.fb_middle_name, fb_last_name: loginResponse.content.fb_last_name)
                     AppData.shared.setUser(user: user)
                     completionHandler(user, nil)
                 } catch {

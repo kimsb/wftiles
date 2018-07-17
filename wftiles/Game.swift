@@ -92,11 +92,12 @@ class Game: NSObject, NSCoding {
     }
     
     func getLastMoveText() -> String {
+        let opponentName = opponent.presentableUsername()
         guard let lastMove = lastMove else {
             if playersTurn {
-                return String(format: Texts.shared.getText(key: "firstMoveYou"), opponent.username)
+                return String(format: Texts.shared.getText(key: "firstMoveYou"), opponentName)
             } else {
-                return String(format: Texts.shared.getText(key: "firstMoveThem"), opponent.username)
+                return String(format: Texts.shared.getText(key: "firstMoveThem"), opponentName)
             }
         }
         switch lastMove.move_type {
@@ -104,13 +105,13 @@ class Game: NSObject, NSCoding {
             if lastMove.user_id == AppData.shared.getUser()!.id {
                 return String(format: Texts.shared.getText(key: "youPlayed"), lastMove.main_word!, lastMove.points!)
             } else {
-                return String(format: Texts.shared.getText(key: "theyPlayed"), opponent.username, lastMove.main_word!, lastMove.points!)
+                return String(format: Texts.shared.getText(key: "theyPlayed"), opponentName, lastMove.main_word!, lastMove.points!)
             }
         case "pass":
             if lastMove.user_id == AppData.shared.getUser()!.id  {
                 return Texts.shared.getText(key: "youPassed")
             } else {
-                return String(format: Texts.shared.getText(key: "theyPassed"), opponent.username)
+                return String(format: Texts.shared.getText(key: "theyPassed"), opponentName)
                 
             }
         case "swap":
@@ -121,15 +122,15 @@ class Game: NSObject, NSCoding {
                 return String(format: Texts.shared.getText(key: "youSwapped"), lastMove.tile_count!)
             } else {
                 if (lastMove.tile_count! == 1) {
-                    return String(format: Texts.shared.getText(key: "theySwappedOne"), opponent.username, lastMove.tile_count!)
+                    return String(format: Texts.shared.getText(key: "theySwappedOne"), opponentName, lastMove.tile_count!)
                 }
-                return String(format: Texts.shared.getText(key: "theySwapped"), opponent.username, lastMove.tile_count!)
+                return String(format: Texts.shared.getText(key: "theySwapped"), opponentName, lastMove.tile_count!)
             }
         case "resign":
             if lastMove.user_id == AppData.shared.getUser()!.id  {
                 return Texts.shared.getText(key: "youResigned")
             } else {
-                return String(format: Texts.shared.getText(key: "theyResigned"), opponent.username)
+                return String(format: Texts.shared.getText(key: "theyResigned"), opponentName)
             }
         default:
             return ""

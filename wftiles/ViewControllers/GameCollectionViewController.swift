@@ -104,7 +104,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         refreshControl.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
         gameCollectionView.addSubview(refreshControl)
         
-        self.navigationItem.title = game.opponent.username
+        self.navigationItem.title = game.opponent.presentableUsername()
         
         preferencesButton.setTitle("  \u{2699}\u{0000FE0E} ", for: .normal)
         preferencesButton.titleLabel?.font = preferencesButton.titleLabel?.font.withSize(30)

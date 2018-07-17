@@ -167,7 +167,7 @@ class GameTableViewController: UITableViewController {
         logoutButton.title = Texts.shared.getText(key: "logout")
         
         let user = AppData.shared.getUser()
-        self.navigationItem.title = user != nil ? user!.username : ""
+        self.navigationItem.title = user != nil ? user!.presentableUsername() : ""
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
     }
@@ -207,7 +207,7 @@ class GameTableViewController: UITableViewController {
         cell.opponentImageView.image = avatar != nil ? avatar!.image : nil
         
         let boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16)]
-        cell.opponentLabel.attributedText = NSMutableAttributedString(string: game.opponent.username, attributes: boldAttributes)
+        cell.opponentLabel.attributedText = NSMutableAttributedString(string: game.opponent.presentableUsername(), attributes: boldAttributes)
         
         cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
