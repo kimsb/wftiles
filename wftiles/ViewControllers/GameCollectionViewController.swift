@@ -172,7 +172,8 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             if indexPath.section == 1 {
                 reusableview.headerLabel.text = Texts.shared.getText(key: "yourTiles")
             } else {
-                reusableview.headerLabel.text = Texts.shared.getText(key: "remainingTiles")
+                let inBag = max(0, game.getRemainingLetters().count - 7)
+                reusableview.headerLabel.text = String(format: Texts.shared.getText(key: "remainingTiles"), inBag)
             }
             
             return reusableview

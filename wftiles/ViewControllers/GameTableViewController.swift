@@ -167,7 +167,7 @@ class GameTableViewController: UITableViewController {
         logoutButton.title = Texts.shared.getText(key: "logout")
         
         let user = AppData.shared.getUser()
-        self.navigationItem.title = user != nil ? user!.presentableUsername() : ""
+        self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
     }

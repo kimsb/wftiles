@@ -74,7 +74,7 @@ class User: NSObject, NSCoding {
         self.init(username: username, email: email, password: password, id: id, avatarRoot: avatarRoot, loginMethod:loginMethod, fb_first_name: fb_first_name, fb_middle_name: fb_middle_name, fb_last_name: fb_last_name)
     }
     
-    func presentableUsername() -> String {
+    func presentableFullUsername() -> String {
         if username.hasPrefix("_fb_") && !(fb_first_name ?? "").isEmpty {
             return fb_first_name! +
                 (fb_middle_name == nil ? "" : " \(fb_middle_name!)") +

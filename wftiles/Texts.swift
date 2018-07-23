@@ -128,7 +128,7 @@ class Texts {
         
         texts["yourTiles"] = ["Your tiles", "Dine brikker", "Jouw letters", "Dine brikker", "Dina brickor", "Tus fichas", "Vos pièces", "Deine Spielsteine", "Teidän laatat", "Suas peças"]
         
-        texts["remainingTiles"] = ["Remaining tiles", "Resterende brikker", "Resterende letters", "Resterende brikker", "Resterande brickor", "Fichas restantes", "Pièces restantes", "Verbleibende Spielsteine", "Jäljellä olevat laatat", "Peças restantes"]
+        texts["remainingTiles"] = ["Remaining tiles (%d in the bag)", "Resterende brikker (%d i posen)", "Resterende letters (%d in het zakje)", "Resterende brikker (%d i posen)", "Resterande brickor (%d i påsen)", "Fichas restantes (%d en la bolsa)", "Pièces restantes (%d dans le sac)", "Verbleibende Spielsteine (%d in den Beutel)", "Jäljellä olevat laatat (%d pussissa)", "Peças restantes (%d no saco)"]
         
         texts["standard"] = ["Standard", "Standard", "Standaard", "Standard", "Standard", "Estándar", "Standard", "Standard", "Vakio", "Padrão"]
         
