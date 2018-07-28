@@ -8,9 +8,10 @@
 
 import UIKit
 
-class GameTableViewController: UITableViewController {
+class GameTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     //MARK: Properties
     @IBOutlet weak var logoutButton: UIBarButtonItem!
+    @IBOutlet weak var languagesButton: UIButton!
     var games = Array(repeating: [Game](), count: 3)
     var customRefresh: UIRefreshControl!
     
@@ -157,19 +158,26 @@ class GameTableViewController: UITableViewController {
         
         
         customRefresh = UIRefreshControl()
-        customRefresh.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
         customRefresh.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(customRefresh)
         customRefresh.layer.zPosition = -1
         
         games = orderGamesByStatus(games: AppData.shared.getGames())
         
-        logoutButton.title = Texts.shared.getText(key: "logout")
+        languagesButton.setTitle("  \u{2699}\u{0000FE0E} ", for: .normal)
+        languagesButton.titleLabel?.font = languagesButton.titleLabel?.font.withSize(30)
         
         let user = AppData.shared.getUser()
         self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
+        
+        loadTexts()
+    }
+    
+    func loadTexts() {
+        customRefresh.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
+        logoutButton.title = Texts.shared.getText(key: "logout")
     }
     
     override func didReceiveMemoryWarning() {
@@ -240,17 +248,32 @@ class GameTableViewController: UITableViewController {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        guard let destination = segue.destination as? GameCollectionViewController,
-            let gameIndexPath = tableView.indexPathForSelectedRow else {
-                return
+        
+        if segue.identifier == "languagePopover" {
+            let destination = segue.destination
+            if let popover = destination.popoverPresentationController {
+                popover.delegate = self
+            }
+        } else {
+            // Get the new view controller using segue.destinationViewController.
+            guard let destination = segue.destination as? GameCollectionViewController,
+                let gameIndexPath = tableView.indexPathForSelectedRow else {
+                    return
+            }
+            // Pass the selected object to the new view controller.
+            destination.setGame(game: games[gameIndexPath.section][gameIndexPath.row])
         }
-        // Pass the selected object to the new view controller.
-        destination.setGame(game: games[gameIndexPath.section][gameIndexPath.row])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+    }
+    @IBAction func languagePopover(_ sender: Any) {        
+        self.performSegue(withIdentifier: "languagePopover", sender: self)
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
     
 }

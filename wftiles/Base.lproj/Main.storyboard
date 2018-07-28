@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JM0-kh-k87">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JM0-kh-k87">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -211,6 +211,7 @@
                             <outlet property="delegate" destination="tS2-dc-JTK" id="h1W-ju-gd5"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="Tkr-Gi-RhJ">
                         <barButtonItem key="leftBarButtonItem" id="NSa-Zp-kGB">
                             <connections>
@@ -218,14 +219,93 @@
                                 <segue destination="BYZ-38-t0r" kind="custom" identifier="rightToLeftSegue" customClass="RightToLeftSegue" customModule="wftiles" customModuleProvider="target" id="zc6-7H-H62"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="90X-4O-a8e">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gQX-bb-mjc">
+                                <rect key="frame" x="329" y="7" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="languagePopover:" destination="tS2-dc-JTK" eventType="touchUpInside" id="J0V-Vn-38Z"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <segue destination="a7O-sa-j6n" kind="popoverPresentation" identifier="languagePopover" popoverAnchorBarButtonItem="90X-4O-a8e" id="PLT-Tz-szf">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="languagesButton" destination="gQX-bb-mjc" id="0bn-tN-xwy"/>
                         <outlet property="logoutButton" destination="NSa-Zp-kGB" id="pme-Od-una"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhd-Fy-lQ4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1816.8" y="31.934032983508249"/>
+        </scene>
+        <!--Language Controller-->
+        <scene sceneID="QVP-Ae-T5I">
+            <objects>
+                <tableViewController modalPresentationStyle="currentContext" id="a7O-sa-j6n" customClass="LanguageController" customModule="wftiles" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9xt-KV-QiM">
+                        <rect key="frame" x="0.0" y="0.0" width="290" height="484"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LanguageHeaderCell" rowHeight="44" id="jlk-Uq-4E3" customClass="LanguageHeaderCell" customModule="wftiles" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="290" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jlk-Uq-4E3" id="6F1-q2-5tI">
+                                    <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVI-A3-V9c">
+                                            <rect key="frame" x="16" y="11" width="258" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="headerLabel" destination="sVI-A3-V9c" id="PuH-Y7-ZkH"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LanguageViewCell" id="Rkx-MR-PQ2" customClass="LanguageViewCell" customModule="wftiles" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="290" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rkx-MR-PQ2" id="JiT-pv-uoO">
+                                    <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Norsk" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5T0-yJ-Iqg">
+                                            <rect key="frame" x="16" y="11" width="199" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="language" destination="5T0-yJ-Iqg" id="Bsz-mr-PKz"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="a7O-sa-j6n" id="j0v-w2-dhM"/>
+                            <outlet property="delegate" destination="a7O-sa-j6n" id="dhB-Qm-69Z"/>
+                        </connections>
+                    </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="290" height="484"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="290" height="484"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LgG-T6-hwt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2588.8000000000002" y="-395.80209895052479"/>
         </scene>
         <!--Game Collection View Controller-->
         <scene sceneID="PxT-en-ryK">
@@ -435,7 +515,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ve4-hA-39b"/>
-        <segue reference="NcM-BX-w0F"/>
+        <segue reference="7aM-20-DwJ"/>
         <segue reference="zc6-7H-H62"/>
     </inferredMetricsTieBreakers>
 </document>

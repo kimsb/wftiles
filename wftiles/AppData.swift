@@ -45,7 +45,7 @@ class AppData {
     }
     
     func setShowSummary(showSummary: Bool) {
-        preferences = Preferences(showSummary: showSummary, sortByVowels: sortByVowels())
+        preferences = Preferences(showSummary: showSummary, sortByVowels: sortByVowels(), languageIndex: preferredLanguageIndex())
         savePreferences()
     }
     
@@ -57,7 +57,19 @@ class AppData {
     }
     
     func setSortByVowels(sortByVowels: Bool) {
-        preferences = Preferences(showSummary: showSummary(), sortByVowels: sortByVowels)
+        preferences = Preferences(showSummary: showSummary(), sortByVowels: sortByVowels, languageIndex: preferredLanguageIndex())
+        savePreferences()
+    }
+    
+    func preferredLanguageIndex() -> Int? {
+        guard let preferences = preferences else {
+            return nil
+        }
+        return preferences.languageIndex
+    }
+    
+    func setPreferredLanguageIndex(languageIndex: Int) {
+        preferences = Preferences(showSummary: showSummary(), sortByVowels: sortByVowels(), languageIndex: languageIndex)
         savePreferences()
     }
     

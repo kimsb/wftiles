@@ -48,7 +48,10 @@ class Texts {
         return text.size(withAttributes: attributes as Any as? [NSAttributedStringKey : Any]).width
     }
     
-    private func getLocaleIndex() -> Int {
+    func getLocaleIndex() -> Int {
+        if (AppData.shared.preferredLanguageIndex() != nil) {
+            return AppData.shared.preferredLanguageIndex()!
+        }
         var preferredLanguage = NSLocale.preferredLanguages[0]
         if preferredLanguage.contains("-") {
             preferredLanguage = preferredLanguage.components(separatedBy: "-")[0]
@@ -157,5 +160,27 @@ class Texts {
         texts["ok"] = ["OK", "OK", "Oké", "OK", "OK", "Aceptar", "OK", "OK", "OK", "Ok"]
         
         texts["unsupportedLanguage"] = ["Unsupported language", "Språk som ikke støttes", "Niet-ondersteunde taal", "Ikke understøttet sprog", "Språk som inte stöds", "Lenguaje no compatible", "Langue non supportée", "Nicht unterstützte Sprache", "Ei tuettu kieltä", "Linguagem não suportada"]
+        
+        texts["language"] = ["Language", "Språk", "Taal", "Sprog", "Språk", "Idioma", "Langue", "Sprache", "Kieli", "Idioma"]
+        
+        texts["englishLanguage"] = ["English", "Engelsk", "Engels", "Engelsk", "Engelska", "Inglés", "Anglais", "Englisch", "Englanti", "Inglês"]
+        
+        texts["norwegianLanguage"] = ["Norwegian", "Norsk", "Noors", "Norsk", "Norska", "Noruego", "Norvégien", "Norwegisch", "Norja", "Norueguês"]
+        
+        texts["dutchLanguage"] = ["Dutch", "Nederlandsk", "Nederlands", "Hollandsk", "Holländska", "Holandés", "Hollandais", "Niederländisch", "Hollanti", "Holandês"]
+        
+        texts["danishLanguage"] = ["Danish", "Dansk", "Deens", "Dansk", "Danska", "Danés", "Danois", "Dänisch", "Tanskalainen", "Dinamarquês"]
+        
+        texts["swedishLanguage"] = ["Swedish", "Svensk", "Zweeds", "Svensk", "Svenska", "Sueco", "Suédois", "Schwedisch", "Ruotsi", "Sueco"]
+        
+        texts["spanishLanguage"] = ["Spanish", "Spansk", "Spaans", "Spansk", "Spanska", "Español", "Espagnol", "Spanisch", "Espanjalainen", "Espanhol"]
+        
+        texts["frenchLanguage"] = ["French", "Fransk", "Frans", "Fransk", "Franska", "Francés", "Français", "Französisch", "Ranskalainen", "Francês"]
+        
+        texts["germanLanguage"] = ["German", "Tysk", "Duits", "Tysk", "Tyska", "Alemán", "Allemand", "Deutsch", "Saksalainen", "Alemão"]
+        
+        texts["finnishLanguage"] = ["Finnish", "Finsk", "Fins", "Finsk", "Finska", "Finés", "Finnois", "Finnisch", "Suomalainen", "Finlandês"]
+        
+        texts["portugueseLanguage"] = ["Portuguese", "Portugisisk", "Portugees", "Portugisisk", "Portugisiska", "Portugués", "Portugais", "Portugiesisch", "Portugalilainen", "Português"]
     }
 }
