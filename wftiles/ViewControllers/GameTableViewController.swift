@@ -82,7 +82,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
                         return
                     }
                     // success :)
-                    AppData.shared.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data)!, updated: opponentInfo[opponentId]!, lastShown: Date()))
+                    AppData.shared.addAvatar(id: opponentId, avatar: Avatar(image: UIImage(data: avatar_data) ?? UIImage(named: "black_circle")!, updated: opponentInfo[opponentId]!, lastShown: Date()))
                     
                     for section in 0 ..< self.games.count {
                         for row in 0 ..< self.games[section].count {
