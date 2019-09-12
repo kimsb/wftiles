@@ -15,6 +15,11 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     var games = Array(repeating: [Game](), count: 3)
     var customRefresh: UIRefreshControl!
     
+    @IBAction func logOutButtonPressed() {
+        print("TOGGLE SIDE MENU")
+        NotificationCenter.default.post(name: NSNotification.Name("ToggleSideMenu"), object: nil)
+    }
+    
     func loginAndTryAgain() -> Void {
         if let user = AppData.shared.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username

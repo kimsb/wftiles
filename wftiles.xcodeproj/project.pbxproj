@@ -30,6 +30,11 @@
 		F395F5B2201FBB3300605A93 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5B1201FBB3300605A93 /* AppData.swift */; };
 		F395F5B42020FCEF00605A93 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5B32020FCEF00605A93 /* Avatar.swift */; };
 		F3A489E52109154500A64295 /* LanguageHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A489E42109154500A64295 /* LanguageHeaderCell.swift */; };
+		F3A7818C232A561E006BAAEB /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7818B232A561E006BAAEB /* SideMenuTableViewController.swift */; };
+		F3A78190232A5AE6006BAAEB /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7818F232A5AE6006BAAEB /* ContainerViewController.swift */; };
+		F3A78192232A7511006BAAEB /* SideMenuUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A78191232A7511006BAAEB /* SideMenuUserCell.swift */; };
+		F3B2FB17232A872900D191B3 /* SideMenuHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2FB16232A872900D191B3 /* SideMenuHeaderCell.swift */; };
+		F3B55FDC232A7F0A0035D6C1 /* SideMenuLogoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B55FDB232A7F0A0035D6C1 /* SideMenuLogoutCell.swift */; };
 		F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */; };
 		F3DC0B46202FA9DD00E006F9 /* GameHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */; };
 		F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */; };
@@ -122,6 +127,11 @@
 		F395F5B1201FBB3300605A93 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		F395F5B32020FCEF00605A93 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		F3A489E42109154500A64295 /* LanguageHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageHeaderCell.swift; sourceTree = "<group>"; };
+		F3A7818B232A561E006BAAEB /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
+		F3A7818F232A5AE6006BAAEB /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		F3A78191232A7511006BAAEB /* SideMenuUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuUserCell.swift; sourceTree = "<group>"; };
+		F3B2FB16232A872900D191B3 /* SideMenuHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeaderCell.swift; sourceTree = "<group>"; };
+		F3B55FDB232A7F0A0035D6C1 /* SideMenuLogoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuLogoutCell.swift; sourceTree = "<group>"; };
 		F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionViewController.swift; sourceTree = "<group>"; };
 		F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHeaderView.xib; sourceTree = "<group>"; };
 		F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHeaderView.swift; sourceTree = "<group>"; };
@@ -240,6 +250,8 @@
 				F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */,
 				F3FE548E20364243003AE873 /* PopoverController.swift */,
 				F36654E32108F7430050D358 /* LanguageController.swift */,
+				F3A7818B232A561E006BAAEB /* SideMenuTableViewController.swift */,
+				F3A7818F232A5AE6006BAAEB /* ContainerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -256,10 +268,12 @@
 		F34E14FD204D835100927674 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				F3B55FDB232A7F0A0035D6C1 /* SideMenuLogoutCell.swift */,
 				F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */,
 				F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */,
 				F3328E7D2034DD4B009AA8F9 /* TileSummaryCollectionViewCell.swift */,
 				F36654E521090EE00050D358 /* LanguageViewCell.swift */,
+				F3A78191232A7511006BAAEB /* SideMenuUserCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -271,6 +285,7 @@
 				F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */,
 				F3F6150120336CB6005D58E2 /* TileHeaderView.swift */,
 				F3A489E42109154500A64295 /* LanguageHeaderCell.swift */,
+				F3B2FB16232A872900D191B3 /* SideMenuHeaderCell.swift */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -432,17 +447,22 @@
 				F395F5B42020FCEF00605A93 /* Avatar.swift in Sources */,
 				F3F6A05E2019CEF400745422 /* Game.swift in Sources */,
 				F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */,
+				F3A78192232A7511006BAAEB /* SideMenuUserCell.swift in Sources */,
 				F3099C1220175CBA000AE01A /* LoginViewController.swift in Sources */,
 				F3DD015020474759005BD32E /* DiffLabel.swift in Sources */,
 				F38F51A7203775A200F30460 /* Preferences.swift in Sources */,
 				F378872B20232BA80080FA40 /* Alerts.swift in Sources */,
 				F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */,
 				F395F5B0201FA83C00605A93 /* String+SHA1.swift in Sources */,
+				F3B2FB17232A872900D191B3 /* SideMenuHeaderCell.swift in Sources */,
 				F3FE548F20364243003AE873 /* PopoverController.swift in Sources */,
 				F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */,
 				F3F6A0622019D57100745422 /* Player.swift in Sources */,
 				F3F6A0602019D45800745422 /* Move.swift in Sources */,
 				F3EFD6A1202A352D00169CE8 /* TileCollectionViewCell.swift in Sources */,
+				F3A78190232A5AE6006BAAEB /* ContainerViewController.swift in Sources */,
+				F3A7818C232A561E006BAAEB /* SideMenuTableViewController.swift in Sources */,
+				F3B55FDC232A7F0A0035D6C1 /* SideMenuLogoutCell.swift in Sources */,
 				F36654E42108F7430050D358 /* LanguageController.swift in Sources */,
 				F3F6150220336CB6005D58E2 /* TileHeaderView.swift in Sources */,
 				F3A489E52109154500A64295 /* LanguageHeaderCell.swift in Sources */,
