@@ -119,10 +119,6 @@ class RestClient {
         
         let playersTurn = gameDecoder.players[gameDecoder.current_player].id == AppData.shared.getUser()!.id
  
-//        TEST
-        print("gamedecoder.currentplayer_id: \(gameDecoder.players[gameDecoder.current_player].id), getUserId: \(AppData.shared.getUser()!.id) getUserName: \(AppData.shared.getUser()!.presentableFullUsername())")
-        
-        
         if gameDecoder.players[0].id == AppData.shared.getUser()!.id {
             loggedInPlayer = gameDecoder.players[0]
             opponent = gameDecoder.players[1]
@@ -140,11 +136,6 @@ class RestClient {
         //skal dette også følge vokal/konsonant?
         if !Texts.shared.unsupportedLanguage(ruleset: gameDecoder.ruleset) {
         let locale = Locale(identifier: Constants.tiles.locales[gameDecoder.ruleset])
-            
-            if (loggedInPlayer.rack == nil) {
-                print("rack er nil for \(loggedInPlayer.username)")
-            }
-            
             
         loggedInPlayer.rack = loggedInPlayer.rack!.sorted {
             $0.compare($1, locale: locale) == .orderedAscending
@@ -207,11 +198,6 @@ class RestClient {
     
     func getGames(completionHandler: @escaping ([Game]?, String?) -> Void) {
         
-        //TEST
-        print("henter games")
-//        completionHandler(nil, "")
-//        return
-        
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/games/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 10.0)
@@ -265,10 +251,6 @@ class RestClient {
     
     //send inn enum med id/email
     func login(loginMethod: String, loginValue: String, password: String, completionHandler: @escaping (User?, String?) -> Void)  {
-        
-        //TEST
-        print("logger inn \(loginValue)")
-        
         
         let parameters = [
             "password": (password+"JarJarBinks9").sha1!,

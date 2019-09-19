@@ -16,17 +16,12 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("VIEW DID LOAD CONTAINER")
-
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSideMenu), name: NSNotification.Name("ToggleSideMenu"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSideMenu), name: NSNotification.Name("ShowLogin"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleSideMenu), name: NSNotification.Name("ShowUser"), object: nil)
     }
     
     @objc func toggleSideMenu() {
-        
-        print("on toggle - users: \(AppData.shared.getUsers().count)")
-        
         if (sideMenuIsShowing) {
             sideMenuConstraint.constant = -240
         } else {

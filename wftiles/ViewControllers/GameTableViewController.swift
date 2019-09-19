@@ -17,10 +17,6 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     var overlay: UIView!
     
     @IBAction func logOutButtonPressed() {
-        print("TOGGLE SIDE MENU")
-        //view.addSubview(overlay)
-        //self.navigationController?.view.addSubview(overlay)
-        
         UIView.transition(with: self.navigationController!.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
             self.navigationController!.view.addSubview(self.overlay)
         }, completion: nil)
@@ -30,7 +26,6 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     }
     
     @objc func actionTest() {
-        print("TRYKKER!")
         removeOverlay()
         NotificationCenter.default.post(name: NSNotification.Name("ToggleSideMenu"), object: nil)
     }
@@ -194,12 +189,19 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if (AppData.shared.getUser() == nil) {
+            segueToLoginWithoutAnimation()
+            return
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("VIEW DID LOAD TABLEVIEW")
+        if (AppData.shared.getUser() == nil) {
+            return
+        }
         
         overlay = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
         overlay.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.7)
@@ -216,9 +218,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         
         let user = AppData.shared.getUser()
         self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
-        
-        print("Setter tittel til \(user != nil ? user!.presentableFullUsername() : "")")
-        
+                
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
         
@@ -228,9 +228,6 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     func loadTexts() {
         customRefresh.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
         logoutButton.title = Texts.shared.getText(key: "logout")
-        
-        print("har satt tekst til \(Texts.shared.getText(key: "logout"))")
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -327,6 +324,10 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
+    }
+    
+    func segueToLoginWithoutAnimation() {
+        self.performSegue(withIdentifier: "NoAnimationSegue", sender: nil)
     }
     
     @objc func segueToLogin() {

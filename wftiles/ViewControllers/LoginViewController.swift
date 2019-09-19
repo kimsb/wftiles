@@ -18,11 +18,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("VIEW DID LOAD LOGIN")
-        
-        //self.navigationItem.title = "Wordfeud Tiles"
-        self.title = "Wordfeud Tiles"
-        print("setter tittel: Worfeud Tiles")
+        self.navigationItem.title = "Wordfeud Tiles"
         
         loginInfoLabel.text = Texts.shared.getText(key: "loginInfo")
         userTextField.placeholder = Texts.shared.getText(key: "usernameEmail")

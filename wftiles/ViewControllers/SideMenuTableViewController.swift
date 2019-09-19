@@ -13,21 +13,10 @@ class SideMenuTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("VIEW DID LOAD SIDEMENU")
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: NSNotification.Name("ToggleSideMenu"), object: nil)
     }
     
     @objc func refreshTable() {
-        
-        print("REFRESH TABLE")
-        
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
@@ -97,14 +86,11 @@ class SideMenuTableViewController: UITableViewController {
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name("ShowLogin"), object: nil)
             }
-            print("selected Log Out")
         } else if (indexPath.row == AppData.shared.getUsers().count - 1) {
             NotificationCenter.default.post(name: NSNotification.Name("ShowLogin"), object: nil)
-            print("selected Add User")
         } else {
             AppData.shared.switchToUserAtIndex(index: indexPath.row+1)
             NotificationCenter.default.post(name: NSNotification.Name("ShowUser"), object: nil)
-            print("selected user #\(indexPath.row)")
         }
     }
     

@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Login View Controller-->
+        <!--loginViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="loginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="wftiles" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" title="loginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="wftiles" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rU0-hY-WaE"/>
                         <viewControllerLayoutGuide type="bottom" id="13i-zT-JNI"/>
@@ -93,7 +93,7 @@
                         <outlet property="loginInfoLabel" destination="o8M-hX-E7T" id="yjo-kI-tf6"/>
                         <outlet property="passwordTextField" destination="tju-Bc-Ftm" id="Rbe-An-Pdg"/>
                         <outlet property="userTextField" destination="pCe-bW-iYb" id="sqm-gy-4W9"/>
-                        <segue destination="L3A-k2-2BG" kind="show" identifier="loginToTableSegue" id="g3Q-wn-vae"/>
+                        <segue destination="tS2-dc-JTK" kind="show" identifier="loginToTableSegue" id="b7L-HP-IlI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -340,7 +340,8 @@
                     <connections>
                         <outlet property="languagesButton" destination="gQX-bb-mjc" id="0bn-tN-xwy"/>
                         <outlet property="logoutButton" destination="NSa-Zp-kGB" id="pme-Od-una"/>
-                        <segue destination="BYZ-38-t0r" kind="custom" identifier="RightToLeftSegue" customClass="RightToLeftSegue" customModule="wftiles" customModuleProvider="target" id="ABA-aP-PVv"/>
+                        <segue destination="BYZ-38-t0r" kind="custom" identifier="RightToLeftSegue" customClass="RightToLeftSegue" customModule="wftiles" customModuleProvider="target" id="9zq-fx-RzO"/>
+                        <segue destination="BYZ-38-t0r" kind="custom" identifier="NoAnimationSegue" customClass="NoAnimationSegue" customModule="wftiles" customModuleProvider="target" id="Uhw-ko-xbh"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhd-Fy-lQ4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -565,24 +566,6 @@
             <point key="canvasLocation" x="4108.8000000000002" y="31.484257871064472"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="zNB-3o-jCv">
-            <objects>
-                <navigationController storyboardIdentifier="loginViewNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="1oA-0J-WRL" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZX0-gm-A1n">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ZIB-ot-Dvh"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ljH-kb-m84" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1430" y="412"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="fy3-F1-egL">
             <objects>
                 <navigationController storyboardIdentifier="tableViewNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="JM0-kh-k87" sceneMemberID="viewController">
@@ -617,6 +600,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HEZ-cP-2q7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2591" y="412"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QDh-uR-JtB">
+            <objects>
+                <navigationController storyboardIdentifier="loginViewNavigationController" id="Wzd-lv-5KF" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ypu-5q-PZu">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="SPJ-Sn-0Vp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qcr-gf-4Dw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1433" y="412"/>
         </scene>
         <!--Container View Controller-->
         <scene sceneID="S82-iy-bTu">
@@ -671,7 +670,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="BqB-zE-mcS"/>
-        <segue reference="ZIB-ot-Dvh"/>
+        <segue reference="ve4-hA-39b"/>
+        <segue reference="b7L-HP-IlI"/>
+        <segue reference="SPJ-Sn-0Vp"/>
     </inferredMetricsTieBreakers>
 </document>

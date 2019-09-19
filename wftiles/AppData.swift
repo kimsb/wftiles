@@ -52,9 +52,6 @@ class AppData {
     }
     
     func logOutUser() {
-        
-        print("logger ut: nå er det: \(users.count) brukere")
-        
         if (!users.isEmpty) {
             let removed = users.removeFirst()
             saveUsers()
@@ -62,8 +59,6 @@ class AppData {
                 lastAttemptedLogin = removed
             }
         }
-        
-        print("logget ut: nå er det: \(users.count) brukere")
     }
     
     func showSummary() -> Bool {
@@ -104,21 +99,15 @@ class AppData {
     
     func getGames() -> [Game] {
         guard let user = getUser() else {
-            print("return 1")
             return []
         }
         guard let usersGames = games[user.id] else {
-            print("return 2")
             return []
         }
-        print("return 3")
         return usersGames
     }
     
     func setGames(games: [Game]) {
-        
-        print("setter \(games.count) games for user: \(getUser()!.username)")
-        
         if let user = getUser() {
             self.games[user.id] = games
             saveGames()

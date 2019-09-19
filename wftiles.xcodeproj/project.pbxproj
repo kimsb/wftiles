@@ -23,6 +23,7 @@
 		F36654E621090EE00050D358 /* LanguageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36654E521090EE00050D358 /* LanguageViewCell.swift */; };
 		F378872B20232BA80080FA40 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F378872A20232BA80080FA40 /* Alerts.swift */; };
 		F38F51A7203775A200F30460 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F51A6203775A200F30460 /* Preferences.swift */; };
+		F39281432334206D00E17110 /* NoAnimationSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39281422334206D00E17110 /* NoAnimationSegue.swift */; };
 		F395F5A7201B5E5D00605A93 /* GameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */; };
 		F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A8201B63F600605A93 /* GameTableViewController.swift */; };
 		F395F5AD201EFDF300605A93 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5AC201EFDF300605A93 /* Constants.swift */; };
@@ -119,6 +120,7 @@
 		F36654E521090EE00050D358 /* LanguageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewCell.swift; sourceTree = "<group>"; };
 		F378872A20232BA80080FA40 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		F38F51A6203775A200F30460 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		F39281422334206D00E17110 /* NoAnimationSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAnimationSegue.swift; sourceTree = "<group>"; };
 		F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewCell.swift; sourceTree = "<group>"; };
 		F395F5A8201B63F600605A93 /* GameTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewController.swift; sourceTree = "<group>"; };
 		F395F5AC201EFDF300605A93 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				F38F51A6203775A200F30460 /* Preferences.swift */,
 				F346B7D7203CA3C400584BB9 /* Texts.swift */,
 				F3DD014D20474360005BD32E /* RightToLeftSegue.swift */,
+				F39281422334206D00E17110 /* NoAnimationSegue.swift */,
 				F3DD014F20474759005BD32E /* DiffLabel.swift */,
 				F34E1501204D992400927674 /* Localizable.strings */,
 			);
@@ -455,6 +458,7 @@
 				F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */,
 				F395F5B0201FA83C00605A93 /* String+SHA1.swift in Sources */,
 				F3B2FB17232A872900D191B3 /* SideMenuHeaderCell.swift in Sources */,
+				F39281432334206D00E17110 /* NoAnimationSegue.swift in Sources */,
 				F3FE548F20364243003AE873 /* PopoverController.swift in Sources */,
 				F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */,
 				F3F6A0622019D57100745422 /* Player.swift in Sources */,
