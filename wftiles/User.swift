@@ -18,6 +18,7 @@ class User: NSObject, NSCoding {
     let fb_first_name: String?
     let fb_middle_name: String?
     let fb_last_name: String?
+    let avatar: Avatar?
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -33,9 +34,10 @@ class User: NSObject, NSCoding {
         static let fb_first_name = "fb_first_name"
         static let fb_middle_name = "fb_middle_name"
         static let fb_last_name = "fb_last_name"
+        static let avatar = "avatar"
     }
     
-    init(username: String, email: String, password: String, id: UInt64, avatarRoot: String, loginMethod: String, fb_first_name: String?, fb_middle_name: String?, fb_last_name: String?) {
+    init(username: String, email: String, password: String, id: UInt64, avatarRoot: String, loginMethod: String, fb_first_name: String?, fb_middle_name: String?, fb_last_name: String?, avatar: Avatar?) {
         self.username = username
         self.email = email
         self.password = password
@@ -45,6 +47,7 @@ class User: NSObject, NSCoding {
         self.fb_first_name = fb_first_name
         self.fb_middle_name = fb_middle_name
         self.fb_last_name = fb_last_name
+        self.avatar = avatar
     }
     
     //NSCoding
@@ -58,6 +61,7 @@ class User: NSObject, NSCoding {
         aCoder.encode(fb_first_name, forKey: PropertyKey.fb_first_name)
         aCoder.encode(fb_middle_name, forKey: PropertyKey.fb_middle_name)
         aCoder.encode(fb_last_name, forKey: PropertyKey.fb_last_name)
+        aCoder.encode(avatar, forKey: PropertyKey.avatar)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -70,8 +74,9 @@ class User: NSObject, NSCoding {
         let fb_first_name = aDecoder.decodeObject(forKey: PropertyKey.fb_first_name) as? String
         let fb_middle_name = aDecoder.decodeObject(forKey: PropertyKey.fb_middle_name) as? String
         let fb_last_name = aDecoder.decodeObject(forKey: PropertyKey.fb_last_name) as? String
+        let avatar = aDecoder.decodeObject(forKey: PropertyKey.avatar) as? Avatar
         
-        self.init(username: username, email: email, password: password, id: id, avatarRoot: avatarRoot, loginMethod:loginMethod, fb_first_name: fb_first_name, fb_middle_name: fb_middle_name, fb_last_name: fb_last_name)
+        self.init(username: username, email: email, password: password, id: id, avatarRoot: avatarRoot, loginMethod:loginMethod, fb_first_name: fb_first_name, fb_middle_name: fb_middle_name, fb_last_name: fb_last_name, avatar: avatar)
     }
     
     func presentableFullUsername() -> String {

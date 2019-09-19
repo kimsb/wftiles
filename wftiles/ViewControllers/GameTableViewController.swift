@@ -14,10 +14,40 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     @IBOutlet weak var languagesButton: UIButton!
     var games = Array(repeating: [Game](), count: 3)
     var customRefresh: UIRefreshControl!
+    var overlay: UIView!
     
     @IBAction func logOutButtonPressed() {
         print("TOGGLE SIDE MENU")
+        //view.addSubview(overlay)
+        //self.navigationController?.view.addSubview(overlay)
+        
+        UIView.transition(with: self.navigationController!.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+            self.navigationController!.view.addSubview(self.overlay)
+        }, completion: nil)
+        overlay.addGestureRecognizer(UITapGestureRecognizer(target:self, action:"actionTest"))
+        
         NotificationCenter.default.post(name: NSNotification.Name("ToggleSideMenu"), object: nil)
+    }
+    
+    @objc func actionTest() {
+        print("TRYKKER!")
+        removeOverlay()
+        NotificationCenter.default.post(name: NSNotification.Name("ToggleSideMenu"), object: nil)
+    }
+    
+    func removeOverlay() {
+        if (self.overlay != nil) {
+        UIView.transition(with: self.navigationController!.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+                self.overlay.removeFromSuperview()
+        }, completion: nil)
+        }
+    }
+    
+    @objc func switchUser() {
+        removeOverlay()
+        loginAndTryAgain()
+        let user = AppData.shared.getUser()
+        self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
     }
     
     func loginAndTryAgain() -> Void {
@@ -41,6 +71,11 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     }
     
     @objc func loadGames() {
+        
+        if (AppData.shared.getUser() == nil) {
+            return
+        }
+        
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
@@ -71,11 +106,12 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
             
             //henter bilder
             let avatarTaskGroup = DispatchGroup()
+            let avatarRoot = AppData.shared.getUser()?.avatarRoot
             //for opponentId in opponentIds {
             for opponentId in opponentInfo.keys {
                 
                 avatarTaskGroup.enter()
-                RestClient.client.getAvatar(opponentId: opponentId, completionHandler: { (avatar_data, error) in
+                RestClient.client.getAvatar(playerId: opponentId, avatarRoot: avatarRoot, completionHandler: { (avatar_data, error) in
                     if let error = error {
                         // got an error in getting the data, need to handle it
                         print("error calling GET for avatar")
@@ -152,6 +188,8 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         
         NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
         )
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToLogin), name: NSNotification.Name("ShowLogin"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchUser), name: NSNotification.Name("ShowUser"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -161,6 +199,10 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("VIEW DID LOAD TABLEVIEW")
+        
+        overlay = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+        overlay.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.7)
         
         customRefresh = UIRefreshControl()
         customRefresh.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
@@ -174,6 +216,9 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         
         let user = AppData.shared.getUser()
         self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
+        
+        print("Setter tittel til \(user != nil ? user!.presentableFullUsername() : "")")
+        
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
         
@@ -183,6 +228,9 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     func loadTexts() {
         customRefresh.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
         logoutButton.title = Texts.shared.getText(key: "logout")
+        
+        print("har satt tekst til \(Texts.shared.getText(key: "logout"))")
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -281,4 +329,8 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         return .none
     }
     
+    @objc func segueToLogin() {
+        removeOverlay()
+        performSegue(withIdentifier: "RightToLeftSegue", sender: nil)
+    }
 }

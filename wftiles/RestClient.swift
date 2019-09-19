@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class RestClient {
     
@@ -29,6 +30,7 @@ class RestClient {
         let fb_first_name: String?
         let fb_middle_name: String?
         let fb_last_name: String?
+        let avatar_updated: Double?
     }
     
     struct GamesResponse: Decodable {
@@ -116,6 +118,10 @@ class RestClient {
         let opponent, loggedInPlayer: Player
         
         let playersTurn = gameDecoder.players[gameDecoder.current_player].id == AppData.shared.getUser()!.id
+ 
+//        TEST
+        print("gamedecoder.currentplayer_id: \(gameDecoder.players[gameDecoder.current_player].id), getUserId: \(AppData.shared.getUser()!.id) getUserName: \(AppData.shared.getUser()!.presentableFullUsername())")
+        
         
         if gameDecoder.players[0].id == AppData.shared.getUser()!.id {
             loggedInPlayer = gameDecoder.players[0]
@@ -134,6 +140,12 @@ class RestClient {
         //skal dette også følge vokal/konsonant?
         if !Texts.shared.unsupportedLanguage(ruleset: gameDecoder.ruleset) {
         let locale = Locale(identifier: Constants.tiles.locales[gameDecoder.ruleset])
+            
+            if (loggedInPlayer.rack == nil) {
+                print("rack er nil for \(loggedInPlayer.username)")
+            }
+            
+            
         loggedInPlayer.rack = loggedInPlayer.rack!.sorted {
             $0.compare($1, locale: locale) == .orderedAscending
         }
@@ -195,6 +207,11 @@ class RestClient {
     
     func getGames(completionHandler: @escaping ([Game]?, String?) -> Void) {
         
+        //TEST
+        print("henter games")
+//        completionHandler(nil, "")
+//        return
+        
         let request = NSMutableURLRequest(url: NSURL(string: "http://api.wordfeud.com/wf/user/games/")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 10.0)
@@ -248,6 +265,11 @@ class RestClient {
     
     //send inn enum med id/email
     func login(loginMethod: String, loginValue: String, password: String, completionHandler: @escaping (User?, String?) -> Void)  {
+        
+        //TEST
+        print("logger inn \(loginValue)")
+        
+        
         let parameters = [
             "password": (password+"JarJarBinks9").sha1!,
             "\(loginMethod)": loginValue
@@ -297,10 +319,28 @@ class RestClient {
                         return
                     }
                     
-                    let user = User(username: loginResponse.content.username!, email: loginResponse.content.email!, password: password,
-                                    id: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root!, loginMethod: loginMethod, fb_first_name: loginResponse.content.fb_first_name, fb_middle_name: loginResponse.content.fb_middle_name, fb_last_name: loginResponse.content.fb_last_name)
-                    AppData.shared.setUser(user: user)
-                    completionHandler(user, nil)
+                    //start avatarhenting
+                    self.getAvatar(playerId: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root, completionHandler: { (avatar_data, error) in
+                        if let error = error {
+                            // got an error in getting the data, need to handle it
+                            print("error calling GET for avatar")
+                            print(error)
+                            completionHandler(nil, "")
+                            return
+                        }
+                        guard let avatar_data = avatar_data else {
+                            print("error getting avatar: result is nil")
+                            completionHandler(nil, "")
+                            return
+                        }
+                        // success :)
+                        let avatar = Avatar(image: UIImage(data: avatar_data) ?? UIImage(named: "black_circle")!, updated: UInt64(loginResponse.content.avatar_updated ?? Date().timeIntervalSince1970), lastShown: Date())
+                        let user = User(username: loginResponse.content.username!, email: loginResponse.content.email!, password: password,
+                                        id: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root!, loginMethod: loginMethod, fb_first_name: loginResponse.content.fb_first_name, fb_middle_name: loginResponse.content.fb_middle_name, fb_last_name: loginResponse.content.fb_last_name, avatar: avatar)
+                        AppData.shared.addUser(user: user)
+                        completionHandler(user, nil)
+                    })
+                    //slutt avatarhenting
                 } catch {
                     print("error trying to convert data to JSON")
                     completionHandler(nil, "")
@@ -313,9 +353,15 @@ class RestClient {
         }
     }
     
-    func getAvatar(opponentId: UInt64, completionHandler: @escaping (Data?, Error?) -> Void) {
+    func getAvatar(playerId: UInt64, avatarRoot: String?, completionHandler: @escaping (Data?, Error?) -> Void) {
         
-        let request = NSMutableURLRequest(url: NSURL(string: "\(AppData.shared.getUser()!.avatarRoot)/80/\(opponentId)")! as URL,
+        if avatarRoot == nil {
+            print("Error: avatarRoot is nil")
+            completionHandler(nil, nil)
+            return
+        }
+        
+        let request = NSMutableURLRequest(url: NSURL(string: "\(avatarRoot!)/80/\(playerId)")! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 5.0)
         request.httpMethod = "GET"

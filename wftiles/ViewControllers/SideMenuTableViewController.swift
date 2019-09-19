@@ -10,16 +10,27 @@ import UIKit
 
 class SideMenuTableViewController: UITableViewController {
     
-    let userCount:Int = 3
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("VIEW DID LOAD SIDEMENU")
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: NSNotification.Name("ToggleSideMenu"), object: nil)
+    }
+    
+    @objc func refreshTable() {
+        
+        print("REFRESH TABLE")
+        
+        DispatchQueue.main.async(execute: {
+            self.tableView.reloadData()
+        })
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -27,7 +38,7 @@ class SideMenuTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : userCount + 1
+        return section == 0 ? 1 : max(AppData.shared.getUsers().count - 1, 0) + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -45,23 +56,12 @@ class SideMenuTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SideMenuUserCell  else {
             fatalError("The dequeued cell is not an instance of SideMenuUserCell.")
         }
-        // Fetches the appropriate game for the data source layout.
-        /*let game = games[indexPath.section][indexPath.row]
-         
-         let avatar = AppData.shared.getAvatar(id: game.opponent.id)
-         cell.opponentImageView.image = avatar != nil ? avatar!.image : nil
-         
-         let boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16)]
-         cell.opponentLabel.attributedText = NSMutableAttributedString(string: game.opponent.presentableUsername(), attributes: boldAttributes)
-         
-         cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
-         cell.scoreLabel.text = "\(game.player.score) - \(game.opponent.score)"
-         cell.lastMoveLabel.text = game.getLastMoveText();
-         cell.addDiffLabel(myScore: game.player.score, opponentScore: game.opponent.score)*/
         
-        if (indexPath.row < userCount) {
-        cell.userAvatar.image = AppData.shared.getAvatar(id: AppData.shared.getGames()[0].opponent.id)!.image
-        cell.usernameLabel.text = "player #\(indexPath.row)"
+        let users = AppData.shared.getUsers()
+        
+        if (indexPath.row < users.count - 1) {
+        cell.userAvatar.image = users[indexPath.row+1].avatar?.image ?? UIImage(named: "black_circle")!
+        cell.usernameLabel.text = users[indexPath.row+1].username
         } else {
             cell.userAvatar.image = UIImage(named: "plus_icon")!
             cell.usernameLabel.text = ""
@@ -74,8 +74,8 @@ class SideMenuTableViewController: UITableViewController {
         
         if (section == 0) {
             let header = tableView.dequeueReusableCell(withIdentifier: "SideMenuHeaderCell") as! SideMenuHeaderCell
-            header.userAvatar.image = AppData.shared.getAvatar(id: AppData.shared.getGames()[0].opponent.id)!.image
-            header.usernameLabel.text = "Pålogget bruker"
+            header.userAvatar.image = AppData.shared.getUser()?.avatar?.image ?? UIImage(named: "black_circle")!
+            header.usernameLabel.text = AppData.shared.getUser()?.username ?? ""
             return header
         }
         return nil
@@ -86,7 +86,26 @@ class SideMenuTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.section == 0 ? 50 : 44
+        return indexPath.section == 0 ? 65 : 52
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath.section == 0) {
+            AppData.shared.logOutUser()
+            if (AppData.shared.getUsers().count > 0) {
+                NotificationCenter.default.post(name: NSNotification.Name("ShowUser"), object: nil)
+            } else {
+                NotificationCenter.default.post(name: NSNotification.Name("ShowLogin"), object: nil)
+            }
+            print("selected Log Out")
+        } else if (indexPath.row == AppData.shared.getUsers().count - 1) {
+            NotificationCenter.default.post(name: NSNotification.Name("ShowLogin"), object: nil)
+            print("selected Add User")
+        } else {
+            AppData.shared.switchToUserAtIndex(index: indexPath.row+1)
+            NotificationCenter.default.post(name: NSNotification.Name("ShowUser"), object: nil)
+            print("selected user #\(indexPath.row)")
+        }
     }
     
 }
