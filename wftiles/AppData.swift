@@ -47,6 +47,9 @@ class AppData {
     func addUser(user: User) {
         users = users.filter {$0.username != user.username}
         users.insert(user, at: 0)
+        if (users.count > 10) {
+            users.removeSubrange(10...users.count-1)
+        }
         saveUsers()
         lastAttemptedLogin = nil
     }

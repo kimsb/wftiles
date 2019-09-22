@@ -240,6 +240,8 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         coordinator.animate(alongsideTransition: nil, completion: { _ in
             self.tableView.reloadData()
         })
+        overlay.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        overlay.setNeedsDisplay()
     }
     
     // MARK: - Table view data source

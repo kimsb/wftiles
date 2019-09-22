@@ -13,6 +13,10 @@ class SideMenuTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 11.0, *) {
+            self.tableView.contentInsetAdjustmentBehavior = .never
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTable), name: NSNotification.Name("ToggleSideMenu"), object: nil)
     }
     
@@ -23,16 +27,15 @@ class SideMenuTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : max(AppData.shared.getUsers().count - 1, 0) + 1
+        return max(AppData.shared.getUsers().count - 1, 0) + 2
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if indexPath.section == 0 {
+        if indexPath.section == 0 && indexPath.row == 0 {
             let cellIdentifier = "SideMenuLogoutCell"
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SideMenuLogoutCell  else {
                 fatalError("The dequeued cell is not an instance of SideMenuLogoutCell.")
@@ -48,9 +51,9 @@ class SideMenuTableViewController: UITableViewController {
         
         let users = AppData.shared.getUsers()
         
-        if (indexPath.row < users.count - 1) {
-        cell.userAvatar.image = users[indexPath.row+1].avatar?.image ?? UIImage(named: "black_circle")!
-        cell.usernameLabel.text = users[indexPath.row+1].username
+        if (indexPath.row < users.count) {
+        cell.userAvatar.image = users[indexPath.row].avatar?.image ?? UIImage(named: "black_circle")!
+        cell.usernameLabel.text = users[indexPath.row].username
         } else {
             cell.userAvatar.image = UIImage(named: "plus_icon")!
             cell.usernameLabel.text = ""
@@ -71,27 +74,39 @@ class SideMenuTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 82 : 0
+        var statusbarHeight = CGFloat(20)
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.keyWindow
+            let topPadding = window?.safeAreaInsets.top
+            statusbarHeight = topPadding ?? 20
+        }
+        return 82 + statusbarHeight
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.section == 0 ? 65 : 52
+        return indexPath.row == 0 ? 65 : 52
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
             AppData.shared.logOutUser()
             if (AppData.shared.getUsers().count > 0) {
                 NotificationCenter.default.post(name: NSNotification.Name("ShowUser"), object: nil)
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name("ShowLogin"), object: nil)
             }
-        } else if (indexPath.row == AppData.shared.getUsers().count - 1) {
+        } else if (indexPath.row == AppData.shared.getUsers().count) {
             NotificationCenter.default.post(name: NSNotification.Name("ShowLogin"), object: nil)
         } else {
-            AppData.shared.switchToUserAtIndex(index: indexPath.row+1)
+            AppData.shared.switchToUserAtIndex(index: indexPath.row)
             NotificationCenter.default.post(name: NSNotification.Name("ShowUser"), object: nil)
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil, completion: { _ in
+            self.tableView.reloadData()
+        })
+    }
 }
