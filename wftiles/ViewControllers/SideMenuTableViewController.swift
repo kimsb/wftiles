@@ -53,7 +53,17 @@ class SideMenuTableViewController: UITableViewController {
         
         if (indexPath.row < users.count) {
         cell.userAvatar.image = users[indexPath.row].avatar?.image ?? UIImage(named: "black_circle")!
-        cell.usernameLabel.text = users[indexPath.row].username
+            
+            var safeAreaInsetLeft = CGFloat(0)
+            if #available(iOS 11.0, *) {
+                let window = UIApplication.shared.keyWindow
+                let leftPadding = window?.safeAreaInsets.left
+                safeAreaInsetLeft = leftPadding ?? 0
+            }
+            let username = users[indexPath.row].username
+            let maxFontSize = Texts.shared.getMaxFontSize(text: username, maxWidth: cell.usernameLabel.frame.width - safeAreaInsetLeft)
+            cell.usernameLabel.attributedText = NSAttributedString(string: username,
+                                                                   attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)])
         } else {
             cell.userAvatar.image = UIImage(named: "plus_icon")!
             cell.usernameLabel.text = ""
@@ -67,7 +77,21 @@ class SideMenuTableViewController: UITableViewController {
         if (section == 0) {
             let header = tableView.dequeueReusableCell(withIdentifier: "SideMenuHeaderCell") as! SideMenuHeaderCell
             header.userAvatar.image = AppData.shared.getUser()?.avatar?.image ?? UIImage(named: "black_circle")!
-            header.usernameLabel.text = AppData.shared.getUser()?.username ?? ""
+            
+            var safeAreaInsetLeft = CGFloat(0)
+            if #available(iOS 11.0, *) {
+                let window = UIApplication.shared.keyWindow
+                let leftPadding = window?.safeAreaInsets.left
+                safeAreaInsetLeft = leftPadding ?? 0
+            }
+            let username = AppData.shared.getUser()?.username ?? ""
+            if username.isEmpty {
+                header.usernameLabel.text = username
+            } else {
+                let maxFontSize = Texts.shared.getMaxFontSize(text: username, maxWidth: header.usernameLabel.frame.width - safeAreaInsetLeft)
+                header.usernameLabel.attributedText = NSAttributedString(string: username,
+                                                                       attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)])
+            }
             return header
         }
         return nil
