@@ -32,9 +32,9 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     
     func removeOverlay() {
         if (self.overlay != nil) {
-        UIView.transition(with: self.navigationController!.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+            UIView.transition(with: self.navigationController!.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
                 self.overlay.removeFromSuperview()
-        }, completion: nil)
+            }, completion: nil)
         }
     }
     
@@ -46,13 +46,19 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     }
     
     func loginAndTryAgain() -> Void {
+        Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         if let user = AppData.shared.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             RestClient.client.login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password, completionHandler: { (user, errorString) in
-                if let errorString = errorString {
-                    print("error login and try again")
-                    print(errorString)
-                    Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: "")
+                if errorString != nil {
+                    AppData.shared.logOutUser()
+                    if (AppData.shared.getUsers().count > 0) {
+                        let user = AppData.shared.getUser()
+                        self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
+                        self.loginAndTryAgain()
+                    } else {
+                        self.segueToLoginWithoutRemovingOverlay()
+                    }
                     return
                 }
                 self.loadGames()
@@ -218,7 +224,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         
         let user = AppData.shared.getUser()
         self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
-                
+        
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
         
@@ -330,6 +336,12 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     
     func segueToLoginWithoutAnimation() {
         self.performSegue(withIdentifier: "NoAnimationSegue", sender: nil)
+    }
+    
+    func segueToLoginWithoutRemovingOverlay() {
+        DispatchQueue.main.async(execute: {
+            self.performSegue(withIdentifier: "RightToLeftSegue", sender: nil)
+        })
     }
     
     @objc func segueToLogin() {

@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Alerts.shared.hide()
+        
         self.navigationItem.title = "Wordfeud Tiles"
         
         loginInfoLabel.text = Texts.shared.getText(key: "loginInfo")
