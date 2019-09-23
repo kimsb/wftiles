@@ -130,7 +130,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpd-pt-QfR">
-                                            <rect key="frame" x="74" y="-17" width="150" height="50"/>
+                                            <rect key="frame" x="80" y="-17" width="144" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="hxD-kr-4Ai"/>
                                             </constraints>
@@ -146,10 +146,10 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="wvl-nY-HMk" secondAttribute="bottom" constant="11" id="6Hq-oO-oCd"/>
+                                        <constraint firstItem="gpd-pt-QfR" firstAttribute="leading" secondItem="wvl-nY-HMk" secondAttribute="trailing" constant="14" id="9bw-zU-9uL"/>
                                         <constraint firstItem="wvl-nY-HMk" firstAttribute="leading" secondItem="vSN-KM-D7Q" secondAttribute="leading" constant="16" id="GMy-ag-8BU"/>
                                         <constraint firstAttribute="trailing" secondItem="gpd-pt-QfR" secondAttribute="trailing" constant="16" id="PAw-jx-ckR"/>
                                         <constraint firstAttribute="bottom" secondItem="gpd-pt-QfR" secondAttribute="bottom" constant="11" id="c7S-3z-YC4"/>
-                                        <constraint firstItem="gpd-pt-QfR" firstAttribute="leading" secondItem="wvl-nY-HMk" secondAttribute="trailing" constant="8" id="fwc-yo-hRZ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
