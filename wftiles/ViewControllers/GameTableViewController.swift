@@ -131,7 +131,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
                             if self.games[section][row].opponent.id == opponentId {
                                 DispatchQueue.main.async(execute: {
                                     //perform all UI stuff here
-                                    self.tableView.reloadRows(at: [IndexPath(item: row, section: section)], with: UITableViewRowAnimation.none)
+                                    self.tableView.reloadRows(at: [IndexPath(item: row, section: section)], with: UITableView.RowAnimation.none)
                                 })
                             }
                         }
@@ -187,7 +187,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         
         loadGames()
         
-        NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
+        NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:UIApplication.didBecomeActiveNotification, object:UIApplication.shared
         )
         NotificationCenter.default.addObserver(self, selector: #selector(segueToLogin), name: NSNotification.Name("ShowLogin"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(switchUser), name: NSNotification.Name("ShowUser"), object: nil)
@@ -213,7 +213,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         overlay.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.7)
         
         customRefresh = UIRefreshControl()
-        customRefresh.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
+        customRefresh.addTarget(self, action: #selector(loadFromRefresh), for: UIControl.Event.valueChanged)
         tableView.addSubview(customRefresh)
         customRefresh.layer.zPosition = -1
         
@@ -272,7 +272,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         let avatar = AppData.shared.getAvatar(id: game.opponent.id)
         cell.opponentImageView.image = avatar != nil ? avatar!.image : nil
         
-        let boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16)]
+        let boldAttributes = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16)]
         cell.opponentLabel.attributedText = NSMutableAttributedString(string: game.opponent.presentableUsername(), attributes: boldAttributes)
         
         cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)

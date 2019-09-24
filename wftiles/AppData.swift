@@ -119,7 +119,7 @@ class AppData {
     
     func setGameWithUsedLetters(game: Game) {
         var usersGames = getGames()
-        if let index = usersGames.index(where: { $0.id == game.id}) {
+        if let index = usersGames.firstIndex(where: { $0.id == game.id}) {
             usersGames[index] = game
             setGames(games: usersGames)
         }

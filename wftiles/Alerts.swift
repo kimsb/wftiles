@@ -13,7 +13,7 @@ class Alerts: UIVisualEffectView {
     
     static let shared = Alerts()
     
-    private let activityIndictor: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    private let activityIndictor: UIActivityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
     private let label: UILabel = UILabel()
     private let blurEffect = UIBlurEffect(style: .dark)
     private let vibrancyView: UIVisualEffectView
@@ -140,7 +140,7 @@ class Alerts: UIVisualEffectView {
             
             self.hide()
             
-            let refreshAlert = UIAlertController(title: title, message: errorString, preferredStyle: UIAlertControllerStyle.alert)
+            let refreshAlert = UIAlertController(title: title, message: errorString, preferredStyle: UIAlertController.Style.alert)
             
             refreshAlert.addAction(UIAlertAction(title: Texts.shared.getText(key: "ok"), style: .default, handler: { (action: UIAlertAction!) in
                 //"Handle Ok logic here"

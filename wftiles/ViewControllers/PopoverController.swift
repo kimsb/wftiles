@@ -36,8 +36,8 @@ class PopoverController: UIViewController {
         sortSegmentedController.setTitle(vowelsConsonants, forSegmentAt: 1)
         
         let maxFontSize = Texts.shared.getMaxFontSize(text: vowelsConsonants, maxWidth: sortSegmentedController.frame.width/2 - 10)
-        viewSegmentedController.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
-        sortSegmentedController.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
+        viewSegmentedController.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
+        sortSegmentedController.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: maxFontSize)], for: .normal)
         
         if AppData.shared.showSummary() {
             viewSegmentedController.selectedSegmentIndex = 1

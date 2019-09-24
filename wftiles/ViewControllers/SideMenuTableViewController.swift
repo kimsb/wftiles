@@ -63,7 +63,7 @@ class SideMenuTableViewController: UITableViewController {
             let username = users[indexPath.row].username
             let maxFontSize = Texts.shared.getMaxFontSize(text: username, maxWidth: cell.usernameLabel.frame.width - safeAreaInsetLeft)
             cell.usernameLabel.attributedText = NSAttributedString(string: username,
-                                                                   attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)])
+                                                                   attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: maxFontSize)])
         } else {
             cell.userAvatar.image = UIImage(named: "plus_icon")!
             cell.usernameLabel.text = ""
@@ -90,7 +90,7 @@ class SideMenuTableViewController: UITableViewController {
             } else {
                 let maxFontSize = Texts.shared.getMaxFontSize(text: username, maxWidth: header.usernameLabel.frame.width - safeAreaInsetLeft)
                 header.usernameLabel.attributedText = NSAttributedString(string: username,
-                                                                       attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: maxFontSize)])
+                                                                       attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: maxFontSize)])
             }
             return header
         }
