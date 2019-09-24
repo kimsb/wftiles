@@ -23,6 +23,7 @@
 		F36654E621090EE00050D358 /* LanguageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36654E521090EE00050D358 /* LanguageViewCell.swift */; };
 		F378872B20232BA80080FA40 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F378872A20232BA80080FA40 /* Alerts.swift */; };
 		F38F51A7203775A200F30460 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F51A6203775A200F30460 /* Preferences.swift */; };
+		F39281432334206D00E17110 /* NoAnimationSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39281422334206D00E17110 /* NoAnimationSegue.swift */; };
 		F395F5A7201B5E5D00605A93 /* GameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */; };
 		F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5A8201B63F600605A93 /* GameTableViewController.swift */; };
 		F395F5AD201EFDF300605A93 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5AC201EFDF300605A93 /* Constants.swift */; };
@@ -30,6 +31,11 @@
 		F395F5B2201FBB3300605A93 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5B1201FBB3300605A93 /* AppData.swift */; };
 		F395F5B42020FCEF00605A93 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395F5B32020FCEF00605A93 /* Avatar.swift */; };
 		F3A489E52109154500A64295 /* LanguageHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A489E42109154500A64295 /* LanguageHeaderCell.swift */; };
+		F3A7818C232A561E006BAAEB /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7818B232A561E006BAAEB /* SideMenuTableViewController.swift */; };
+		F3A78190232A5AE6006BAAEB /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7818F232A5AE6006BAAEB /* ContainerViewController.swift */; };
+		F3A78192232A7511006BAAEB /* SideMenuUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A78191232A7511006BAAEB /* SideMenuUserCell.swift */; };
+		F3B2FB17232A872900D191B3 /* SideMenuHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B2FB16232A872900D191B3 /* SideMenuHeaderCell.swift */; };
+		F3B55FDC232A7F0A0035D6C1 /* SideMenuLogoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B55FDB232A7F0A0035D6C1 /* SideMenuLogoutCell.swift */; };
 		F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */; };
 		F3DC0B46202FA9DD00E006F9 /* GameHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */; };
 		F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */; };
@@ -114,6 +120,7 @@
 		F36654E521090EE00050D358 /* LanguageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewCell.swift; sourceTree = "<group>"; };
 		F378872A20232BA80080FA40 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		F38F51A6203775A200F30460 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		F39281422334206D00E17110 /* NoAnimationSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAnimationSegue.swift; sourceTree = "<group>"; };
 		F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewCell.swift; sourceTree = "<group>"; };
 		F395F5A8201B63F600605A93 /* GameTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTableViewController.swift; sourceTree = "<group>"; };
 		F395F5AC201EFDF300605A93 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -122,6 +129,11 @@
 		F395F5B1201FBB3300605A93 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		F395F5B32020FCEF00605A93 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		F3A489E42109154500A64295 /* LanguageHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageHeaderCell.swift; sourceTree = "<group>"; };
+		F3A7818B232A561E006BAAEB /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
+		F3A7818F232A5AE6006BAAEB /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		F3A78191232A7511006BAAEB /* SideMenuUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuUserCell.swift; sourceTree = "<group>"; };
+		F3B2FB16232A872900D191B3 /* SideMenuHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeaderCell.swift; sourceTree = "<group>"; };
+		F3B55FDB232A7F0A0035D6C1 /* SideMenuLogoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuLogoutCell.swift; sourceTree = "<group>"; };
 		F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionViewController.swift; sourceTree = "<group>"; };
 		F3DC0B45202FA9DD00E006F9 /* GameHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameHeaderView.xib; sourceTree = "<group>"; };
 		F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHeaderView.swift; sourceTree = "<group>"; };
@@ -208,6 +220,7 @@
 				F38F51A6203775A200F30460 /* Preferences.swift */,
 				F346B7D7203CA3C400584BB9 /* Texts.swift */,
 				F3DD014D20474360005BD32E /* RightToLeftSegue.swift */,
+				F39281422334206D00E17110 /* NoAnimationSegue.swift */,
 				F3DD014F20474759005BD32E /* DiffLabel.swift */,
 				F34E1501204D992400927674 /* Localizable.strings */,
 			);
@@ -240,6 +253,8 @@
 				F3DC0B43202E35E400E006F9 /* GameCollectionViewController.swift */,
 				F3FE548E20364243003AE873 /* PopoverController.swift */,
 				F36654E32108F7430050D358 /* LanguageController.swift */,
+				F3A7818B232A561E006BAAEB /* SideMenuTableViewController.swift */,
+				F3A7818F232A5AE6006BAAEB /* ContainerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -256,10 +271,12 @@
 		F34E14FD204D835100927674 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				F3B55FDB232A7F0A0035D6C1 /* SideMenuLogoutCell.swift */,
 				F395F5A6201B5E5D00605A93 /* GameTableViewCell.swift */,
 				F3EFD6A0202A352D00169CE8 /* TileCollectionViewCell.swift */,
 				F3328E7D2034DD4B009AA8F9 /* TileSummaryCollectionViewCell.swift */,
 				F36654E521090EE00050D358 /* LanguageViewCell.swift */,
+				F3A78191232A7511006BAAEB /* SideMenuUserCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -271,6 +288,7 @@
 				F3DC0B47202FAB7700E006F9 /* GameHeaderView.swift */,
 				F3F6150120336CB6005D58E2 /* TileHeaderView.swift */,
 				F3A489E42109154500A64295 /* LanguageHeaderCell.swift */,
+				F3B2FB16232A872900D191B3 /* SideMenuHeaderCell.swift */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -338,20 +356,23 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = "Kim Stephen Bovim";
 				TargetAttributes = {
 					F3099C0B20175CBA000AE01A = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1030;
 						ProvisioningStyle = Automatic;
 					};
 					F3099C1F20175CBB000AE01A = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1030;
 						ProvisioningStyle = Automatic;
 						TestTargetID = F3099C0B20175CBA000AE01A;
 					};
 					F3099C2A20175CBB000AE01A = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1030;
 						ProvisioningStyle = Automatic;
 						TestTargetID = F3099C0B20175CBA000AE01A;
 					};
@@ -432,17 +453,23 @@
 				F395F5B42020FCEF00605A93 /* Avatar.swift in Sources */,
 				F3F6A05E2019CEF400745422 /* Game.swift in Sources */,
 				F395F5A9201B63F600605A93 /* GameTableViewController.swift in Sources */,
+				F3A78192232A7511006BAAEB /* SideMenuUserCell.swift in Sources */,
 				F3099C1220175CBA000AE01A /* LoginViewController.swift in Sources */,
 				F3DD015020474759005BD32E /* DiffLabel.swift in Sources */,
 				F38F51A7203775A200F30460 /* Preferences.swift in Sources */,
 				F378872B20232BA80080FA40 /* Alerts.swift in Sources */,
 				F3DC0B44202E35E400E006F9 /* GameCollectionViewController.swift in Sources */,
 				F395F5B0201FA83C00605A93 /* String+SHA1.swift in Sources */,
+				F3B2FB17232A872900D191B3 /* SideMenuHeaderCell.swift in Sources */,
+				F39281432334206D00E17110 /* NoAnimationSegue.swift in Sources */,
 				F3FE548F20364243003AE873 /* PopoverController.swift in Sources */,
 				F3DC0B48202FAB7700E006F9 /* GameHeaderView.swift in Sources */,
 				F3F6A0622019D57100745422 /* Player.swift in Sources */,
 				F3F6A0602019D45800745422 /* Move.swift in Sources */,
 				F3EFD6A1202A352D00169CE8 /* TileCollectionViewCell.swift in Sources */,
+				F3A78190232A5AE6006BAAEB /* ContainerViewController.swift in Sources */,
+				F3A7818C232A561E006BAAEB /* SideMenuTableViewController.swift in Sources */,
+				F3B55FDC232A7F0A0035D6C1 /* SideMenuLogoutCell.swift in Sources */,
 				F36654E42108F7430050D358 /* LanguageController.swift in Sources */,
 				F3F6150220336CB6005D58E2 /* TileHeaderView.swift in Sources */,
 				F3A489E52109154500A64295 /* LanguageHeaderCell.swift in Sources */,
@@ -555,6 +582,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -562,6 +590,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -613,6 +642,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -620,6 +650,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -661,7 +692,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kimstephenbovim.wftiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "wftiles/wftiles-bridging-header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -678,7 +709,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kimstephenbovim.wftiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "wftiles/wftiles-bridging-header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -693,7 +724,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftilesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wftiles.app/wftiles";
 			};
@@ -709,7 +740,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftilesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wftiles.app/wftiles";
 			};
@@ -724,7 +755,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftilesUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = wftiles;
 			};
@@ -739,7 +770,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = moomin.wftilesUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = wftiles;
 			};

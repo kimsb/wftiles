@@ -88,7 +88,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         //load game
         loadGame()
         
-        NotificationCenter.default.addObserver(self, selector:#selector(loadGame), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
+        NotificationCenter.default.addObserver(self, selector:#selector(loadGame), name:UIApplication.didBecomeActiveNotification, object:UIApplication.shared
         )
     }
     
@@ -101,7 +101,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: Texts.shared.getText(key: "pleaseWait"))
-        refreshControl.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(loadFromRefresh), for: UIControl.Event.valueChanged)
         gameCollectionView.addSubview(refreshControl)
         
         self.navigationItem.title = game.opponent.presentableUsername()
@@ -110,7 +110,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
         preferencesButton.titleLabel?.font = preferencesButton.titleLabel?.font.withSize(30)
         
         let headerNib = UINib(nibName: "GameHeaderView", bundle: nil)
-        self.gameCollectionView.register(headerNib, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView")
+        self.gameCollectionView.register(headerNib, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: "GameHeaderView")
         
         let summaryCellNib = UINib(nibName: "TileSummaryCollectionViewCell", bundle: nil)
         self.gameCollectionView.register(summaryCellNib, forCellWithReuseIdentifier: "TileSummaryCollectionViewCell")
@@ -157,7 +157,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if indexPath.section == 0 {
-            let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameHeaderView
+            let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "GameHeaderView", for: indexPath) as! GameHeaderView
             
             let avatar = AppData.shared.getAvatar(id: game.opponent.id)
             reusableview.avatarImageView.image = avatar != nil ? avatar!.image : nil
@@ -167,7 +167,7 @@ class GameCollectionViewController: UICollectionViewController, UICollectionView
             reusableview.lastMoveLabel.text = game.getLastMoveText()
             return reusableview
         } else {
-            let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "TileHeaderView", for: indexPath) as! TileHeaderView
+            let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TileHeaderView", for: indexPath) as! TileHeaderView
             
             if indexPath.section == 1 {
                 reusableview.headerLabel.text = Texts.shared.getText(key: "yourTiles")

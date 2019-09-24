@@ -11,7 +11,7 @@ import Foundation
 class AppData {
     
     static let shared = AppData()
-
+    
     func getAvatar(id: UInt64) -> Avatar? {
         if avatars[id] != nil {
             avatars[id]!.lastShown = Date()
@@ -28,13 +28,40 @@ class AppData {
         saveAvatars()
     }
     
-    func getUser() -> User? {
-        return user
+    func getLastAttemptedLogin() -> User? {
+        return lastAttemptedLogin
     }
     
-    func setUser(user: User) {
-        self.user = user
-        saveUser()
+    func getUser() -> User? {
+        return users.first
+    }
+    
+    func getUsers() -> [User] {
+        return users
+    }
+    
+    func switchToUserAtIndex(index: Int) {
+        addUser(user: users[index])
+    }
+    
+    func addUser(user: User) {
+        users = users.filter {$0.username != user.username}
+        users.insert(user, at: 0)
+        if (users.count > 10) {
+            users.removeSubrange(10...users.count-1)
+        }
+        saveUsers()
+        lastAttemptedLogin = nil
+    }
+    
+    func logOutUser() {
+        if (!users.isEmpty) {
+            let removed = users.removeFirst()
+            saveUsers()
+            if (users.isEmpty) {
+                lastAttemptedLogin = removed
+            }
+        }
     }
     
     func showSummary() -> Bool {
@@ -74,32 +101,42 @@ class AppData {
     }
     
     func getGames() -> [Game] {
-        return games
+        guard let user = getUser() else {
+            return []
+        }
+        guard let usersGames = games[user.id] else {
+            return []
+        }
+        return usersGames
     }
     
     func setGames(games: [Game]) {
-        self.games = games
-        saveGames()
-    }
-    
-    func setGameWithUsedLetters(game: Game) {
-        if let index = games.index(where: { $0.id == game.id}) {
-            games[index] = game
+        if let user = getUser() {
+            self.games[user.id] = games
             saveGames()
         }
     }
     
+    func setGameWithUsedLetters(game: Game) {
+        var usersGames = getGames()
+        if let index = usersGames.firstIndex(where: { $0.id == game.id}) {
+            usersGames[index] = game
+            setGames(games: usersGames)
+        }
+    }
+    
     private var preferences: Preferences?
-    private var user: User?
     private var avatars: [UInt64:Avatar]
-    private var games: [Game]
+    private var games: [UInt64:[Game]]
+    private var users: [User]
+    private var lastAttemptedLogin: User?
     
     private func savePreferences() {
         NSKeyedArchiver.archiveRootObject(preferences!, toFile: Preferences.ArchiveURL.path)
     }
     
-    private func saveUser() {
-        NSKeyedArchiver.archiveRootObject(user!, toFile: User.ArchiveURL.path)
+    private func saveUsers() {
+        NSKeyedArchiver.archiveRootObject(users, toFile: User.ArchiveURL.path)
     }
     
     private func saveAvatars() {
@@ -112,7 +149,15 @@ class AppData {
     
     private init() {
         preferences = NSKeyedUnarchiver.unarchiveObject(withFile: Preferences.ArchiveURL.path) as? Preferences
-        user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User
+        
+        if let loadedUsers = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? [User] {
+            users = loadedUsers
+        } else {
+            users = []
+            if let user = NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User {
+                users.append(user)
+            }
+        }
         
         if let loadedAvatars = NSKeyedUnarchiver.unarchiveObject(withFile: Avatar.ArchiveURL.path) as? [UInt64:Avatar] {
             avatars = loadedAvatars
@@ -120,10 +165,15 @@ class AppData {
             avatars = [UInt64:Avatar]()
         }
         
-        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
+        if let loadedGames = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [UInt64:[Game]] {
             games = loadedGames
         } else {
-            games = []
+            games = [UInt64:[Game]]()
+            if let gamesArray = NSKeyedUnarchiver.unarchiveObject(withFile: Game.ArchiveURL.path) as? [Game] {
+                if let user = getUser() {
+                    games[user.id] = gamesArray
+                }
+            }
         }
     }
     

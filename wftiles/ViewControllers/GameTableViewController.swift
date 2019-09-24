@@ -14,15 +14,51 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     @IBOutlet weak var languagesButton: UIButton!
     var games = Array(repeating: [Game](), count: 3)
     var customRefresh: UIRefreshControl!
+    var overlay: UIView!
+    
+    @IBAction func logOutButtonPressed() {
+        UIView.transition(with: self.navigationController!.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+            self.navigationController!.view.addSubview(self.overlay)
+        }, completion: nil)
+        overlay.addGestureRecognizer(UITapGestureRecognizer(target:self, action:"actionTest"))
+        
+        NotificationCenter.default.post(name: NSNotification.Name("ToggleSideMenu"), object: nil)
+    }
+    
+    @objc func actionTest() {
+        removeOverlay()
+        NotificationCenter.default.post(name: NSNotification.Name("ToggleSideMenu"), object: nil)
+    }
+    
+    func removeOverlay() {
+        if (self.overlay != nil) {
+            UIView.transition(with: self.navigationController!.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+                self.overlay.removeFromSuperview()
+            }, completion: nil)
+        }
+    }
+    
+    @objc func switchUser() {
+        removeOverlay()
+        loginAndTryAgain()
+        let user = AppData.shared.getUser()
+        self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
+    }
     
     func loginAndTryAgain() -> Void {
+        Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         if let user = AppData.shared.getUser() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             RestClient.client.login(loginMethod: user.loginMethod, loginValue: loginValue, password: user.password, completionHandler: { (user, errorString) in
-                if let errorString = errorString {
-                    print("error login and try again")
-                    print(errorString)
-                    Alerts.shared.alert(view: self, title: Texts.shared.getText(key: "loadingFailed"), errorString: "")
+                if errorString != nil {
+                    AppData.shared.logOutUser()
+                    if (AppData.shared.getUsers().count > 0) {
+                        let user = AppData.shared.getUser()
+                        self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
+                        self.loginAndTryAgain()
+                    } else {
+                        self.segueToLoginWithoutRemovingOverlay()
+                    }
                     return
                 }
                 self.loadGames()
@@ -36,6 +72,11 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
     }
     
     @objc func loadGames() {
+        
+        if (AppData.shared.getUser() == nil) {
+            return
+        }
+        
         Alerts.shared.show(text: Texts.shared.getText(key: "pleaseWait"))
         RestClient.client.getGames(completionHandler: { (games, errorString) in
             if let errorString = errorString {
@@ -66,11 +107,12 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
             
             //henter bilder
             let avatarTaskGroup = DispatchGroup()
+            let avatarRoot = AppData.shared.getUser()?.avatarRoot
             //for opponentId in opponentIds {
             for opponentId in opponentInfo.keys {
                 
                 avatarTaskGroup.enter()
-                RestClient.client.getAvatar(opponentId: opponentId, completionHandler: { (avatar_data, error) in
+                RestClient.client.getAvatar(playerId: opponentId, avatarRoot: avatarRoot, completionHandler: { (avatar_data, error) in
                     if let error = error {
                         // got an error in getting the data, need to handle it
                         print("error calling GET for avatar")
@@ -89,7 +131,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
                             if self.games[section][row].opponent.id == opponentId {
                                 DispatchQueue.main.async(execute: {
                                     //perform all UI stuff here
-                                    self.tableView.reloadRows(at: [IndexPath(item: row, section: section)], with: UITableViewRowAnimation.none)
+                                    self.tableView.reloadRows(at: [IndexPath(item: row, section: section)], with: UITableView.RowAnimation.none)
                                 })
                             }
                         }
@@ -145,20 +187,33 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         
         loadGames()
         
-        NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:NSNotification.Name.UIApplicationDidBecomeActive, object:UIApplication.shared
+        NotificationCenter.default.addObserver(self, selector:#selector(loadGames), name:UIApplication.didBecomeActiveNotification, object:UIApplication.shared
         )
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToLogin), name: NSNotification.Name("ShowLogin"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchUser), name: NSNotification.Name("ShowUser"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if (AppData.shared.getUser() == nil) {
+            segueToLoginWithoutAnimation()
+            return
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if (AppData.shared.getUser() == nil) {
+            return
+        }
+        
+        overlay = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+        overlay.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.7)
         
         customRefresh = UIRefreshControl()
-        customRefresh.addTarget(self, action: #selector(loadFromRefresh), for: UIControlEvents.valueChanged)
+        customRefresh.addTarget(self, action: #selector(loadFromRefresh), for: UIControl.Event.valueChanged)
         tableView.addSubview(customRefresh)
         customRefresh.layer.zPosition = -1
         
@@ -169,6 +224,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         
         let user = AppData.shared.getUser()
         self.navigationItem.title = user != nil ? user!.presentableFullUsername() : ""
+        
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backButton
         
@@ -190,6 +246,8 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         coordinator.animate(alongsideTransition: nil, completion: { _ in
             self.tableView.reloadData()
         })
+        overlay.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        overlay.setNeedsDisplay()
     }
     
     // MARK: - Table view data source
@@ -214,7 +272,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         let avatar = AppData.shared.getAvatar(id: game.opponent.id)
         cell.opponentImageView.image = avatar != nil ? avatar!.image : nil
         
-        let boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16)]
+        let boldAttributes = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16)]
         cell.opponentLabel.attributedText = NSMutableAttributedString(string: game.opponent.presentableUsername(), attributes: boldAttributes)
         
         cell.languageLabel.text = Texts.shared.getGameLanguage(ruleset: game.ruleset)
@@ -276,4 +334,18 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         return .none
     }
     
+    func segueToLoginWithoutAnimation() {
+        self.performSegue(withIdentifier: "NoAnimationSegue", sender: nil)
+    }
+    
+    func segueToLoginWithoutRemovingOverlay() {
+        DispatchQueue.main.async(execute: {
+            self.performSegue(withIdentifier: "RightToLeftSegue", sender: nil)
+        })
+    }
+    
+    @objc func segueToLogin() {
+        removeOverlay()
+        performSegue(withIdentifier: "RightToLeftSegue", sender: nil)
+    }
 }

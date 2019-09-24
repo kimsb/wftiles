@@ -44,8 +44,8 @@ class Texts {
     }
     
     func getTextWidth(text: String, font: UIFont) -> CGFloat {
-        let attributes = [NSAttributedStringKey.font: font]
-        return text.size(withAttributes: attributes as Any as? [NSAttributedStringKey : Any]).width
+        let attributes = [NSAttributedString.Key.font: font]
+        return text.size(withAttributes: attributes as Any as? [NSAttributedString.Key : Any]).width
     }
     
     func getLocaleIndex() -> Int {
@@ -56,7 +56,7 @@ class Texts {
         if preferredLanguage.contains("-") {
             preferredLanguage = preferredLanguage.components(separatedBy: "-")[0]
         }
-        guard let index = locales.index(of: preferredLanguage) else {
+        guard let index = locales.firstIndex(of: preferredLanguage) else {
             return 0
         }
         return index

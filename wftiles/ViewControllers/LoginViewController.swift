@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Alerts.shared.hide()
+        
         self.navigationItem.title = "Wordfeud Tiles"
         
         loginInfoLabel.text = Texts.shared.getText(key: "loginInfo")
@@ -25,7 +27,7 @@ class LoginViewController: UIViewController {
         passwordTextField.placeholder = Texts.shared.getText(key: "password")
         loginButton.setTitle(Texts.shared.getText(key: "login"), for: .normal)
         
-        if let user = AppData.shared.getUser() {
+        if let user = AppData.shared.getLastAttemptedLogin() {
             let loginValue = user.loginMethod == "email" ? user.email : user.username
             userTextField.text = loginValue
             passwordTextField.text = user.password
