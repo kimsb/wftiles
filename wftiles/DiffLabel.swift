@@ -35,6 +35,7 @@ class DiffLabel {
         diffLabel.textAlignment = .center
         
         diffLabel.backgroundColor = diff == 0 ? yellow : diff > 0 ? green : red
+        diffLabel.textColor = UIColor.black
         
         diffLabel.layer.cornerRadius = 6
         diffLabel.layer.masksToBounds = true

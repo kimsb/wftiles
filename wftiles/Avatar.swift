@@ -11,7 +11,7 @@ import UIKit
 
 class Avatar: NSObject, NSCoding {
     let image: UIImage
-    let updated: UInt64
+    let updated: Double?
     var lastShown: Date
     
     //MARK: Archiving Paths
@@ -24,7 +24,7 @@ class Avatar: NSObject, NSCoding {
         static let lastShown = "lastShown"
     }
     
-    init(image: UIImage, updated: UInt64, lastShown: Date) {
+    init(image: UIImage, updated: Double?, lastShown: Date) {
         self.image = image
         self.updated = updated
         self.lastShown = lastShown
@@ -39,7 +39,7 @@ class Avatar: NSObject, NSCoding {
     
     required convenience init?(coder aDecoder: NSCoder) {
         let image = aDecoder.decodeObject(forKey: PropertyKey.image) as! UIImage
-        let updated = aDecoder.decodeObject(forKey: PropertyKey.updated) as! UInt64
+        let updated = aDecoder.decodeObject(forKey: PropertyKey.updated) as? Double
         let lastShown = aDecoder.decodeObject(forKey: PropertyKey.lastShown) as! Date
         
         self.init(image: image, updated: updated, lastShown: lastShown)

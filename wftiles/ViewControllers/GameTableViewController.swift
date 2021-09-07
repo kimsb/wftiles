@@ -97,7 +97,7 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
             self.games = self.orderGamesByStatus(games: self.keepTiles(games: games))
             
             //hente bilder for alle spillere:
-            var opponentInfo = [UInt64:UInt64]()
+            var opponentInfo = [UInt64:Double]()
             for game in games {
                 let avatar = AppData.shared.getAvatar(id: game.opponent.id)
                 if (avatar == nil || (game.opponent.avatar_updated != nil && avatar!.updated != game.opponent.avatar_updated!)) {
@@ -293,8 +293,6 @@ class GameTableViewController: UITableViewController, UIPopoverPresentationContr
         } else {
             header.headerLabel.text = Texts.shared.getText(key: "finishedGames")
         }
-        header.backgroundColor = UIColor.white
-        
         return header
     }
     

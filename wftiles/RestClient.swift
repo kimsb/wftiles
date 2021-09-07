@@ -316,7 +316,7 @@ class RestClient {
                             return
                         }
                         // success :)
-                        let avatar = Avatar(image: UIImage(data: avatar_data) ?? UIImage(named: "black_circle")!, updated: UInt64(loginResponse.content.avatar_updated ?? Date().timeIntervalSince1970), lastShown: Date())
+                        let avatar = Avatar(image: UIImage(data: avatar_data) ?? UIImage(named: "black_circle")!, updated: Double(loginResponse.content.avatar_updated ?? Date().timeIntervalSince1970), lastShown: Date())
                         let user = User(username: loginResponse.content.username!, email: loginResponse.content.email!, password: password,
                                         id: loginResponse.content.id!, avatarRoot: loginResponse.content.avatar_root!, loginMethod: loginMethod, fb_first_name: loginResponse.content.fb_first_name, fb_middle_name: loginResponse.content.fb_middle_name, fb_last_name: loginResponse.content.fb_last_name, avatar: avatar)
                         AppData.shared.addUser(user: user)
